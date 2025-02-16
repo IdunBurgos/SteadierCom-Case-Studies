@@ -1,1 +1,1 @@
-#This is the repository for case studies for the SteadierCom tool.
+This is the repository for case studies for the SteadierCom tool.
