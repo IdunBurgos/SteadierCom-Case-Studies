@@ -10,14 +10,14 @@ import reframed
 
 print("Loading data and models for mapping process...")
 
-with open('../data/generated/metname2metanetx.json') as json_file:
+with open('../../data/generated/metname2metanetx.json') as json_file:
     metname2metanetx = json.load(json_file)
 
 models = {}
 with warnings.catch_warnings():
     warnings.filterwarnings('ignore')
-    for path in listdir("../models/species_used/"):
-        models[path[:-4]] = reframed.load_cbmodel("../models/species_used/"+path,exchange_detection="R_EX_(?!biomass__40__e__41__)")
+    for path in listdir("../../models/species_used/"):
+        models[path[:-4]] = reframed.load_cbmodel("../../models/species_used/"+path,exchange_detection="R_EX_(?!biomass__40__e__41__)")
     
 
     
@@ -89,6 +89,6 @@ metid2metname = {}
 for met_id,metanetx_id in final_mapping.items():
     metid2metname[met_id]=metanetx2metname[metanetx_id]
 
-print("Save data ../data/generated/metid2metname.json")
-with open("../data/generated/metid2metname.json","w") as outfile:
+print("Save data ../../data/generated/metid2metname.json")
+with open("../../data/generated/metid2metname.json","w") as outfile:
     json.dump(metid2metname,outfile)
