@@ -25,9 +25,45 @@ def colorFader(c1,c2,mix=0): #fade (linear interpolate) from color c1 (at mix=0)
 
 
 
+def cooperation_network_data(results,freq_cutoff=0,metabolomics_mets_only=True,use_count=True):
+    """
+    Calculating cooperation between species by looking at mean frequencies of compounds shared between them. 
+    NB! This method is very different to the method for competition. 
+    
+    
+    Input:
+    results: pd.DataFrame - steadiercom results dataframe
+    cutoff: float - cutoff for frequency (default: cutoff=0)
+    metabolomics_mets_only: Only include metabolites in metabolomics dataset (default True)
+    
+    Returns:
+    network_data: pd.Series: node names and edge values for comptetition network
+    """
+    results_env = results[(results.donor!="environment") & (results.receiver!="environment")]
+    results_env = results_env[results_env.frequency>freq_cutoff]
+    
+    if metabolomics_mets_only:
+        results_env = results_env[(results_env.compound.isin(metid2metname.keys()))]
+    
+    results_env = results_env[["donor","receiver","frequency"]]
+    
+    if use_count:
+    # Count number of shared compounds
+        results_grouped_rec_env = results_env.groupby(["donor","receiver"]).count()
+    
+    else:
+    # Find mean of frequencies
+        results_grouped_rec_env = results_env.groupby(["donor","receiver"]).mean()
+
+    network_data = results_grouped_rec_env["frequency"].copy()
+    
+    return network_data
 
 def competition_network_data(results,freq_cutoff=0,metabolomics_mets_only=True):
     """
+    Calculating cooperation between pairs of species by looking at the number compounds they both consume. 
+    NB! This method is very different to the method for cooperation. 
+    
     Input:
     results: pd.DataFrame - steadiercom results dataframe
     cutoff: float - cutoff for frequency (default: cutoff=0)
@@ -86,7 +122,36 @@ def competition_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
         return pd.DataFrame({"degree (data)":dict(G.degree(weight="weight")),
                  "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
     
+
     
+def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
+    """
+    A function for finding some centrality metrics for nodes in network. 
+    
+    Input:
+    network data: pd.Series: Edge values
+    cutoff: float - cutoff for edge value
+    SP_centrality: bool - centrality meassures based on shortest path (True/False)
+    """
+    # Betweenness and closeness
+    G = nx.DiGraph()
+    G.add_nodes_from(list(set(list(network_data.index.get_level_values(0).unique())+list(network_data.index.get_level_values(1).unique()))))
+    
+    if SP_centrality:
+        edges = [(index[0],index[1],{"weight":1/data} ) for index,data in network_data.items() if data>cutoff]
+    
+    else:
+        edges = [(index[0],index[1],{"weight":data} ) for index,data in network_data.items() if data>cutoff]
+        
+    G.add_edges_from(edges)
+    
+    if SP_centrality:
+        return pd.DataFrame({"betweeness (1/data)":nx.centrality.betweenness_centrality(G,weight="weight"),
+                     "closeness (1/data)":nx.centrality.closeness_centrality(G,distance="weight")})
+    else:
+        return pd.DataFrame({"degree (data)":dict(G.degree(weight="weight")),
+                 "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
+
     
 def competition_network(network_data,closeness_centrality_met,cutoff=0):
     net = Network()
@@ -112,5 +177,35 @@ def competition_network(network_data,closeness_centrality_met,cutoff=0):
     net.template = template
     return net
 
+
+def cooperation_network(network_data,closeness_centrality_met,cutoff=0,use_count=True):
+    net = Network(directed=True)
+    
+    
+    maximum_centrality = closeness_centrality_met.max()
+    nodes = list(set(list(network_data.index.get_level_values(0).unique())+list(network_data.index.get_level_values(1).unique())))
+    
+    color = [colorFader(b1,b2,closeness_centrality_met[node]/maximum_centrality) for node in nodes]
+    value = [(closeness_centrality_met[node]*10)**2 for node in nodes]
+
+    net.add_nodes(nodes,color=color,value=value)
+    
+    
+    maximum_corr = network_data.max()
+    for index,value in network_data.items():
+        if value>cutoff:
+            
+            if use_count:
+                net.add_edge(index[0],index[1],width=(value**3)/20,color=colorFader(c1,c2,value/maximum_corr)) 
+
+            else:
+                net.add_edge(index[0],index[1],width=(value**2)*100,color=colorFader(c1,c2,value/maximum_corr)) 
+
+    net.barnes_hut(gravity=-1000, central_gravity=0.1, spring_length=150, spring_strength=0.0015, damping=0.09, overlap=0.8)
+
+
+    template = net.templateEnv.get_template(net.path)
+    net.template = template
+    return net
 
     
