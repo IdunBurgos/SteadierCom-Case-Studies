@@ -73,3 +73,42 @@ Academic license - for non-commercial use only - expires 2025-03-14
 simulating BH- in LB_extend medium
 Set parameter Username
 Academic license - for non-commercial use only - expires 2025-03-14
+simulating BO- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating BU- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating BT- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating BH- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating BV- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating DP- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating CH- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating CA- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating FP- in LB_extend medium
+Set parameter Username
+simulating EL- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating ER- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating NONE in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
+simulating PC- in LB_extend medium
+Set parameter Username
+Academic license - for non-commercial use only - expires 2025-03-14
