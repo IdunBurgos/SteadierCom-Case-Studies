@@ -25,39 +25,7 @@ def colorFader(c1,c2,mix=0): #fade (linear interpolate) from color c1 (at mix=0)
 
 
 
-def cooperation_network_data(results,freq_cutoff=0,metabolomics_mets_only=True,use_count=True):
-    """
-    Calculating cooperation between species by looking at mean frequencies of compounds shared between them. 
-    NB! This method is very different to the method for competition. 
-    
-    
-    Input:
-    results: pd.DataFrame - steadiercom results dataframe
-    cutoff: float - cutoff for frequency (default: cutoff=0)
-    metabolomics_mets_only: Only include metabolites in metabolomics dataset (default True)
-    
-    Returns:
-    network_data: pd.Series: node names and edge values for comptetition network
-    """
-    results_env = results[(results.donor!="environment") & (results.receiver!="environment")]
-    results_env = results_env[results_env.frequency>freq_cutoff]
-    
-    if metabolomics_mets_only:
-        results_env = results_env[(results_env.compound.isin(metid2metname.keys()))]
-    
-    results_env = results_env[["donor","receiver","frequency"]]
-    
-    if use_count:
-    # Count number of shared compounds
-        results_grouped_rec_env = results_env.groupby(["donor","receiver"]).count()
-    
-    else:
-    # Find mean of frequencies
-        results_grouped_rec_env = results_env.groupby(["donor","receiver"]).mean()
 
-    network_data = results_grouped_rec_env["frequency"].copy()
-    
-    return network_data
 
 def competition_network_data(results,freq_cutoff=0,metabolomics_mets_only=True):
     """
@@ -91,7 +59,39 @@ def competition_network_data(results,freq_cutoff=0,metabolomics_mets_only=True):
     return network_data
     
     
+def cooperation_network_data(results,freq_cutoff=0,metabolomics_mets_only=True,use_count=True):
+    """
+    Calculating cooperation between species by looking at mean frequencies of compounds shared between them. 
+    NB! This method is very different to the method for competition. 
     
+    
+    Input:
+    results: pd.DataFrame - steadiercom results dataframe
+    cutoff: float - cutoff for frequency (default: cutoff=0)
+    metabolomics_mets_only: Only include metabolites in metabolomics dataset (default True)
+    
+    Returns:
+    network_data: pd.Series: node names and edge values for comptetition network
+    """
+    results_env = results[(results.donor!="environment") & (results.receiver!="environment")]
+    results_env = results_env[results_env.frequency>freq_cutoff]
+    
+    if metabolomics_mets_only:
+        results_env = results_env[(results_env.compound.isin(metid2metname.keys()))]
+    
+    results_env = results_env[["donor","receiver","frequency"]]
+    
+    if use_count:
+    # Count number of shared compounds
+        results_grouped_rec_env = results_env.groupby(["donor","receiver"]).count()
+    
+    else:
+    # Find mean of frequencies
+        results_grouped_rec_env = results_env.groupby(["donor","receiver"]).mean()
+
+    network_data = results_grouped_rec_env["frequency"].copy()
+    
+    return network_data 
 
 def competition_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
     """
@@ -196,7 +196,7 @@ def cooperation_network(network_data,closeness_centrality_met,cutoff=0,use_count
         if value>cutoff:
             
             if use_count:
-                net.add_edge(index[0],index[1],width=(value**3)/20,color=colorFader(c1,c2,value/maximum_corr)) 
+                net.add_edge(index[0],index[1],width=(value**2)/10,color=colorFader(c1,c2,value/maximum_corr))
 
             else:
                 net.add_edge(index[0],index[1],width=(value**2)*100,color=colorFader(c1,c2,value/maximum_corr)) 
