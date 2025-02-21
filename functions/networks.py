@@ -59,7 +59,7 @@ def competition_network_data(results,freq_cutoff=0,metabolomics_mets_only=True):
     return network_data
     
     
-def cooperation_network_data(results,freq_cutoff=0,metabolomics_mets_only=True,use_count=True):
+def cooperation_network_data(results,metric="frequency",freq_cutoff=0,metabolomics_mets_only=True,use_count=True):
     """
     Calculating cooperation between species by looking at mean frequencies of compounds shared between them. 
     NB! This method is very different to the method for competition. 
@@ -79,7 +79,7 @@ def cooperation_network_data(results,freq_cutoff=0,metabolomics_mets_only=True,u
     if metabolomics_mets_only:
         results_env = results_env[(results_env.compound.isin(metid2metname.keys()))]
     
-    results_env = results_env[["donor","receiver","frequency"]]
+    results_env = results_env[["donor","receiver",metric]]
     
     if use_count:
     # Count number of shared compounds
@@ -89,7 +89,7 @@ def cooperation_network_data(results,freq_cutoff=0,metabolomics_mets_only=True,u
     # Find mean of frequencies
         results_grouped_rec_env = results_env.groupby(["donor","receiver"]).mean()
 
-    network_data = results_grouped_rec_env["frequency"].copy()
+    network_data = results_grouped_rec_env[metric].copy()
     
     return network_data 
 
@@ -124,7 +124,7 @@ def competition_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
     
 
     
-def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
+def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True,degree_type="both",SP_type="in"):
     """
     A function for finding some centrality metrics for nodes in network. 
     
@@ -146,13 +146,31 @@ def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
     G.add_edges_from(edges)
     
     if SP_centrality:
-        return pd.DataFrame({"betweeness (1/data)":nx.centrality.betweenness_centrality(G,weight="weight"),
-                     "closeness (1/data)":nx.centrality.closeness_centrality(G,distance="weight")})
+        
+        if SP_type=="in":
+        
+            return pd.DataFrame({"betweeness (1/data)":nx.centrality.betweenness_centrality(G,weight="weight"),
+                         "closeness (1/data)":nx.centrality.closeness_centrality(G,distance="weight")})
+        elif SP_type=="out":
+        
+            return pd.DataFrame({"betweeness (1/data)":nx.centrality.betweenness_centrality(G.reverse(),weight="weight"),
+                         "closeness (1/data)":nx.centrality.closeness_centrality(G.reverse(),distance="weight")})
+        else:
+             raise Exception("SP_type must be 'in' or 'out'")
     else:
-        return pd.DataFrame({"degree (data)":dict(G.degree(weight="weight")),
-                 "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
+        if degree_type=="both":
+            return pd.DataFrame({"degree (data)":dict(G.degree(weight="weight")),
+                     "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
 
-    
+        elif degree_type=="in":
+                return pd.DataFrame({"degree (data)":dict(G.in_degree(weight="weight")),
+                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
+        elif degree_type=="out":
+                return pd.DataFrame({"degree (data)":dict(G.out_degree(weight="weight")),
+                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
+        else:
+            raise Exception("degree_type must be 'in', 'out' or 'both'")
+
 def competition_network(network_data,closeness_centrality_met,cutoff=0):
     net = Network()
     
@@ -199,7 +217,7 @@ def cooperation_network(network_data,closeness_centrality_met,cutoff=0,use_count
                 net.add_edge(index[0],index[1],width=(value**2)/10,color=colorFader(c1,c2,value/maximum_corr))
 
             else:
-                net.add_edge(index[0],index[1],width=(value**2)*100,color=colorFader(c1,c2,value/maximum_corr)) 
+                net.add_edge(index[0],index[1],width=(value**2)*10,color=colorFader(c1,c2,value/maximum_corr)) 
 
     net.barnes_hut(gravity=-1000, central_gravity=0.1, spring_length=150, spring_strength=0.0015, damping=0.09, overlap=0.8)
 
