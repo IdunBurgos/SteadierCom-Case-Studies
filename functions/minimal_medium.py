@@ -6,6 +6,8 @@ from reframed.core.elements import molecular_weight
 from warnings import warn
 from math import inf
 
+# Code from reframed
+
 
 def minimal_medium(model, exchange_reactions=None,preferred_reactions=None,direction=-1, min_mass_weight=False, min_growth=1,
                    max_uptake=100, max_compounds=None, n_solutions=1, validate=True, abstol=1e-6,

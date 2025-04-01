@@ -23,10 +23,6 @@ def colorFader(c1,c2,mix=0): #fade (linear interpolate) from color c1 (at mix=0)
     return mpl.colors.to_hex((1-mix)*c1 + mix*c2)
 
 
-
-
-
-
 def competition_network_data(results,freq_cutoff=0,metabolomics_mets_only=True):
     """
     Calculating cooperation between pairs of species by looking at the number compounds they both consume. 
@@ -52,8 +48,10 @@ def competition_network_data(results,freq_cutoff=0,metabolomics_mets_only=True):
     count_same = results_grouped_rec["frequency"]
     count_same = count_same.unstack().fillna(0)>freq_cutoff #Only for frequency higher than 0.5
     count_same = count_same.astype(int)
+    check_is_zero = count_same.sum().sum()
+    if check_is_zero==0:
+        return None
     count_same = count_same.dot(count_same.T) # Multiply with the transpose to get overlap
-
     # count same is symmetric and are only interested in half of these. 
     network_data = count_same.mask(np.tril(np.ones(count_same.shape)).astype(np.bool)).stack() 
     return network_data
@@ -124,7 +122,7 @@ def competition_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
     
 
     
-def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True,degree_type="both",SP_type="in"):
+def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True,degree_type="both",SP_type="in",get_graph=False):
     """
     A function for finding some centrality metrics for nodes in network. 
     
@@ -144,6 +142,8 @@ def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True,degr
         edges = [(index[0],index[1],{"weight":data} ) for index,data in network_data.items() if data>cutoff]
         
     G.add_edges_from(edges)
+    if get_graph:
+        return G
     
     if SP_centrality:
         
@@ -173,20 +173,21 @@ def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True,degr
 
 def competition_network(network_data,closeness_centrality_met,cutoff=0):
     net = Network()
-    
-    maximum_centrality = pd.Series(closeness_centrality_met).max()
-
     nodes = list(set(list(network_data.index.get_level_values(0).unique())+list(network_data.index.get_level_values(1).unique())))
     
-    
-    color = [colorFader(b1,b2,closeness_centrality_met[node]/maximum_centrality) for node in nodes]
-    value = [(closeness_centrality_met[node]*10)**2 for node in nodes]
-    net.add_nodes(nodes,color=color,value=value)
-
+    if isinstance(closeness_centrality_met,pd.Series):
+        maximum_centrality = pd.Series(closeness_centrality_met).max()
+        value = [(closeness_centrality_met[node]*10) for node in nodes]
+        color = [colorFader(b1,b2,closeness_centrality_met[node]/maximum_centrality) for node in nodes]
+        net.add_nodes(nodes,color=color,value=value)
+    else:
+        net.add_nodes(nodes)
+        
+        
     maximum_overlap = network_data.max()
     for index,value in network_data.items():
         if value>cutoff:
-            net.add_edge(index[0],index[1],width=(value**2)/10,color=colorFader(c1,c2,value/maximum_overlap))
+            net.add_edge(index[0],index[1],width=value*2,color=colorFader(c1,c2,value/maximum_overlap))
 
     net.barnes_hut(gravity=-1000, central_gravity=0.1, spring_length=150, spring_strength=0.0015, damping=0.09, overlap=0.8)
 
@@ -198,26 +199,26 @@ def competition_network(network_data,closeness_centrality_met,cutoff=0):
 
 def cooperation_network(network_data,closeness_centrality_met,cutoff=0,use_count=True):
     net = Network(directed=True)
-    
-    
-    maximum_centrality = closeness_centrality_met.max()
     nodes = list(set(list(network_data.index.get_level_values(0).unique())+list(network_data.index.get_level_values(1).unique())))
     
-    color = [colorFader(b1,b2,closeness_centrality_met[node]/maximum_centrality) for node in nodes]
-    value = [(closeness_centrality_met[node]*10)**2 for node in nodes]
+    if isinstance(closeness_centrality_met,pd.Series):
+        maximum_centrality = closeness_centrality_met.max()
+        color = [colorFader(b1,b2,closeness_centrality_met[node]/maximum_centrality) for node in nodes]
+        value = [(closeness_centrality_met[node]*10) for node in nodes]
 
-    net.add_nodes(nodes,color=color,value=value)
+        net.add_nodes(nodes,color=color,value=value)
+    else:
+        net.add_nodes(nodes)
     
-    
-    maximum_corr = network_data.max()
+    maximum_overlap = network_data.max()
     for index,value in network_data.items():
         if value>cutoff:
             
             if use_count:
-                net.add_edge(index[0],index[1],width=(value**2)/10,color=colorFader(c1,c2,value/maximum_corr))
+                net.add_edge(index[0],index[1],width=value*2,color=colorFader(c1,c2,value/maximum_overlap))
 
             else:
-                net.add_edge(index[0],index[1],width=(value**2)*10,color=colorFader(c1,c2,value/maximum_corr)) 
+                net.add_edge(index[0],index[1],width=value*10,color=colorFader(c1,c2,value/maximum_overlap)) 
 
     net.barnes_hut(gravity=-1000, central_gravity=0.1, spring_length=150, spring_strength=0.0015, damping=0.09, overlap=0.8)
 
