@@ -6,6 +6,8 @@ from reframed.core.elements import molecular_weight
 from warnings import warn
 from math import inf
 
+import pandas as pd
+
 # Code from reframed
 
 
@@ -67,10 +69,10 @@ def minimal_medium(model, exchange_reactions=None,preferred_reactions=None,direc
 
     if milp:
         for r_id in reactions:
-            solver.add_variable('y_' + r_id, 0, 1, vartype=VarType.BINARY, update=False)
+            solver.add_variable('y_' + r_id, 0, 1, vartype=VarType.BINARY)
     else:
         for r_id in reactions:
-            solver.add_variable('f_' + r_id, 0, max_uptake, update=False)
+            solver.add_variable('f_' + r_id, 0, max_uptake)
 
     solver.update()
     
@@ -78,20 +80,20 @@ def minimal_medium(model, exchange_reactions=None,preferred_reactions=None,direc
     if milp:
         for r_id in reactions:
             if direction < 0:
-                solver.add_constraint('c_' + r_id, {r_id: 1, 'y_' + r_id: max_uptake}, '>', 0, update=False)
+                solver.add_constraint('c_' + r_id, {r_id: 1, 'y_' + r_id: max_uptake}, '>', 0)
             else:
-                solver.add_constraint('c_' + r_id, {r_id: 1, 'y_' + r_id: -max_uptake}, '<', 0, update=False)
+                solver.add_constraint('c_' + r_id, {r_id: 1, 'y_' + r_id: -max_uptake}, '<', 0)
 
         if max_compounds:
             lhs = {'y_' + r_id: 1 for r_id in reactions}
-            solver.add_constraint('max_cmpds', lhs, '<', max_compounds, update=False)
+            solver.add_constraint('max_cmpds', lhs, '<', max_compounds)
 
     else:
         for r_id in reactions:
             if direction < 0:
-                solver.add_constraint('c_' + r_id, {r_id: 1, 'f_' + r_id: 1}, '>', 0, update=False)
+                solver.add_constraint('c_' + r_id, {r_id: 1, 'f_' + r_id: 1}, '>', 0)
             else:
-                solver.add_constraint('c_' + r_id, {r_id: 1, 'f_' + r_id: -1}, '<', 0, update=False)
+                solver.add_constraint('c_' + r_id, {r_id: 1, 'f_' + r_id: -1}, '<', 0)
 
     solver.update()
 
@@ -193,7 +195,11 @@ def minimal_medium(model, exchange_reactions=None,preferred_reactions=None,direc
             result, ret_sols = medium, solution
 
     elif use_pool:
-        solutions = solver.solve(objective, minimize=True, constraints=constraints, get_values=reactions,
+        get_vars = reactions + ['y_' + r for r in reactions] # NEW
+        
+        #solutions = solver.solve(objective, minimize=True, constraints=constraints, get_values=reactions,
+        #                         pool_size=n_solutions, pool_gap=pool_gap)
+        solutions = solver.solve(objective, minimize=True, constraints=constraints, get_values=get_vars,
                                  pool_size=n_solutions, pool_gap=pool_gap)
 
         if solutions is None:
@@ -241,3 +247,37 @@ def validate_solution(model, medium, exchange_reactions, direction, min_growth, 
 
     if sol.fobj < min_growth:
         warn('Solution appears to be invalid.')
+        
+        
+def make_minimal_media_df(models,env):
+
+    sol_count_dfs_plot = {}
+    for model_id,model in models.items():
+        env.apply(model,inplace=True,exclusive=True,warning=False)
+        reactions = env.keys()
+        
+        solutions = minimal_medium(model,
+                                   exchange_reactions=reactions,
+                                   min_growth=0.1,
+                                   n_solutions=1000,
+                                   use_pool=True,
+                                   min_mass_weight=True
+                                  )
+        for sol in solutions[1]:
+            print(f"{model.id}: {sol}")
+            break
+            
+        sol_count = dict()
+        for sol in solutions[0]:
+            for rxn in sol:
+                if rxn in sol_count.keys():
+                    sol_count[rxn]+=1
+                else:
+                    sol_count[rxn]=1
+                    
+        sol_count_df = pd.Series(sol_count).sort_values(ascending=False)
+        sol_count_dfs_plot[model_id]=sol_count_df
+        
+    minimal_media_df = pd.concat(sol_count_dfs_plot,axis=1).fillna(0) 
+    
+    return minimal_media_df
