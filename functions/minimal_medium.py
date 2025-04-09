@@ -197,8 +197,6 @@ def minimal_medium(model, exchange_reactions=None,preferred_reactions=None,direc
     elif use_pool:
         get_vars = reactions + ['y_' + r for r in reactions] # NEW
         
-        #solutions = solver.solve(objective, minimize=True, constraints=constraints, get_values=reactions,
-        #                         pool_size=n_solutions, pool_gap=pool_gap)
         solutions = solver.solve(objective, minimize=True, constraints=constraints, get_values=get_vars,
                                  pool_size=n_solutions, pool_gap=pool_gap)
 
