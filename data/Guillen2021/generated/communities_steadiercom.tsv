@@ -1,7 +1,7 @@
-Ecoli_mutants	icd_mutant	0.2878483333333333
-Ecoli_mutants	panZ_mutant	0.2766783333333333
-Ecoli_mutants	bioH_mutant	0.21113
-Ecoli_mutants	bioF_mutant	0.09852633333333333
-Ecoli_mutants	cysW_mutant	0.062218666666666665
-Ecoli_mutants	bioC_mutant	0.020199666666666668
-Ecoli_mutants	panD_mutant	0.01594783333333333
+Ecoli_mutants	mutant_icd	0.2878483333333333
+Ecoli_mutants	mutant_panZ	0.2766783333333333
+Ecoli_mutants	mutant_bioH	0.21113
+Ecoli_mutants	mutant_bioF	0.09852633333333333
+Ecoli_mutants	mutant_cysW	0.062218666666666665
+Ecoli_mutants	mutant_bioC	0.020199666666666668
+Ecoli_mutants	mutant_panD	0.01594783333333333
