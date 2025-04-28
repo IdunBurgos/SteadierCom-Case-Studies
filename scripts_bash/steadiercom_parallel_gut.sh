@@ -13,7 +13,7 @@ run_steadiercom() {
     
     echo "${community_id}"
     
-    cmd="steadiercom ./models/Venturelli2018/species_used/* -c \"$community_dir\" -m LB_extend --mediadb ./data/Venturelli2018/generated/media_db_bounds.tsv"
+    cmd="steadiercom ./models/Venturelli2018/species_used/* -c \"$community_dir\" -m LB_extend --mediadb ./data/Venturelli2018/generated/media_db.tsv"
     
     if [ -n "$growth" ]; then
         cmd+=" --growth $growth"
@@ -29,7 +29,7 @@ run_steadiercom() {
 # Run SteadierCom with abundance
 
 output_dir="./output/Venturelli2018/results_steadiercom/results_abundance"
-samples=50
+samples=10
 
 num_processes=4
 input_dir="./data/Venturelli2018/generated/communities_steadiercom"
@@ -49,8 +49,8 @@ wait
 # Run SteadierCom with abundance and growth
  
 output_dir="./output/Venturelli2018/results_steadiercom/results_growth_abundance"
-samples=50
-growth=0.127
+samples=10
+growth=0.125
 
 num_processes=4
 input_dir="./data/Venturelli2018/generated/communities_steadiercom"
@@ -70,8 +70,8 @@ wait
 # Run SteadierCom with growth
  
 output_dir="./output/Venturelli2018/results_steadiercom/results_growth"
-samples=50
-growth=0.127
+samples=10
+growth=0.125
 
 num_processes=4
 input_dir="./data/Venturelli2018/generated/communities_steadiercom_no_abundance"

@@ -72,7 +72,21 @@ for metanetx_id,database_ids in metanetx2other.items():
             
         for model in models.values():
             for met in model.metabolites:
-                metadata = model.metabolites[met].metadata
+                #metadata = model.metabolites[met].metadata
+
+                metadata = {}
+                for string in model.metabolites[met].metadata["XMLAnnotation"].split("\n"):
+                    if "<rdf:li rdf:resource=" in string:
+                        url_part = string.split('resource="')[-1].split('"/>')[0]
+
+                        id_part = url_part.split('/')[-1]
+                        database_part= url_part.split('/')[-2] 
+                        
+                        if "SBO:" not in string:
+                            if database_part in metadata:
+                                metadata[database_part].append(id_part)
+                            else:
+                                metadata[database_part]=[id_part]
 
                 if database_id not in metadata.keys():
                     continue
