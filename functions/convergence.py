@@ -75,7 +75,7 @@ def SteadierSampleConvergence(community,output_dir, objective=None,n=100, growth
             if sol.values[community.merged_model.biomass_reaction] > 0:
                 sol = CommunitySolution(community, sol.values)
                 dicts[i]=sol.compute_exchanges(external_metabolites, exchange_map)
-        
+                
         if np.mod(i,200)==0 and i!=0:
             sol_df=pd.DataFrame.from_dict(dicts)
             sol_df.to_csv(output_dir+"sol_df"+str(j)+".tsv",sep="\t")
