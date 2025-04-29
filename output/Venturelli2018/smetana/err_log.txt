@@ -1,0 +1,52 @@
+/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  __import__('pkg_resources').require('smetana==1.2.0')
+/Users/idunmariaburgos/SteadierCom/smetana/smetana/smetana.py:159: UserWarning: MUS: Failed to find a minimal growth medium for Bacteroides_vulgatus_ATCC_8482
+  warn('MUS: Failed to find a minimal growth medium for ' + org_id)
+Traceback (most recent call last):
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana", line 7, in <module>
+    exec(compile(f.read(), __file__, 'exec'))
+  File "/Users/idunmariaburgos/SteadierCom/smetana/scripts/smetana", line 107, in <module>
+    main(
+  File "/Users/idunmariaburgos/SteadierCom/smetana/smetana/interface.py", line 386, in main
+    entries = run_detailed(comm_id, community, medium_id, excluded_mets, env, verbose, min_mol_weight,
+  File "/Users/idunmariaburgos/SteadierCom/smetana/smetana/interface.py", line 205, in run_detailed
+    mps = mp_score(community, environment=env)
+  File "/Users/idunmariaburgos/SteadierCom/smetana/smetana/smetana.py", line 195, in mp_score
+    solver = solver_instance(community.merged)
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/reframed/solvers/__init__.py", line 76, in solver_instance
+    return solvers[solver](model)
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/reframed/solvers/cplex_solver.py", line 57, in __init__
+    self.set_logging(False)
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/reframed/solvers/cplex_solver.py", line 481, in set_logging
+    self.problem.set_log_stream(None)
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/__init__.py", line 1541, in set_log_stream
+    return self._env.set_log_stream(log_file, fn)
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/_internal/__init__.py", line 336, in set_log_stream
+    return self._set_stream(which=self.LOG_CHNL_IDX,
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/_internal/__init__.py", line 251, in _set_stream
+    self._delete_stream(which)
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/_internal/__init__.py", line 248, in _delete_stream
+    self._streams[which_channel]._end()
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/_internal/_ostream.py", line 88, in _end
+    self.flush()
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/_internal/_ostream.py", line 148, in flush
+    self._file.flush()
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: <function Cplex.__del__ at 0x10ef3bca0>
+Traceback (most recent call last):
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/__init__.py", line 925, in __del__
+    self.end()
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/__init__.py", line 921, in end
+    self._env._end()
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/_internal/__init__.py", line 153, in _end
+    self._delete_stream(chnl_idx)
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/_internal/__init__.py", line 248, in _delete_stream
+    self._streams[which_channel]._end()
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/_internal/_ostream.py", line 88, in _end
+    self.flush()
+  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/cplex/_internal/_ostream.py", line 148, in flush
+    self._file.flush()
+BrokenPipeError: [Errno 32] Broken pipe
+../scripts_bash/smetana_run.sh: line 6: --exclude: command not found

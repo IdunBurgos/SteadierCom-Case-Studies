@@ -72,8 +72,7 @@ for metanetx_id,database_ids in metanetx2other.items():
             
         for model in models.values():
             for met in model.metabolites:
-                #metadata = model.metabolites[met].metadata
-
+               
                 metadata = {}
                 for string in model.metabolites[met].metadata["XMLAnnotation"].split("\n"):
                     if "<rdf:li rdf:resource=" in string:
