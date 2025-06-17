@@ -67,6 +67,10 @@ def SteadierSampleConvergence(community,output_dir, objective=None,n=100, growth
     
     time1 = time.time()
     for i in range(n):
+        
+        if not abundance:
+            w1 = {org_id: lognormal(0, 1) for org_id in community.organisms}
+
         objective = {vi: w1[org_id] * lognormal(0, 1) for org_id, v_org in random_vars.items() for vi in v_org}
 
         sol = solver.solve(objective, minimize=True, constraints=constraints)

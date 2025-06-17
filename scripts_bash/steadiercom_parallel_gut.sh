@@ -13,7 +13,7 @@ run_steadiercom() {
     
     echo "${community_id}"
     
-    cmd="steadiercom ../models/Venturelli2018/species_used/* -c \"$community_dir\" -m LB_extend --mediadb ../data/Venturelli2018/generated/media_db.tsv"
+    cmd="steadiercom ../models/Venturelli2018/species_used_noO2/* -c \"$community_dir\" -m LB_extend --mediadb ../data/Venturelli2018/generated/media_db.tsv"
     
     if [ -n "$growth" ]; then
         cmd+=" --growth $growth"
@@ -24,33 +24,13 @@ run_steadiercom() {
     time eval "$cmd"
 }
 
-
-
-
-
-samples=10
+samples=3000
 num_processes=2
 growth=0.125
 
-# Run SteadierCom with abundance
-
-output_dir="../output/Venturelli2018/results_steadiercom/results_abundance"
-input_dir="../data/Venturelli2018/generated/communities_steadiercom"
-
-i=0
-
-for dir in "$input_dir"/*; do
-    ((i++))
-    run_steadiercom "$dir" "$samples" "$output_dir"&
-    if (( i % num_processes == 0 )); then
-        wait  # Wait every 4 processes before continuing
-    fi
-done
-
-wait
 
 # Run SteadierCom with abundance and growth
- 
+input_dir="../data/Venturelli2018/generated/communities_steadiercom"
 output_dir="../output/Venturelli2018/results_steadiercom/results_growth_abundance"
 i=0
 
@@ -64,22 +44,22 @@ done
 
 wait
 
-# Run SteadierCom with growth
- 
-output_dir="../output/Venturelli2018/results_steadiercom/results_growth"
-input_dir="../data/Venturelli2018/generated/communities_steadiercom_no_abundance"
 
+# Run SteadierCom with abundance
+
+output_dir="../output/Venturelli2018/results_steadiercom/results_abundance"
 i=0
 
 for dir in "$input_dir"/*; do
     ((i++))
-    run_steadiercom "$dir" "$samples" "$output_dir" "$growth"&
+    run_steadiercom "$dir" "$samples" "$output_dir"&
     if (( i % num_processes == 0 )); then
         wait  # Wait every 4 processes before continuing
     fi
 done
 
 wait
+
 
 
 

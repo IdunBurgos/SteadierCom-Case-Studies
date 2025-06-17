@@ -1,0 +1,24 @@
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: 'gurobipy.logcallbackstub'
+Traceback (most recent call last):
+  File "/Users/idunmariaburgos/SteadierCom/reframed/reframed/solvers/gurobi_solver.py", line 54, in __init__
+    self.problem = GurobiModel()
+BrokenPipeError: [Errno 32] Broken pipe
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: 'gurobipy.logcallbackstub'
+Traceback (most recent call last):
+  File "/Users/idunmariaburgos/SteadierCom/reframed/reframed/solvers/gurobi_solver.py", line 54, in __init__
+    self.problem = GurobiModel()
+BrokenPipeError: [Errno 32] Broken pipe
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: 'gurobipy.logcallbackstub'
+Traceback (most recent call last):
+  File "/Users/idunmariaburgos/SteadierCom/reframed/reframed/solvers/gurobi_solver.py", line 54, in __init__
+    self.problem = GurobiModel()
+BrokenPipeError: [Errno 32] Broken pipe
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: 'gurobipy.logcallbackstub'
+Traceback (most recent call last):
+  File "/Users/idunmariaburgos/SteadierCom/reframed/reframed/solvers/gurobi_solver.py", line 54, in __init__
+    self.problem = GurobiModel()
+BrokenPipeError: [Errno 32] Broken pipe

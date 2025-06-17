@@ -118,7 +118,7 @@ def competition_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
                      "closeness (1/data)":nx.centrality.closeness_centrality(G,distance="weight")})
     else:
         return pd.DataFrame({"degree (data)":dict(G.degree(weight="weight")),
-                 "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
+                 "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=1000)})
     
 
     
@@ -160,14 +160,14 @@ def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True,degr
     else:
         if degree_type=="both":
             return pd.DataFrame({"degree (data)":dict(G.degree(weight="weight")),
-                     "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
+                     "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=1000)})
 
         elif degree_type=="in":
                 return pd.DataFrame({"degree (data)":dict(G.in_degree(weight="weight")),
-                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
+                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=1000)})
         elif degree_type=="out":
                 return pd.DataFrame({"degree (data)":dict(G.out_degree(weight="weight")),
-                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight")})
+                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=1000)})
         else:
             raise Exception("degree_type must be 'in', 'out' or 'both'")
 

@@ -1,0 +1,10 @@
+/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  __import__('pkg_resources').require('smetana==1.2.0')
+/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  __import__('pkg_resources').require('smetana==1.2.0')
+/Users/idunmariaburgos/SteadierCom/smetana/smetana/smetana.py:355: UserWarning: MRO: Failed to find a valid solution for: Desulfovibrio_piger_ATCC_29098
+  warn('MRO: Failed to find a valid solution for: ' + org_id)
+/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  __import__('pkg_resources').require('smetana==1.2.0')
+/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  __import__('pkg_resources').require('smetana==1.2.0')

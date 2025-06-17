@@ -1,524 +1,489 @@
-donor	receiver	compound	rate?
-mutant_panZ	mutant_bioC	M_co2_e	0.05707981604358661
-mutant_panZ	mutant_icd	M_co2_e	1.1509432557268962
-mutant_panZ		M_co2_e	7.223472807034877
-mutant_bioF	mutant_bioC	M_co2_e	0.0008387226708967688
-mutant_bioF	mutant_icd	M_co2_e	0.016911795944765436
-mutant_bioF		M_co2_e	0.1061406785410829
-mutant_bioH	mutant_bioC	M_co2_e	0.0013592030576448366
-mutant_bioH	mutant_icd	M_co2_e	0.027406633391480063
-mutant_bioH		M_co2_e	0.17200767288105667
-mutant_cysW	mutant_bioC	M_co2_e	0.004265042080603498
-mutant_cysW	mutant_icd	M_co2_e	0.08599925084400395
-mutant_cysW		M_co2_e	0.5397427256348071
-mutant_panD	mutant_bioC	M_co2_e	0.0007967065631222253
-mutant_panD	mutant_icd	M_co2_e	0.016064593566991855
-mutant_panD		M_co2_e	0.10082352384431398
-mutant_panZ	mutant_bioF	M_akg_e	99.97322716457285
-mutant_panZ	mutant_bioC	M_akg_e	6.167852876436307
-mutant_panZ	mutant_bioH	M_akg_e	115.25724409801332
-mutant_panZ	mutant_cysW	M_akg_e	62.960447126039305
-mutant_icd	mutant_bioF	M_akg_e	0.5688442693371231
-mutant_icd	mutant_bioC	M_akg_e	0.03509487352148412
-mutant_icd	mutant_bioH	M_akg_e	0.6558098069277722
-mutant_icd	mutant_cysW	M_akg_e	0.3582428071827007
-mutant_panD	mutant_bioF	M_akg_e	0.18122139830119804
-mutant_panD	mutant_bioC	M_akg_e	0.011180462554678302
-mutant_panD	mutant_bioH	M_akg_e	0.20892672500609402
-mutant_panD	mutant_cysW	M_akg_e	0.11412835805597295
-mutant_icd	mutant_panZ	M_idon__L_e	262.14107916701835
-mutant_icd	mutant_bioC	M_idon__L_e	18.722059702689865
-mutant_icd	mutant_panD	M_idon__L_e	15.109901053723297
-mutant_bioH	mutant_panZ	M_idon__L_e	22.346680235034224
-mutant_bioH	mutant_bioC	M_idon__L_e	1.5959951139541537
-mutant_bioH	mutant_panD	M_idon__L_e	1.2880702570673017
-	mutant_panZ	M_ca2_e	0.000786653105959082
-	mutant_bioF	M_ca2_e	0.0002801305226963675
-	mutant_bioC	M_ca2_e	5.743178488619667e-05
-	mutant_icd	M_ca2_e	0.0008184117011757762
-	mutant_bioH	M_ca2_e	0.0006002857840734703
-	mutant_cysW	M_ca2_e	0.00017690039835175416
-	mutant_panD	M_ca2_e	4.534295285735331e-05
-mutant_bioF	mutant_panZ	M_ade_e	21.434765681519544
-mutant_bioF	mutant_bioC	M_ade_e	5.187485437132361
-mutant_bioF	mutant_icd	M_ade_e	74.68505211109053
-mutant_bioH	mutant_panZ	M_ade_e	45.93210693255499
-mutant_bioH	mutant_bioC	M_ade_e	11.116153045464218
-mutant_bioH	mutant_icd	M_ade_e	160.04102171210963
-mutant_cysW	mutant_panZ	M_ade_e	13.535899448369843
-mutant_cysW	mutant_bioC	M_ade_e	3.275859522338791
-mutant_cysW	mutant_icd	M_ade_e	47.16307006535547
-mutant_panD	mutant_panZ	M_ade_e	3.4691368618414775
-mutant_panD	mutant_bioC	M_ade_e	0.8395751657662139
-mutant_panD	mutant_icd	M_ade_e	12.087497066997017
-	mutant_panZ	M_cu2_e	0.00010715409262727937
-	mutant_bioF	M_cu2_e	3.815802893212767e-05
-	mutant_bioC	M_cu2_e	7.82308078469038e-06
-	mutant_icd	M_cu2_e	0.00011148009531866
-	mutant_bioH	M_cu2_e	8.176803475659759e-05
-	mutant_cysW	M_cu2_e	2.4096519199115024e-05
-	mutant_panD	M_cu2_e	6.1763983815299705e-06
-	mutant_panZ	M_zn2_e	5.153673566417809e-05
-	mutant_bioF	M_zn2_e	1.8352451150713026e-05
-	mutant_bioC	M_zn2_e	3.7625818724674466e-06
-	mutant_icd	M_zn2_e	5.361736601362914e-05
-	mutant_bioH	M_zn2_e	3.93270801861774e-05
-	mutant_cysW	M_zn2_e	1.1589440122564489e-05
-	mutant_panD	M_zn2_e	2.970594990270409e-06
-	mutant_panZ	M_cobalt2_e	3.778353054558511e-06
-	mutant_bioF	M_cobalt2_e	1.3454876210200168e-06
-	mutant_icd	M_cobalt2_e	3.930891936483075e-06
-	mutant_bioH	M_cobalt2_e	2.8832170224470237e-06
-mutant_bioC	mutant_panZ	M_arg__L_e	0.04470426426855884
-mutant_bioC	mutant_bioF	M_arg__L_e	0.015919378975870112
-mutant_bioC	mutant_icd	M_arg__L_e	0.046509055507048064
-mutant_bioC	mutant_bioH	M_arg__L_e	0.034113301180146
-mutant_bioC	mutant_cysW	M_arg__L_e	0.010052972647312596
-mutant_bioC	mutant_panD	M_arg__L_e	0.002576769012791979
-mutant_bioF	mutant_panZ	M_pyr_e	75.45675727573978
-mutant_bioF	mutant_icd	M_pyr_e	25.6334633167982
-mutant_bioC	mutant_panZ	M_pyr_e	15.503210010832753
-mutant_bioC	mutant_icd	M_pyr_e	5.266605396957193
-mutant_bioH	mutant_panZ	M_pyr_e	161.7868137050653
-mutant_bioH	mutant_icd	M_pyr_e	54.96070204946132
-mutant_cysW	mutant_panZ	M_pyr_e	19.50104329344452
-mutant_cysW	mutant_icd	M_pyr_e	6.624711900553945
-mutant_panD	mutant_panZ	M_pyr_e	12.239935116970209
-mutant_panD	mutant_icd	M_pyr_e	4.158036193820389
-mutant_panZ	mutant_bioF	M_ac_e	5.400214123806362
-mutant_panZ	mutant_bioC	M_ac_e	3.928049717633194
-mutant_panZ	mutant_bioH	M_ac_e	15.758652933676215
-mutant_panZ	mutant_cysW	M_ac_e	3.072810280713768
-mutant_panZ	mutant_panD	M_ac_e	2.28792040914964
-mutant_panZ		M_ac_e	3.2875699230742486
-mutant_icd	mutant_bioF	M_ac_e	14.266193238871033
-mutant_icd	mutant_bioC	M_ac_e	10.377054509118077
-mutant_icd	mutant_bioH	M_ac_e	41.63093958534821
-mutant_icd	mutant_cysW	M_ac_e	8.117697603470816
-mutant_icd	mutant_panD	M_ac_e	6.044188975432565
-mutant_icd		M_ac_e	8.68504595070004
-	mutant_panZ	M_k_e	0.029500322711137575
-	mutant_bioF	M_k_e	0.010505190608390405
-	mutant_bioC	M_k_e	0.0021537526200367694
-	mutant_icd	M_k_e	0.03069130359031763
-	mutant_bioH	M_k_e	0.022511351210500075
-	mutant_cysW	M_k_e	0.006633951864644371
-	mutant_panD	M_k_e	0.0017004086449731728
-mutant_panZ	mutant_icd	M_etoh_e	111.87907996303355
-mutant_panZ	mutant_bioH	M_etoh_e	108.63699928065836
-mutant_panZ	mutant_cysW	M_etoh_e	32.1850430879792
-mutant_panZ	mutant_panD	M_etoh_e	5.492005154913304
-mutant_bioF	mutant_icd	M_etoh_e	43.898023116314576
-mutant_bioF	mutant_bioH	M_etoh_e	42.62592709276051
-mutant_bioF	mutant_cysW	M_etoh_e	12.628453558453655
-mutant_bioF	mutant_panD	M_etoh_e	2.1548994622136863
-mutant_bioC	mutant_icd	M_etoh_e	8.999882612856595
-mutant_bioC	mutant_bioH	M_etoh_e	8.73908009667191
-mutant_bioC	mutant_cysW	M_etoh_e	2.589059632750401
-mutant_bioC	mutant_panD	M_etoh_e	0.44179306551103703
-mutant_panD	mutant_panZ	M_pro__L_e	0.03340895337901727
-mutant_panD	mutant_bioF	M_pro__L_e	0.011897070642583192
-mutant_panD	mutant_bioC	M_pro__L_e	0.0024391130082647844
-mutant_panD	mutant_icd	M_pro__L_e	0.03475773268077064
-mutant_panD	mutant_bioH	M_pro__L_e	0.025493981555881073
-mutant_panD	mutant_cysW	M_pro__L_e	0.0075129140360513
-mutant_bioF	mutant_panZ	M_dha_e	0.05881909495440236
-mutant_bioC	mutant_panZ	M_dha_e	5.02492185340999
-mutant_icd	mutant_panZ	M_dha_e	1.2433498571368575
-mutant_bioH	mutant_panZ	M_dha_e	0.1437462829574071
-mutant_cysW	mutant_panZ	M_dha_e	0.03675381917104757
-mutant_panD	mutant_panZ	M_dha_e	5.314160799784304
-	mutant_panZ	M_dha_e	6.039613253960852e-14
-mutant_bioF	mutant_panZ	M_ala__D_e	0.0007477682002580845
-mutant_bioC	mutant_panZ	M_ala__D_e	0.00015330590186528654
-mutant_icd	mutant_panZ	M_ala__D_e	0.0021846325026198335
-mutant_bioH	mutant_panZ	M_ala__D_e	0.0016023766923951577
-mutant_cysW	mutant_panZ	M_ala__D_e	0.00047221020839563347
-mutant_panD	mutant_panZ	M_ala__D_e	0.00012103650086456616
-	mutant_panZ	M_ala__D_e	1.734723475976807e-18
-	mutant_panZ	M_fe2_e	0.0012473099103708554
-	mutant_bioF	M_fe2_e	0.00044417237345112793
-	mutant_bioC	M_fe2_e	9.106330848526052e-05
-	mutant_icd	M_fe2_e	0.0012976660460717925
-	mutant_bioH	M_fe2_e	0.0009518076034502113
-	mutant_cysW	M_fe2_e	0.00028049164026840097
-	mutant_panD	M_fe2_e	7.189536790235099e-05
-mutant_bioF	mutant_bioC	M_5dglcn_e	0.27690014986536027
-mutant_bioF	mutant_bioH	M_5dglcn_e	101.03040307987708
-mutant_cysW	mutant_bioC	M_5dglcn_e	0.17486044128056683
-mutant_cysW	mutant_bioH	M_5dglcn_e	63.799968594783536
-	mutant_panZ	M_mn2_e	0.00010443367842799723
-	mutant_bioF	M_mn2_e	3.718927784499326e-05
-	mutant_bioC	M_mn2_e	7.6244694248533896e-06
-	mutant_icd	M_mn2_e	0.00010864985312439219
-	mutant_bioH	M_mn2_e	7.969211850043572e-05
-	mutant_cysW	M_mn2_e	2.348475989645766e-05
-	mutant_panD	M_mn2_e	6.019592780870536e-06
-mutant_panZ	mutant_bioF	M_h_e	5.006282981034618
-mutant_panZ	mutant_bioC	M_h_e	2.2471133133263645
-mutant_panZ	mutant_bioH	M_h_e	14.56129938804383
-mutant_panZ	mutant_cysW	M_h_e	2.8390995978822904
-mutant_panZ	mutant_panD	M_h_e	0.820178157747072
-mutant_panZ		M_h_e	5.801765646187012
-mutant_icd	mutant_bioF	M_h_e	14.751489195039225
-mutant_icd	mutant_bioC	M_h_e	6.621333210115923
-mutant_icd	mutant_bioH	M_h_e	42.906254281308776
-mutant_icd	mutant_cysW	M_h_e	8.365677130209994
-mutant_icd	mutant_panD	M_h_e	2.4167329888956286
-mutant_icd		M_h_e	17.095454565013462
-mutant_bioC	mutant_panZ	M_asn__L_e	0.03643163582266407
-mutant_bioC	mutant_bioF	M_asn__L_e	0.012973460739399204
-mutant_bioC	mutant_icd	M_asn__L_e	0.0379024462299571
-mutant_bioC	mutant_bioH	M_asn__L_e	0.027800555173838688
-mutant_bioC	mutant_cysW	M_asn__L_e	0.008192646594559481
-mutant_bioC	mutant_panD	M_asn__L_e	0.002099931892608896
-mutant_panZ	mutant_bioF	M_adn_e	21.435055052421102
-mutant_panZ	mutant_bioH	M_adn_e	45.93272701935188
-mutant_panZ	mutant_cysW	M_adn_e	13.536082184000595
-mutant_panZ	mutant_panD	M_adn_e	3.469557786174653
-mutant_panZ		M_adn_e	1.2027190605677116e-14
-mutant_bioC	mutant_bioF	M_adn_e	5.187464312439764
-mutant_bioC	mutant_bioH	M_adn_e	11.116107777806354
-mutant_bioC	mutant_cysW	M_adn_e	3.2758461822482534
-mutant_bioC	mutant_panD	M_adn_e	0.8396622799294197
-mutant_bioC		M_adn_e	2.910681679766145e-15
-mutant_icd	mutant_bioF	M_adn_e	74.68474785963282
-mutant_icd	mutant_bioH	M_adn_e	160.0403697380831
-mutant_icd	mutant_cysW	M_adn_e	47.162877932761184
-mutant_icd	mutant_panD	M_adn_e	12.088751244686526
-mutant_icd		M_adn_e	4.190554657536475e-14
-mutant_panZ	mutant_bioF	M_lac__D_e	75.52344757384016
-mutant_panZ	mutant_bioC	M_lac__D_e	11.888664061014302
-mutant_panZ	mutant_bioH	M_lac__D_e	161.83760165233204
-mutant_panZ	mutant_cysW	M_lac__D_e	24.055443729531223
-mutant_panZ	mutant_panD	M_lac__D_e	8.408386467005258
-mutant_icd	mutant_bioF	M_lac__D_e	25.783855655902247
-mutant_icd	mutant_bioC	M_lac__D_e	4.058813625940498
-mutant_icd	mutant_bioH	M_lac__D_e	55.251680037796774
-mutant_icd	mutant_cysW	M_lac__D_e	8.21257647506748
-mutant_icd	mutant_panD	M_lac__D_e	2.8706399128871456
-	mutant_bioF	M_lac__D_e	1.523892288302467e-14
-	mutant_bioC	M_lac__D_e	2.3988634076966806e-15
-	mutant_bioH	M_lac__D_e	3.265516618189723e-14
-	mutant_cysW	M_lac__D_e	4.853844252182172e-15
-	mutant_panD	M_lac__D_e	1.696622136007265e-15
-mutant_bioC	mutant_panZ	M_gly_e	0.003291891603837758
-mutant_bioC	mutant_bioF	M_gly_e	0.044574152819219545
-mutant_bioC	mutant_panD	M_gly_e	0.0030201487490259292
-mutant_bioC		M_gly_e	1.1145785014116249e-17
-mutant_icd	mutant_panZ	M_gly_e	0.00041391995922052355
-mutant_icd	mutant_bioF	M_gly_e	0.005604720245256915
-mutant_icd	mutant_panD	M_gly_e	0.00037975121829021783
-mutant_icd		M_gly_e	1.40146257341683e-18
-mutant_bioH	mutant_panZ	M_gly_e	0.00030352597256809254
-mutant_bioH	mutant_bioF	M_gly_e	0.004109920590969495
-mutant_bioH	mutant_panD	M_gly_e	0.00027847016143535896
-mutant_bioH		M_gly_e	1.0276873128205347e-18
-mutant_cysW	mutant_panZ	M_gly_e	8.944717146486639e-05
-mutant_cysW	mutant_bioF	M_gly_e	0.001211167428925582
-mutant_cysW	mutant_panD	M_gly_e	8.20633834627436e-05
-mutant_cysW		M_gly_e	3.028529074608405e-19
-mutant_icd	mutant_panZ	M_glyc_e	133.7242219287291
-mutant_icd	mutant_bioF	M_glyc_e	12.016393344874691
-mutant_icd	mutant_bioC	M_glyc_e	12.800013036387314
-mutant_bioH	mutant_panZ	M_glyc_e	15.470048392420278
-mutant_bioH	mutant_bioF	M_glyc_e	1.3901310014474744
-mutant_bioH	mutant_bioC	M_glyc_e	1.48078499347754
-mutant_cysW	mutant_panZ	M_glyc_e	53.96083216690526
-mutant_cysW	mutant_bioF	M_glyc_e	4.8488940536134555
-mutant_cysW	mutant_bioC	M_glyc_e	5.16510281554539
-mutant_panD	mutant_panZ	M_glyc_e	13.831192534809107
-mutant_panD	mutant_bioF	M_glyc_e	1.242864213601787
-mutant_panD	mutant_bioC	M_glyc_e	1.323914562379702
-mutant_panZ	mutant_icd	M_glyald_e	133.7242219287291
-mutant_panZ	mutant_bioH	M_glyald_e	15.470048392420278
-mutant_panZ	mutant_cysW	M_glyald_e	53.96083216690526
-mutant_panZ	mutant_panD	M_glyald_e	13.831192534809107
-mutant_bioF	mutant_icd	M_glyald_e	12.016393344874691
-mutant_bioF	mutant_bioH	M_glyald_e	1.3901310014474744
-mutant_bioF	mutant_cysW	M_glyald_e	4.8488940536134555
-mutant_bioF	mutant_panD	M_glyald_e	1.242864213601787
-mutant_bioC	mutant_icd	M_glyald_e	12.800013036387314
-mutant_bioC	mutant_bioH	M_glyald_e	1.48078499347754
-mutant_bioC	mutant_cysW	M_glyald_e	5.16510281554539
-mutant_bioC	mutant_panD	M_glyald_e	1.323914562379702
-	mutant_panZ	M_mg2_e	0.0013110885099318033
-	mutant_bioF	M_mg2_e	0.0004668842044939459
-	mutant_bioC	M_mg2_e	9.571964147699444e-05
-	mutant_icd	M_mg2_e	0.001364019501959627
-	mutant_bioH	M_mg2_e	0.0010004763067891173
-	mutant_cysW	M_mg2_e	0.0002948339972529236
-	mutant_panD	M_mg2_e	7.557158809558885e-05
-	mutant_panZ	M_so4_e	0.046617828020734185
-	mutant_bioF	M_so4_e	0.013552612430991045
-	mutant_bioC	M_so4_e	0.002778528788261772
-	mutant_icd	M_so4_e	0.03959508829780675
-	mutant_bioH	M_so4_e	0.029041607108980783
-	mutant_panD	M_so4_e	0.0021937103532255163
-mutant_panZ	mutant_bioC	M_orn_e	0.04470426426855884
-mutant_bioF	mutant_bioC	M_orn_e	0.015919378975870112
-mutant_icd	mutant_bioC	M_orn_e	0.046509055507048064
-mutant_bioH	mutant_bioC	M_orn_e	0.034113301180146
-mutant_cysW	mutant_bioC	M_orn_e	0.010052972647312596
-mutant_panD	mutant_bioC	M_orn_e	0.002576769012791979
-mutant_bioF	mutant_panZ	M_glu__L_e	99.83773386260864
-mutant_bioF	mutant_icd	M_glu__L_e	0.6149101715450416
-mutant_bioF	mutant_panD	M_glu__L_e	0.22471557290002586
-mutant_bioC	mutant_panZ	M_glu__L_e	6.152965230843069
-mutant_bioC	mutant_icd	M_glu__L_e	0.03789670257154542
-mutant_bioC	mutant_panD	M_glu__L_e	0.0138491435391111
-mutant_bioH	mutant_panZ	M_glu__L_e	115.05594188036119
-mutant_bioH	mutant_icd	M_glu__L_e	0.7086405732755345
-mutant_bioH	mutant_panD	M_glu__L_e	0.2589688376819282
-mutant_cysW	mutant_panZ	M_glu__L_e	63.44111842823965
-mutant_cysW	mutant_icd	M_glu__L_e	0.39073992874680463
-mutant_cysW	mutant_panD	M_glu__L_e	0.14279377867930068
-	mutant_panZ	M_glu__L_e	5.636935797895643e-14
-	mutant_icd	M_glu__L_e	3.4718427836537314e-16
-	mutant_panD	M_glu__L_e	1.268766034862088e-16
-mutant_bioC	mutant_panZ	M_his__L_e	0.014318144467310568
-mutant_bioC	mutant_bioF	M_his__L_e	0.005098752249607774
-mutant_bioC	mutant_icd	M_his__L_e	0.014896193611141341
-mutant_bioC	mutant_bioH	M_his__L_e	0.010926008570903445
-mutant_bioC	mutant_cysW	M_his__L_e	0.003219825156397404
-mutant_bioC	mutant_panD	M_his__L_e	0.0008253027219596423
-mutant_bioC	mutant_panZ	M_tyr__L_e	0.020874493821702676
-mutant_bioC	mutant_bioF	M_tyr__L_e	0.007433496189106547
-mutant_bioC	mutant_icd	M_tyr__L_e	0.02171723453500423
-mutant_bioC	mutant_bioH	M_tyr__L_e	0.015929082076934418
-mutant_bioC	mutant_cysW	M_tyr__L_e	0.004694199062429573
-mutant_bioC	mutant_panD	M_tyr__L_e	0.0012032129309711395
-mutant_panZ	mutant_cysW	M_cys__L_e	0.008558376697664799
-mutant_panZ	mutant_bioF	M_xan_e	20.6235252788192
-mutant_panZ	mutant_bioH	M_xan_e	44.20809619779473
-mutant_panZ	mutant_cysW	M_xan_e	13.029559732905314
-mutant_panZ	mutant_panD	M_xan_e	3.2807492324836445
-mutant_bioC	mutant_bioF	M_xan_e	5.278982281610002
-mutant_bioC	mutant_bioH	M_xan_e	11.315900331140218
-mutant_bioC	mutant_cysW	M_xan_e	3.3351628316342063
-mutant_bioC	mutant_panD	M_xan_e	0.8397699634055177
-mutant_icd	mutant_bioF	M_xan_e	75.22630331148902
-mutant_icd	mutant_bioH	M_xan_e	161.253307009266
-mutant_icd	mutant_cysW	M_xan_e	47.526579439323584
-mutant_icd	mutant_panD	M_xan_e	11.966850163352861
-	mutant_bioF	M_xan_e	1.444766817136924e-14
-	mutant_bioH	M_xan_e	3.0969676411707896e-14
-	mutant_cysW	M_xan_e	9.127768065597584e-15
-	mutant_panD	M_xan_e	2.2983062121332853e-15
-mutant_panZ	mutant_bioF	M_fruur_e	78.99096500517294
-mutant_panZ	mutant_bioC	M_fruur_e	16.194565542032628
-mutant_panZ	mutant_icd	M_fruur_e	20.034157291486547
-mutant_panZ	mutant_bioH	M_fruur_e	169.26807156336045
-mutant_cysW	mutant_bioF	M_fruur_e	17.763272107809364
-mutant_cysW	mutant_bioC	M_fruur_e	3.6417895941901715
-mutant_cysW	mutant_icd	M_fruur_e	4.505226482497376
-mutant_cysW	mutant_bioH	M_fruur_e	38.064540851567195
-mutant_panD	mutant_bioF	M_fruur_e	4.553066116760117
-mutant_panD	mutant_bioC	M_fruur_e	0.9334602715671464
-mutant_panD	mutant_icd	M_fruur_e	1.1547756472621453
-mutant_panD	mutant_bioH	M_fruur_e	9.756669275201189
-	mutant_bioF	M_fruur_e	1.5783162408976665e-14
-	mutant_bioC	M_fruur_e	3.2358315672682233e-15
-	mutant_icd	M_fruur_e	4.0030193103452886e-15
-	mutant_bioH	M_fruur_e	3.3821405574217836e-14
-mutant_panZ	mutant_bioF	M_kdo2lipid4_e	0.001047112286182618
-mutant_panZ	mutant_bioC	M_kdo2lipid4_e	0.00021467681205491687
-mutant_panZ	mutant_icd	M_kdo2lipid4_e	0.003059177340648588
-mutant_panZ	mutant_bioH	M_kdo2lipid4_e	0.0022438348155491717
-mutant_panZ	mutant_cysW	M_kdo2lipid4_e	0.0006612438329167587
-mutant_panZ	mutant_panD	M_kdo2lipid4_e	0.00016948943146833162
-mutant_panZ		M_kdo2lipid4_e	0.0011527098542775237
-	mutant_bioC	M_glc__D_e	4.855251331108602
-	mutant_panD	M_glc__D_e	5.144748668891403
-	mutant_panZ	M_mobd_e	1.057938855276383e-06
-	mutant_icd	M_mobd_e	1.1006497422152608e-06
-mutant_panZ	mutant_bioC	M_nh4_e	0.40857884320634275
-mutant_panZ	mutant_cysW	M_nh4_e	0.03171091275545341
-mutant_bioF	mutant_bioC	M_nh4_e	0.13952732482298372
-mutant_bioF	mutant_cysW	M_nh4_e	0.01082909430586679
-mutant_icd	mutant_bioC	M_nh4_e	0.333101953871627
-mutant_icd	mutant_cysW	M_nh4_e	0.025852946557391034
-mutant_bioH	mutant_bioC	M_nh4_e	0.24432182694668383
-mutant_bioH	mutant_cysW	M_nh4_e	0.018962479989808254
-mutant_panD	mutant_bioC	M_nh4_e	0.3451572301069903
-mutant_panD	mutant_cysW	M_nh4_e	0.02678858925964773
-	mutant_bioC	M_nh4_e	5.316196658332398
-	mutant_cysW	M_nh4_e	0.41260444887518005
-	mutant_panZ	M_o2_e	3.3702909246661913e-05
-	mutant_bioF	M_o2_e	1.200174957949855e-05
-	mutant_bioC	M_o2_e	9.999589123840188
-	mutant_icd	M_o2_e	3.506355607342903e-05
-	mutant_bioH	M_o2_e	2.5718295840227448e-05
-	mutant_cysW	M_o2_e	0.00030244700190821524
-	mutant_panD	M_o2_e	1.9426471637252236e-06
-mutant_panZ	mutant_bioC	M_succ_e	0.060026821590042745
-mutant_bioF	mutant_bioC	M_succ_e	0.016425712877416287
-mutant_icd	mutant_bioC	M_succ_e	0.04798832876058537
-mutant_bioH	mutant_bioC	M_succ_e	19.858333452442274
-mutant_cysW	mutant_bioC	M_succ_e	0.010372718842834035
-mutant_panD	mutant_bioC	M_succ_e	0.0026587260734016174
-mutant_bioF	mutant_panZ	M_xtsn_e	20.6235252788192
-mutant_bioF	mutant_bioC	M_xtsn_e	5.278982281610002
-mutant_bioF	mutant_icd	M_xtsn_e	75.22630331148902
-mutant_bioF		M_xtsn_e	1.444766817136924e-14
-mutant_bioH	mutant_panZ	M_xtsn_e	44.20809619779473
-mutant_bioH	mutant_bioC	M_xtsn_e	11.315900331140218
-mutant_bioH	mutant_icd	M_xtsn_e	161.253307009266
-mutant_bioH		M_xtsn_e	3.0969676411707896e-14
-mutant_cysW	mutant_panZ	M_xtsn_e	13.029559732905314
-mutant_cysW	mutant_bioC	M_xtsn_e	3.3351628316342063
-mutant_cysW	mutant_icd	M_xtsn_e	47.526579439323584
-mutant_cysW		M_xtsn_e	9.127768065597584e-15
-mutant_panD	mutant_panZ	M_xtsn_e	3.2807492324836445
-mutant_panD	mutant_bioC	M_xtsn_e	0.8397699634055177
-mutant_panD	mutant_icd	M_xtsn_e	11.966850163352861
-mutant_panD		M_xtsn_e	2.2983062121332853e-15
-	mutant_panZ	M_cl_e	0.000786653105959082
-	mutant_bioF	M_cl_e	0.0002801305226963675
-	mutant_bioC	M_cl_e	5.743178488619667e-05
-	mutant_icd	M_cl_e	0.0008184117011757762
-	mutant_bioH	M_cl_e	0.0006002857840734703
-	mutant_cysW	M_cl_e	0.00017690039835175416
-	mutant_panD	M_cl_e	4.534295285735331e-05
-mutant_bioC	mutant_panZ	M_pnto__R_e	0.00010186439835091488
-mutant_bioC	mutant_panD	M_pnto__R_e	5.871498602504077e-06
-mutant_panZ	mutant_bioF	M_glcn_e	62.4831751373176
-mutant_panZ	mutant_icd	M_glcn_e	182.5469112283178
-mutant_panZ	mutant_cysW	M_glcn_e	39.45767303641717
-mutant_bioC	mutant_bioF	M_glcn_e	4.561756950184386
-mutant_bioC	mutant_icd	M_glcn_e	13.327341947658587
-mutant_bioC	mutant_cysW	M_glcn_e	2.880716509946973
-mutant_bioH	mutant_bioF	M_glcn_e	30.660819653830618
-mutant_bioH	mutant_icd	M_glcn_e	89.57672063295149
-mutant_bioH	mutant_cysW	M_glcn_e	19.36208578182281
-mutant_panD	mutant_bioF	M_glcn_e	3.6015514884098248
-mutant_panD	mutant_icd	M_glcn_e	10.522066114503613
-mutant_panD	mutant_cysW	M_glcn_e	2.2743537078771627
-	mutant_panZ	M_ni2_e	4.881632146489596e-05
-	mutant_bioF	M_ni2_e	1.7383700063578616e-05
-	mutant_bioC	M_ni2_e	3.563970512630456e-06
-	mutant_icd	M_ni2_e	5.0787123819361326e-05
-	mutant_bioH	M_ni2_e	3.7251163930015544e-05
-	mutant_cysW	M_ni2_e	1.0977680819907126e-05
-	mutant_panD	M_ni2_e	2.8137893896109738e-06
-mutant_bioF	mutant_panZ	M_gua_e	0.0011020454921160925
-mutant_bioF	mutant_panD	M_gua_e	0.0003061956715482977
-mutant_bioC	mutant_panZ	M_gua_e	0.00022593910520281513
-mutant_bioC	mutant_panD	M_gua_e	6.277560821355794e-05
-mutant_icd	mutant_panZ	M_gua_e	0.0032196667371139063
-mutant_icd	mutant_panD	M_gua_e	0.0008945619992867384
-mutant_bioH	mutant_panZ	M_gua_e	0.002361550023010471
-mutant_bioH	mutant_panD	M_gua_e	0.0006561402413634811
-mutant_cysW	mutant_panZ	M_gua_e	0.000695933755024617
-mutant_cysW	mutant_panD	M_gua_e	0.00019336035127163646
-	mutant_panZ	M_pi_e	0.16219280274706036
-	mutant_bioF	M_pi_e	0.04957519105004246
-	mutant_bioC	M_pi_e	0.010163803932101055
-	mutant_icd	M_pi_e	0.1448357574633305
-	mutant_bioH	M_pi_e	0.1062336304649194
-	mutant_cysW	M_pi_e	0.031306374473884846
-	mutant_panD	M_pi_e	0.00802442207665939
-	mutant_panZ	M_fe3_e	0.0011800552259997141
-	mutant_bioF	M_fe3_e	0.00042022269379697163
-	mutant_bioC	M_fe3_e	8.615319431151268e-05
-	mutant_icd	M_fe3_e	0.0012276961696023939
-	mutant_bioH	M_fe3_e	0.0009004863404506544
-	mutant_cysW	M_fe3_e	0.00026536759084159393
-	mutant_panD	M_fe3_e	6.80187849971594e-05
-mutant_panZ	mutant_bioF	M_asp__L_e	101.30730322974243
-mutant_panZ	mutant_bioC	M_asp__L_e	0.360905784979618
-mutant_panZ	mutant_bioH	M_asp__L_e	117.30873386153498
-mutant_panZ	mutant_cysW	M_asp__L_e	63.7404921986547
-mutant_bioF	mutant_panZ	M_glcur_e	78.99096500517295
-mutant_bioF	mutant_cysW	M_glcur_e	17.763272107809367
-mutant_bioF	mutant_panD	M_glcur_e	4.553066116760118
-mutant_bioC	mutant_panZ	M_glcur_e	16.19456554203262
-mutant_bioC	mutant_cysW	M_glcur_e	3.64178959419017
-mutant_bioC	mutant_panD	M_glcur_e	0.9334602715671462
-mutant_icd	mutant_panZ	M_glcur_e	20.03415729148655
-mutant_icd	mutant_cysW	M_glcur_e	4.505226482497377
-mutant_icd	mutant_panD	M_glcur_e	1.1547756472621453
-mutant_bioH	mutant_panZ	M_glcur_e	169.26807156336048
-mutant_bioH	mutant_cysW	M_glcur_e	38.0645408515672
-mutant_bioH	mutant_panD	M_glcur_e	9.75666927520119
-mutant_bioF	mutant_panZ	M_mal__L_e	2.62524061500984
-mutant_bioF	mutant_icd	M_mal__L_e	17.66364744681039
-mutant_bioC	mutant_panZ	M_mal__L_e	2.6874692594610092
-mutant_bioC	mutant_icd	M_mal__L_e	18.082346148328938
-mutant_bioH	mutant_panZ	M_mal__L_e	28.08983901137006
-mutant_bioH	mutant_icd	M_mal__L_e	188.99944267875878
-mutant_cysW	mutant_panZ	M_mal__L_e	8.277896699515756
-mutant_cysW	mutant_icd	M_mal__L_e	55.69693233654836
-mutant_panD	mutant_panZ	M_mal__L_e	2.1196188395681443
-mutant_panD	mutant_icd	M_mal__L_e	14.261626035222955
-mutant_panD	mutant_panZ	M_phe__L_e	0.027999863146111307
-mutant_panD	mutant_bioF	M_phe__L_e	0.009970870564330936
-mutant_panD	mutant_bioC	M_phe__L_e	0.0020442074211222336
-mutant_panD	mutant_icd	M_phe__L_e	0.029130267784501472
-mutant_panD	mutant_bioH	M_phe__L_e	0.021366368066545915
-mutant_panD	mutant_cysW	M_phe__L_e	0.00629653262260091
-mutant_bioF	mutant_panZ	M_fum_e	51.36203586457074
-mutant_bioF	mutant_bioC	M_fum_e	0.12003409418573903
-mutant_bioF	mutant_bioH	M_fum_e	25.725570673509136
-mutant_bioF	mutant_cysW	M_fum_e	0.18688043778180657
-mutant_bioF	mutant_panD	M_fum_e	3.5205213603419128
-mutant_icd	mutant_panZ	M_fum_e	187.87332286912292
-mutant_icd	mutant_bioC	M_fum_e	0.4390636732492873
-mutant_icd	mutant_bioH	M_fum_e	94.09962755137794
-mutant_icd	mutant_cysW	M_fum_e	0.68357587923268
-mutant_icd	mutant_panD	M_fum_e	12.877449950448687
-mutant_icd	mutant_panZ	M_acald_e	57.43380296078822
-mutant_icd	mutant_bioF	M_acald_e	16.498924534240153
-mutant_icd	mutant_bioC	M_acald_e	1.3109673332421914
-mutant_bioH	mutant_panZ	M_acald_e	165.70508742222654
-mutant_bioH	mutant_bioF	M_acald_e	47.601857989197356
-mutant_bioH	mutant_bioC	M_acald_e	3.782336278704941
-mutant_cysW	mutant_panZ	M_acald_e	48.83223416517957
-mutant_cysW	mutant_bioF	M_acald_e	14.027964452914652
-mutant_cysW	mutant_bioC	M_acald_e	1.11463041796989
-mutant_panD	mutant_panZ	M_acald_e	12.516634853858253
-mutant_panD	mutant_bioF	M_acald_e	3.59563537900213
-mutant_panD	mutant_bioC	M_acald_e	0.28570107793021593
-	mutant_panZ	M_acald_e	4.338880122673846e-14
-	mutant_bioF	M_acald_e	1.2464237438009277e-14
-	mutant_bioC	M_acald_e	9.903801960602785e-16
-mutant_bioF	mutant_panZ	M_h2o_e	79.92489789709327
-mutant_bioF	mutant_bioH	M_h2o_e	12.410268886000106
-mutant_bioF	mutant_panD	M_h2o_e	2.357768330887141
-mutant_bioF		M_h2o_e	6.614368115761908
-mutant_bioC	mutant_panZ	M_h2o_e	16.276672231171528
-mutant_bioC	mutant_bioH	M_h2o_e	2.5273460995622523
-mutant_bioC	mutant_panD	M_h2o_e	0.4801585404375232
-mutant_bioC		M_h2o_e	1.347013317116588
-mutant_icd	mutant_panZ	M_h2o_e	163.0819751584699
-mutant_icd	mutant_bioH	M_h2o_e	25.32241160673671
-mutant_icd	mutant_panD	M_h2o_e	4.810885299625109
-mutant_icd		M_h2o_e	13.496222643068133
-mutant_cysW	mutant_panZ	M_h2o_e	8.392334823960436
-mutant_cysW	mutant_bioH	M_h2o_e	1.3031124779263454
-mutant_cysW	mutant_panD	M_h2o_e	0.2475721807691524
-mutant_cysW		M_h2o_e	0.6945269038425763
-mutant_panZ	mutant_bioF	M_uri_e	0.0014082411636636533
-mutant_panZ	mutant_bioC	M_uri_e	0.00028871471341622196
-mutant_panZ	mutant_icd	M_uri_e	0.004114228736398492
-mutant_panZ	mutant_bioH	M_uri_e	0.0030176902643723733
-mutant_panZ	mutant_cysW	M_uri_e	0.0008892941062934377
-mutant_panZ	mutant_panD	M_uri_e	0.0002279430748251462
-	mutant_bioF	M_uri_e	7.368433992982939e-16
-	mutant_bioC	M_uri_e	1.510661215921198e-16
-	mutant_icd	M_uri_e	2.1527152918409135e-15
-	mutant_bioH	M_uri_e	1.5789661670198038e-15
-	mutant_cysW	M_uri_e	4.65311275628711e-16
-	mutant_panD	M_uri_e	1.1926817255057993e-16
-mutant_bioF	mutant_panZ	M_trp__L_e	0.008590916907210778
-mutant_bioF	mutant_bioC	M_trp__L_e	0.0006272036404007833
-mutant_bioF	mutant_icd	M_trp__L_e	0.008937747613820296
-mutant_bioF	mutant_bioH	M_trp__L_e	0.006555628208278246
-mutant_bioF	mutant_cysW	M_trp__L_e	0.001931901891164027
-mutant_bioF	mutant_panD	M_trp__L_e	0.0004951833754602371
-mutant_panZ		M_for_e	0.0002696232739732915
-mutant_bioC		M_for_e	1.9684592552728506e-05
-mutant_icd		M_for_e	0.0002805084485873793
-mutant_bioH		M_for_e	0.00020574636672181687
-mutant_cysW		M_for_e	6.041756831649224
-mutant_panD		M_for_e	1.554117730980619e-05
+donor	receiver	compound	rate?	mass_rate?
+mutant_bioF	mutant_panZ	M_co2_e	1.1214845393096196	0.049355973832746716
+mutant_bioF		M_co2_e	7.044143234756679	0.31000922169002415
+mutant_bioC	mutant_panZ	M_co2_e	0.004306194587262324	0.00018951347068812125
+mutant_bioC		M_co2_e	0.027047587734096493	0.00119035081238372
+mutant_icd	mutant_panZ	M_co2_e	0.03815934776036131	0.0016793738152596216
+mutant_icd		M_co2_e	0.239682226501623	0.010548294947223178
+mutant_bioH	mutant_panZ	M_co2_e	0.02757465719074823	0.0012135468756362343
+mutant_bioH		M_co2_e	0.17319885213978678	0.007622394883245947
+mutant_cysW	mutant_panZ	M_co2_e	0.008119783709429654	0.00035734762116014447
+mutant_cysW		M_co2_e	0.05100107712557191	0.0022445319037578573
+mutant_panD	mutant_panZ	M_co2_e	0.0986532762953087	0.004341681363118389
+mutant_panD		M_co2_e	0.619649923332848	0.02727048330091698
+mutant_bioF	mutant_panZ	M_akg_e	101.13294511701233	14.571447111643883
+mutant_bioF	mutant_icd	M_akg_e	0.10058290871517626	0.014492196711790898
+mutant_bioF	mutant_bioH	M_akg_e	0.07377520401489077	0.010629686322393894
+mutant_bioF		M_akg_e	2.13027684722977e-14	3.069347617302444e-15
+mutant_bioC	mutant_panZ	M_akg_e	20.734068865331476	2.9874081836615765
+mutant_bioC	mutant_icd	M_akg_e	0.02062130153099831	0.002971160429319451
+mutant_bioC	mutant_bioH	M_akg_e	0.015125240927462213	0.002179276475834703
+mutant_bioC		M_akg_e	4.3674498751696315e-15	6.292713496591784e-16
+mutant_cysW	mutant_panZ	M_akg_e	12.665004993981004	1.8248005160432705
+mutant_cysW	mutant_icd	M_akg_e	0.012596123248590668	0.0018148758895157652
+mutant_cysW	mutant_bioH	M_akg_e	0.009238960916242345	0.001331168890630121
+mutant_cysW		M_akg_e	2.667772294924361e-15	3.843782345745213e-16
+mutant_panD	mutant_panZ	M_akg_e	0.39744728974180094	0.05726504014530713
+mutant_panD	mutant_icd	M_akg_e	0.00039528567488013403	5.6953590136646956e-05
+mutant_panD	mutant_bioH	M_akg_e	0.0002899327697017135	4.177412231743926e-05
+mutant_panD		M_akg_e	8.371878801231068e-17	1.2062378786268548e-17
+mutant_bioF	mutant_panZ	M_idon__L_e	64.13951651116189	12.516627814652058
+mutant_bioF	mutant_bioC	M_idon__L_e	20.769815407789945	4.053165090402444
+mutant_bioF	mutant_panD	M_idon__L_e	16.3979713107906	3.200013267589722
+	mutant_panZ	M_ca2_e	0.000786653105959082	3.1527483180628095e-05
+	mutant_bioF	M_ca2_e	0.0002801305226963675	1.1227071088625017e-05
+	mutant_bioC	M_ca2_e	5.743178488619667e-05	2.3017510746689903e-06
+	mutant_icd	M_ca2_e	0.0008184117011757762	3.280030415972276e-05
+	mutant_bioH	M_ca2_e	0.0006002857840734703	2.4058253654096546e-05
+	mutant_cysW	M_ca2_e	0.00017690039835175416	7.0898141651416035e-06
+	mutant_panD	M_ca2_e	4.534295285735331e-05	1.817254864617006e-06
+mutant_panZ	mutant_bioF	M_ade_e	27.891231783813325	3.7688445316354517
+mutant_panZ	mutant_bioC	M_ade_e	13.225301088440974	1.7870886475272194
+mutant_panZ	mutant_bioH	M_ade_e	138.23286615963397	18.67892338911978
+mutant_panZ	mutant_panD	M_ade_e	10.441503863509736	1.4109238718125485
+mutant_icd	mutant_bioF	M_ade_e	6.509370177185822	0.8795884092475
+mutant_icd	mutant_bioC	M_ade_e	3.086575062610259	0.41707808519780515
+mutant_icd	mutant_bioH	M_ade_e	32.26135379967853	4.359363824212261
+mutant_icd	mutant_panD	M_ade_e	2.4368810377728027	0.3292872055506067
+mutant_cysW	mutant_bioF	M_ade_e	9.401465446499877	1.2703871206564656
+mutant_cysW	mutant_bioC	M_ade_e	4.45793187501651	0.6023847315094185
+mutant_cysW	mutant_bioH	M_ade_e	46.59498457592895	6.296217183299263
+mutant_cysW	mutant_panD	M_ade_e	3.519580581566571	0.47558860545505527
+	mutant_panZ	M_cu2_e	0.00010715409262727937	6.8092139700930945e-06
+	mutant_bioF	M_cu2_e	3.815802893212767e-05	2.4247901065209854e-06
+	mutant_bioC	M_cu2_e	7.82308078469038e-06	4.97125491543935e-07
+	mutant_icd	M_cu2_e	0.00011148009531866	7.0841141371195684e-06
+	mutant_bioH	M_cu2_e	8.176803475659759e-05	5.196031536642751e-06
+	mutant_cysW	M_cu2_e	2.4096519199115024e-05	1.5312374090269633e-06
+	mutant_panD	M_cu2_e	6.1763983815299705e-06	3.924854115527035e-07
+	mutant_panZ	M_zn2_e	5.153673566417809e-05	3.369987145080605e-06
+	mutant_bioF	M_zn2_e	1.8352451150713026e-05	1.2000667807451249e-06
+	mutant_bioC	M_zn2_e	3.7625818724674466e-06	2.460352286406464e-07
+	mutant_icd	M_zn2_e	5.361736601362914e-05	3.50603956363121e-06
+	mutant_bioH	M_zn2_e	3.93270801861774e-05	2.57159777337414e-06
+	mutant_cysW	M_zn2_e	1.1589440122564489e-05	7.57833489614492e-07
+	mutant_panD	M_zn2_e	2.970594990270409e-06	1.9424720641378207e-07
+	mutant_panZ	M_cobalt2_e	3.778353054558511e-06	2.2267043623490764e-07
+	mutant_bioF	M_cobalt2_e	1.3454876210200168e-06	7.929389106709685e-08
+	mutant_icd	M_cobalt2_e	3.930891936483075e-06	2.3166004067114437e-07
+	mutant_bioH	M_cobalt2_e	2.8832170224470237e-06	1.6991720542727492e-07
+mutant_bioF	mutant_panZ	M_arg__L_e	0.04470426426855884	0.007832558145244936
+mutant_bioF	mutant_bioC	M_arg__L_e	0.003263758408272408	0.0005718375623241144
+mutant_bioF	mutant_icd	M_arg__L_e	0.046509055507048064	0.008148772549995529
+mutant_bioF	mutant_bioH	M_arg__L_e	0.034113301180146	0.005976933507161374
+mutant_bioF	mutant_cysW	M_arg__L_e	0.010052972647312596	0.0017613642474821395
+mutant_bioF	mutant_panD	M_arg__L_e	0.002576769012791979	0.00045147131822396086
+mutant_bioC	mutant_panZ	M_pyr_e	12.82312064351011	1.1163039445001293
+mutant_bioC	mutant_bioF	M_pyr_e	4.566367896158684	0.3975205908321981
+mutant_bioC	mutant_cysW	M_pyr_e	2.883628288969767	0.2510313770679741
+mutant_bioC	mutant_panD	M_pyr_e	0.49669857915138055	0.043239598109444284
+mutant_icd	mutant_panZ	M_pyr_e	137.63542401254173	11.981714201987808
+mutant_icd	mutant_bioF	M_pyr_e	49.012560909121966	4.266739477382704
+mutant_icd	mutant_cysW	M_pyr_e	30.95107761056457	2.694415110310088
+mutant_icd	mutant_panD	M_pyr_e	5.331254493228724	0.4641070286535333
+mutant_bioH	mutant_panZ	M_pyr_e	134.0292147460007	11.667779260498346
+mutant_bioH	mutant_bioF	M_pyr_e	47.72837442446177	4.154945907147095
+mutant_bioH	mutant_cysW	M_pyr_e	30.140123136529763	2.623818279527462
+mutant_bioH	mutant_panD	M_pyr_e	5.191569383136587	0.4519468810795724
+	mutant_panZ	M_pyr_e	7.018935927262345e-14	6.110264482118962e-15
+	mutant_bioF	M_pyr_e	2.4994729890236862e-14	2.17589121586468e-15
+	mutant_cysW	M_pyr_e	1.5783991090003177e-14	1.3740595603491368e-15
+	mutant_panD	M_pyr_e	2.7187574687525286e-15	2.3667871268478265e-16
+mutant_bioH	mutant_panZ	M_ac_e	14.009081218266715	0.827150790543218
+mutant_bioH	mutant_bioC	M_ac_e	5.678806176971905	0.33529886403251147
+mutant_bioH	mutant_cysW	M_ac_e	12.524602360746904	0.739501369327704
+mutant_bioH		M_ac_e	11.966488167767274	0.706548130728834
+	mutant_panZ	M_k_e	0.029500322711137575	0.0011534124674568702
+	mutant_bioF	M_k_e	0.010505190608390405	0.00041073509396403064
+	mutant_bioC	M_k_e	0.0021537526200367694	8.420806606398363e-05
+	mutant_icd	M_k_e	0.03069130359031763	0.001199977795165316
+	mutant_bioH	M_k_e	0.022511351210500075	0.0008801555630334951
+	mutant_cysW	M_k_e	0.006633951864644371	0.000259376240189425
+	mutant_panD	M_k_e	0.0017004086449731728	6.648308732375461e-05
+mutant_bioC	mutant_panZ	M_etoh_e	15.447092159061732	0.7116197310020878
+mutant_bioC	mutant_bioF	M_etoh_e	5.322723248728209	0.24520827916706084
+mutant_bioC		M_etoh_e	3.2416675176658905e-15	1.4933778753733576e-16
+mutant_icd	mutant_panZ	M_etoh_e	67.27249958310249	3.099122965294282
+mutant_icd	mutant_bioF	M_etoh_e	23.18060213818184	1.0678886154221887
+mutant_icd		M_etoh_e	1.4117548758379487e-14	6.503700597107779e-16
+mutant_bioH	mutant_panZ	M_etoh_e	128.3733832969869	5.913930696402251
+mutant_bioH	mutant_bioF	M_etoh_e	44.23460317040495	2.0378085457748494
+mutant_bioH		M_etoh_e	2.6939945879884763e-14	1.2410748147837071e-15
+mutant_cysW	mutant_panZ	M_etoh_e	47.57986821633745	2.191918884963877
+mutant_cysW	mutant_bioF	M_etoh_e	16.39496081972664	0.7552863340353309
+mutant_cysW		M_etoh_e	9.984928665117342e-15	4.599876907303587e-16
+mutant_panD	mutant_panZ	M_etoh_e	12.195629527089078	0.561830700179845
+mutant_panD	mutant_bioF	M_etoh_e	4.202341783701519	0.1935943217599183
+mutant_panD		M_etoh_e	2.559328039760528e-15	1.1790363600129593e-16
+mutant_panD	mutant_panZ	M_pro__L_e	0.03340895337902339	0.003846376143422301
+mutant_panD	mutant_icd	M_pro__L_e	0.034757732680759545	0.004001661239309114
+mutant_panD	mutant_bioH	M_pro__L_e	0.025493981555882783	0.0029351246459269403
+mutant_icd		M_lipa_cold_e	0.0009394052338232359	0.002148187924542033
+mutant_panZ	mutant_bioF	M_dha_e	0.9917634008089504	0.08933576608904839
+mutant_panZ	mutant_bioH	M_dha_e	0.06294938295471234	0.005670335632979691
+mutant_panZ	mutant_cysW	M_dha_e	0.01715776138019626	0.0015455316822769046
+mutant_panZ	mutant_panD	M_dha_e	0.1462335881289035	0.01317238528139893
+mutant_panZ		M_dha_e	1.3203057652461975e-15	1.189301066301174e-16
+mutant_bioC	mutant_bioF	M_dha_e	4.857272251783069	0.4375319127144397
+mutant_bioC	mutant_bioH	M_dha_e	0.308301648198945	0.027771103375970108
+mutant_bioC	mutant_cysW	M_dha_e	0.08403205662435688	0.007569414386991832
+mutant_bioC	mutant_panD	M_dha_e	0.7161953640533926	0.06451323114459227
+mutant_bioC		M_dha_e	6.466345251466845e-15	5.82473507658055e-16
+mutant_icd	mutant_bioF	M_dha_e	0.1554565333100457	0.014003166970542304
+mutant_icd	mutant_bioH	M_dha_e	0.009867164729172314	0.000888811504324965
+mutant_icd	mutant_cysW	M_dha_e	0.0026894379257700715	0.00024225838264613878
+mutant_icd	mutant_panD	M_dha_e	0.022921764047217123	0.0020647397853160096
+mutant_icd		M_dha_e	2.0695476058808456e-16	1.8642008837825303e-17
+mutant_panZ	mutant_bioF	M_ala__D_e	0.002099857493601438	0.0001870823936916836
+mutant_bioC	mutant_bioF	M_ala__D_e	0.00015330590186528656	1.3658467384293787e-05
+mutant_icd	mutant_bioF	M_ala__D_e	0.0021846325026198335	0.00019463524509265857
+mutant_bioH	mutant_bioF	M_ala__D_e	0.0016023766923951577	0.00014276038641789255
+mutant_cysW	mutant_bioF	M_ala__D_e	0.00047221020839563347	4.2070576875571335e-05
+mutant_panD	mutant_bioF	M_ala__D_e	0.00012103650086456617	1.078349286787671e-05
+	mutant_panZ	M_fe2_e	0.0012473099103708556	6.965602194466043e-05
+	mutant_bioF	M_fe2_e	0.00044417237345112793	2.4804806195378236e-05
+	mutant_bioC	M_fe2_e	9.106330848526054e-05	5.085430462359374e-06
+	mutant_icd	M_fe2_e	0.0012976660460717923	7.246816034287924e-05
+	mutant_bioH	M_fe2_e	0.0009518076034502113	5.315369561467704e-05
+	mutant_cysW	M_fe2_e	0.0002804916402684009	1.566405565078885e-05
+	mutant_panD	M_fe2_e	7.189536790235099e-05	4.01499682050679e-06
+mutant_panZ	mutant_bioF	M_5dglcn_e	20.157515963816884	3.893043231359515
+mutant_panZ	mutant_icd	M_5dglcn_e	58.89092974458354	11.373670041594137
+mutant_bioC	mutant_bioF	M_5dglcn_e	5.296345575123233	1.0228890469036827
+mutant_bioC	mutant_icd	M_5dglcn_e	15.47346983266671	2.988408249599738
+mutant_bioH	mutant_bioF	M_5dglcn_e	55.3582125749157	10.691392488627299
+mutant_bioH	mutant_icd	M_5dglcn_e	161.73106911521313	31.23529928239714
+mutant_cysW	mutant_bioF	M_5dglcn_e	16.313712762095157	3.150685290827476
+mutant_cysW	mutant_icd	M_5dglcn_e	47.66111627396894	9.204843813219522
+mutant_panD	mutant_bioF	M_5dglcn_e	4.18151635379146	0.807580853075734
+mutant_panD	mutant_icd	M_5dglcn_e	12.216454956999138	2.359377383945696
+	mutant_panZ	M_mn2_e	0.00010443367842799723	5.7373774254773125e-06
+	mutant_bioF	M_mn2_e	3.718927784499326e-05	2.0431045462482397e-06
+	mutant_bioC	M_mn2_e	7.6244694248533896e-06	4.1887310126259553e-07
+	mutant_icd	M_mn2_e	0.00010864985312439219	5.969005630947858e-06
+	mutant_bioH	M_mn2_e	7.969211850043572e-05	4.378125606176937e-06
+	mutant_cysW	M_mn2_e	2.348475989645766e-05	1.2902057391915907e-06
+	mutant_panD	M_mn2_e	6.019592780870536e-06	3.3070438819546556e-07
+mutant_bioC	mutant_panZ	M_h_e	0.9861075884356737	0.0009938978383843156
+mutant_bioC	mutant_bioF	M_h_e	0.1856391388341837	0.00018710568803097374
+mutant_bioC	mutant_icd	M_h_e	0.011411345081468734	1.1501494707612337e-05
+mutant_bioC	mutant_cysW	M_h_e	1.1205093820682954	0.001129361406186635
+mutant_bioC		M_h_e	2.0433743350842883	0.0020595169923314544
+mutant_bioH	mutant_panZ	M_h_e	10.004124506694462	0.010083157090297347
+mutant_bioH	mutant_bioF	M_h_e	1.8833209276472977	0.0018981991629757114
+mutant_bioH	mutant_icd	M_h_e	0.11576882514915932	0.00011668339886783766
+mutant_bioH	mutant_cysW	M_h_e	11.36763929269949	0.011457443643111817
+mutant_bioH		M_h_e	20.73016322123225	0.020893931510679982
+mutant_panD	mutant_panZ	M_h_e	0.05123011492252761	5.1634832830415574e-05
+mutant_panD	mutant_bioF	M_h_e	0.009644296959200077	9.720486905177757e-06
+mutant_panD	mutant_icd	M_h_e	0.000592840504220903	5.97523944204248e-07
+mutant_panD	mutant_cysW	M_h_e	0.05821253693645394	5.867241597825192e-05
+mutant_panD		M_h_e	0.10615707985999362	0.00010699572079088756
+mutant_panD	mutant_panZ	M_asn__L_e	0.03643163582266407	0.0048132602889644025
+mutant_panD	mutant_bioF	M_asn__L_e	0.012973460739399204	0.001714022496583648
+mutant_panD	mutant_bioC	M_asn__L_e	0.0026597922969725527	0.0003514053747745009
+mutant_panD	mutant_icd	M_asn__L_e	0.0379024462299571	0.00500758023003098
+mutant_panD	mutant_bioH	M_asn__L_e	0.027800555173838688	0.00367294262823515
+mutant_panD	mutant_cysW	M_asn__L_e	0.008192646594559481	0.0010823928057213715
+mutant_bioF	mutant_panZ	M_adn_e	27.891280348581745	7.453688073379265
+mutant_bioF	mutant_icd	M_adn_e	6.509357217053261	1.7395658301710872
+mutant_bioF	mutant_cysW	M_adn_e	9.401465847112709	2.5124552541550775
+mutant_bioC	mutant_panZ	M_adn_e	13.225317945767177	3.534344548081177
+mutant_bioC	mutant_icd	M_adn_e	3.086567477081816	0.8248567618293261
+mutant_bioC	mutant_cysW	M_adn_e	4.457929984940952	1.1913407755196082
+mutant_bioH	mutant_panZ	M_adn_e	138.2330423549811	36.94150882537903
+mutant_bioH	mutant_icd	M_adn_e	32.2612745145771	8.621528810295196
+mutant_bioH	mutant_cysW	M_adn_e	46.594964820570624	12.452075674621149
+mutant_panD	mutant_panZ	M_adn_e	10.44151717253276	2.790399402401393
+mutant_panD	mutant_icd	M_adn_e	2.436875048924306	0.6512324375745707
+mutant_panD	mutant_cysW	M_adn_e	3.5195790893335324	0.9405751314967646
+mutant_panZ	mutant_icd	M_lac__D_e	139.84736814085016	12.456177110831897
+mutant_panZ	mutant_bioH	M_lac__D_e	70.21342864354625	6.253896046594937
+mutant_bioF	mutant_icd	M_lac__D_e	67.44504423006603	6.0073166005631355
+mutant_bioF	mutant_bioH	M_lac__D_e	33.8622589996764	3.016104636649377
+mutant_bioC	mutant_icd	M_lac__D_e	3.127486901855769	0.278564632850913
+mutant_bioC	mutant_bioH	M_lac__D_e	1.5702231749968252	0.13985946415233222
+mutant_cysW	mutant_icd	M_lac__D_e	42.59105746960102	3.793576970605869
+mutant_cysW	mutant_bioH	M_lac__D_e	21.383771566463093	1.9046482566705543
+mutant_panD	mutant_icd	M_lac__D_e	4.148807096616274	0.3695334183341922
+mutant_panD	mutant_bioH	M_lac__D_e	2.0829993077932953	0.18553233174528724
+mutant_bioF	mutant_panZ	M_gly_e	0.00121892353450811	9.150020161079962e-05
+mutant_bioF	mutant_panD	M_gly_e	0.0011012582651178148	8.266749343263994e-05
+mutant_bioF		M_gly_e	1.0474038270360019e-16	7.862483464181532e-18
+mutant_bioC	mutant_panZ	M_gly_e	0.005006513244503474	0.0003758209258171956
+mutant_bioC	mutant_panD	M_gly_e	0.004523223921635237	0.0003395421361910393
+mutant_bioC		M_gly_e	4.3020263240019326e-16	3.229376288480587e-17
+mutant_icd	mutant_panZ	M_gly_e	0.0010526335939307935	7.901741441544652e-05
+mutant_icd	mutant_panD	M_gly_e	0.0009510206445597536	7.138969611278028e-05
+mutant_icd		M_gly_e	9.045132229682434e-17	6.789855140062335e-18
+mutant_bioH	mutant_panZ	M_gly_e	0.002464930859724744	0.00018503348588844152
+mutant_bioH	mutant_panD	M_gly_e	0.0022269858652874948	0.0001671718117580172
+mutant_bioH		M_gly_e	2.1180803740053316e-16	1.5899666858723385e-17
+mutant_cysW	mutant_panZ	M_gly_e	0.0007143650855241814	5.362481525599241e-05
+mutant_cysW	mutant_panD	M_gly_e	0.0006454059114237776	4.844829830930186e-05
+mutant_cysW		M_gly_e	6.138438575483505e-17	4.60790485482675e-18
+mutant_bioC	mutant_panZ	M_glyc_e	0.6455430824602338	0.059450321864551556
+mutant_bioC	mutant_bioF	M_glyc_e	0.15097742593227179	0.013904039575093672
+mutant_bioC	mutant_icd	M_glyc_e	9.085945191737661	0.8367564935152925
+mutant_bioC	mutant_cysW	M_glyc_e	4.164049991341307	0.3834819378775907
+mutant_bioC	mutant_panD	M_glyc_e	1.067325592323513	0.09829374943664544
+mutant_bioH	mutant_panZ	M_glyc_e	9.27232736138244	0.8539210798554738
+mutant_bioH	mutant_bioF	M_glyc_e	2.1685804642002813	0.1997121649798286
+mutant_bioH	mutant_icd	M_glyc_e	130.5069491013562	12.01884171706575
+mutant_bioH	mutant_cysW	M_glyc_e	59.81077904472281	5.508183979955181
+mutant_bioH	mutant_panD	M_glyc_e	15.330645718467085	1.4118528214736485
+mutant_panZ	mutant_bioC	M_glyald_e	0.6455430824602338	0.05814903611892821
+mutant_panZ	mutant_bioH	M_glyald_e	9.27232736138244	0.835229922360399
+mutant_bioF	mutant_bioC	M_glyald_e	0.15097742593227179	0.013599699279899397
+mutant_bioF	mutant_bioH	M_glyald_e	2.1685804642002813	0.19534074048009367
+mutant_icd	mutant_bioC	M_glyald_e	9.085945191737661	0.8184410451977876
+mutant_icd	mutant_bioH	M_glyald_e	130.5069491013562	11.755765809067235
+mutant_cysW	mutant_bioC	M_glyald_e	4.164049991341307	0.37508804590504485
+mutant_cysW	mutant_bioH	M_glyald_e	59.81077904472281	5.3876174115568265
+mutant_panD	mutant_bioC	M_glyald_e	1.067325592323513	0.0961422345076397
+mutant_panD	mutant_bioH	M_glyald_e	15.330645718467085	1.3809493058343627
+mutant_bioF	mutant_panZ	M_indole_e	1.6537485664950689	0.19373267556833773
+mutant_bioF	mutant_icd	M_indole_e	0.7548212942382974	0.08842550304891038
+mutant_bioF	mutant_panD	M_indole_e	0.08827353775284177	0.010341033091254807
+mutant_bioF		M_indole_e	3.1769981670901716e-16	3.721777104790126e-17
+mutant_bioC	mutant_panZ	M_indole_e	13.756175193327136	1.6115029090778101
+mutant_bioC	mutant_icd	M_indole_e	6.278737997761348	0.7355390874665473
+mutant_bioC	mutant_panD	M_indole_e	0.7342750130610554	0.0860185555200713
+mutant_bioC		M_indole_e	2.6426836739756538e-15	3.0958404996543034e-16
+mutant_bioH	mutant_panZ	M_indole_e	58.496408363399084	6.85271384839213
+mutant_bioH	mutant_icd	M_indole_e	26.69954524147097	3.127787646129745
+mutant_bioH	mutant_panD	M_indole_e	3.122412328384355	0.3657831104806391
+mutant_bioH		M_indole_e	1.1237680619475911e-14	1.3164673141381164e-15
+mutant_cysW	mutant_panZ	M_indole_e	0.06657997153088278	0.007799683872911244
+mutant_cysW	mutant_icd	M_indole_e	0.030389130064554938	0.0035600136531504564
+mutant_cysW	mutant_panD	M_indole_e	0.0035538955253461963	0.00041633033144504607
+mutant_cysW		M_indole_e	1.2790605041420069e-17	1.4983886831502619e-18
+	mutant_panZ	M_mg2_e	0.0013110885099318033	3.186600623389248e-05
+	mutant_bioF	M_mg2_e	0.0004668842044939459	1.1347620590225356e-05
+	mutant_bioC	M_mg2_e	9.571964147699444e-05	2.3264658860983496e-06
+	mutant_icd	M_mg2_e	0.001364019501959627	3.3152493995128736e-05
+	mutant_bioH	M_mg2_e	0.0010004763067891173	2.4316576636509496e-05
+	mutant_cysW	M_mg2_e	0.0002948339972529236	7.165940303232309e-06
+	mutant_panD	M_mg2_e	7.557158809558885e-05	1.8367674486632872e-06
+	mutant_panZ	M_so4_e	0.03805948616887211	0.003656093196045894
+	mutant_bioF	M_so4_e	0.013552612430991045	0.0013018991869133206
+	mutant_bioC	M_so4_e	0.0027785287882593434	0.00026691269957504206
+	mutant_icd	M_so4_e	0.0395950882979204	0.0038036071291278084
+	mutant_bioH	M_so4_e	0.029041607109094512	0.002789812287078103
+	mutant_panD	M_so4_e	0.010752052204836658	0.001032870090132342
+mutant_panZ	mutant_bioF	M_orn_e	0.04470426426855884	0.005953195345821151
+mutant_bioC	mutant_bioF	M_orn_e	0.003263758408272408	0.00043462948521618333
+mutant_icd	mutant_bioF	M_orn_e	0.046509055507048064	0.006193536507384779
+mutant_bioH	mutant_bioF	M_orn_e	0.034113301180146	0.0045428137368781546
+mutant_cysW	mutant_bioF	M_orn_e	0.010052972647312596	0.0013387382826863825
+mutant_panD	mutant_bioF	M_orn_e	0.0025767690127919407	0.0003431442066030822
+	mutant_bioF	M_orn_e	2.7755575615628914e-17	3.696165595812317e-18
+mutant_panZ	mutant_bioF	M_glu__L_e	101.30730322974243	14.803124455233192
+mutant_panZ	mutant_bioC	M_glu__L_e	20.769815407789945	3.034906197201674
+mutant_panZ	mutant_cysW	M_glu__L_e	12.72335949154413	1.8591500122639193
+mutant_bioC	mutant_panZ	M_his__L_e	0.0024595553171116525	0.00038161033758220476
+mutant_bioC	mutant_bioF	M_his__L_e	0.0008758581277615339	0.00013589306712633858
+mutant_bioC	mutant_icd	M_his__L_e	0.002558851971682136	0.0003970166305847645
+mutant_bioC	mutant_bioH	M_his__L_e	0.0018768578943121066	0.00029120238510567945
+mutant_bioC	mutant_cysW	M_his__L_e	0.0005530980708895314	8.581548871040853e-05
+mutant_panD	mutant_panZ	M_his__L_e	0.011858589150198917	0.001839909912727793
+mutant_panD	mutant_bioF	M_his__L_e	0.00422289412184624	0.0006551997591597561
+mutant_panD	mutant_icd	M_his__L_e	0.012337341639459204	0.0019141903721969816
+mutant_panD	mutant_bioH	M_his__L_e	0.009049150676591339	0.001404013733905988
+mutant_panD	mutant_cysW	M_his__L_e	0.002666727085507872	0.0004137539075703055
+mutant_panD	mutant_panZ	M_tyr__L_e	0.020874493821702676	0.0037822098740160465
+mutant_panD	mutant_bioF	M_tyr__L_e	0.007433496189106547	0.0013468610508614559
+mutant_panD	mutant_bioC	M_tyr__L_e	0.0015240001338514115	0.0002761306886522829
+mutant_panD	mutant_icd	M_tyr__L_e	0.02171723453500423	0.0039349044626518
+mutant_panD	mutant_bioH	M_tyr__L_e	0.015929082076934418	0.0028861601162638007
+mutant_panD	mutant_cysW	M_tyr__L_e	0.004694199062429573	0.0008505330091433958
+mutant_panD	mutant_cysW	M_cys__L_e	0.008558376697306103	0.0010369149480545432
+mutant_bioF	mutant_panZ	M_xan_e	27.824907804184576	4.232466203529978
+mutant_bioF	mutant_icd	M_xan_e	6.4985496257291135	0.9884989325543933
+mutant_bioF	mutant_cysW	M_xan_e	9.477237741670367	1.4415892669518986
+mutant_bioC	mutant_panZ	M_xan_e	11.679808142643564	1.7766237924432122
+mutant_bioC	mutant_icd	M_xan_e	2.727836992960291	0.41493319448508487
+mutant_bioC	mutant_cysW	M_xan_e	3.978173775953482	0.6051227977819272
+mutant_bioH	mutant_panZ	M_xan_e	137.9066075935217	20.9770706156759
+mutant_bioH	mutant_icd	M_xan_e	32.20829838752148	4.899226813534763
+mutant_bioH	mutant_cysW	M_xan_e	46.97135801882131	7.144846148193523
+mutant_panD	mutant_panZ	M_xan_e	10.417004527234564	1.5845378505408183
+mutant_panD	mutant_icd	M_xan_e	2.4329072839370904	0.37007122999476955
+mutant_panD	mutant_cysW	M_xan_e	3.5480594996189474	0.5396978141286879
+mutant_panD	mutant_panZ	M_kdo2lipid4_e	0.0029404654811796154	0.005410476480535765
+mutant_panD	mutant_bioF	M_kdo2lipid4_e	0.001047112286182618	0.001926693726939563
+mutant_panD	mutant_bioC	M_kdo2lipid4_e	0.00021467681205491687	0.000395006793983369
+mutant_panD	mutant_icd	M_kdo2lipid4_e	0.0030591773406485885	0.0056289071091993196
+mutant_panD	mutant_bioH	M_kdo2lipid4_e	0.0022438348155491717	0.004128671318687222
+mutant_panD	mutant_cysW	M_kdo2lipid4_e	0.0006612438329167587	0.0012166931490248999
+	mutant_bioC	M_glc__D_e	10.0	1.8015539999999999
+	mutant_panZ	M_mobd_e	1.057938855276383e-06	1.69204201459652e-07
+	mutant_icd	M_mobd_e	1.1006497422152608e-06	1.760352782105275e-07
+mutant_bioF	mutant_panZ	M_nh4_e	1.5188088036028973	0.02739672884203014
+mutant_bioF	mutant_icd	M_nh4_e	0.8119007106023445	0.014645308588058271
+mutant_bioF	mutant_panD	M_nh4_e	0.09808427841410547	0.001769273639317159
+mutant_bioC	mutant_panZ	M_nh4_e	12.988084285466725	0.2342829607665344
+mutant_bioC	mutant_icd	M_nh4_e	6.942964009504548	0.1252392676926459
+mutant_bioC	mutant_panD	M_nh4_e	0.8387671128186739	0.015129932811157085
+mutant_bioH	mutant_panZ	M_nh4_e	55.39317114170558	0.9991986390054278
+mutant_bioH	mutant_icd	M_nh4_e	29.61120248037931	0.5341357537018261
+mutant_bioH	mutant_panD	M_nh4_e	3.577276618106692	0.06452798882039394
+mutant_cysW	mutant_panZ	M_nh4_e	0.0998002030426198	0.0018002260025436888
+mutant_cysW	mutant_icd	M_nh4_e	0.05334960896746722	0.000962336251437864
+mutant_cysW	mutant_panD	M_nh4_e	0.0064450712148860665	0.00011625812809547933
+	mutant_panZ	M_nh4_e	3.5821507961237438	0.06461591070571893
+	mutant_icd	M_nh4_e	1.9148893329815264	0.03454134825512067
+	mutant_panD	M_nh4_e	0.23133436886515074	0.004172878745900248
+	mutant_panZ	M_o2_e	3.3702909246661913e-05	1.0784526524020852e-06
+	mutant_bioF	M_o2_e	5.319052165035672	0.1702032864185435
+	mutant_bioC	M_o2_e	2.460574069091615e-06	7.873541752204879e-08
+	mutant_icd	M_o2_e	4.675404907296954	0.1496073465476138
+	mutant_bioH	M_o2_e	2.5718295840227448e-05	8.229546049322699e-07
+	mutant_cysW	M_o2_e	0.005479103241052933	0.0001753247287898046
+	mutant_panD	M_o2_e	1.9426471637252236e-06	6.216237806261068e-08
+mutant_panZ	mutant_bioF	M_succ_e	0.055623878140233285	0.006456374783493158
+mutant_bioC	mutant_bioF	M_succ_e	0.0036562806590969155	0.00042439180866269717
+mutant_icd	mutant_bioF	M_succ_e	0.05210255749698602	0.0060476480537901625
+mutant_bioH	mutant_bioF	M_succ_e	0.03519831341003326	0.004085538634129381
+mutant_cysW	mutant_bioF	M_succ_e	1.9406364529572784e-05	2.2525355436765725e-06
+mutant_panD	mutant_bioF	M_succ_e	10.475054177623893	1.2158604885051605
+	mutant_bioF	M_succ_e	1.7763568394002505e-15	2.061852910628659e-16
+mutant_panZ	mutant_bioF	M_xtsn_e	27.824907804184576	7.908534420644361
+mutant_panZ	mutant_bioC	M_xtsn_e	11.679808142643564	3.3196934693428672
+mutant_panZ	mutant_bioH	M_xtsn_e	137.9066075935217	39.19650554326871
+mutant_panZ	mutant_panD	M_xtsn_e	10.417004527234564	2.9607731117532436
+mutant_icd	mutant_bioF	M_xtsn_e	6.4985496257291135	1.847050267372857
+mutant_icd	mutant_bioC	M_xtsn_e	2.727836992960291	0.7753194693241386
+mutant_icd	mutant_bioH	M_xtsn_e	32.20829838752148	9.154403609193293
+mutant_icd	mutant_panD	M_xtsn_e	2.4329072839370904	0.6914930727770194
+mutant_cysW	mutant_bioF	M_xtsn_e	9.477237741670367	2.69366789712626
+mutant_cysW	mutant_bioC	M_xtsn_e	3.978173775953482	1.1306964414703784
+mutant_cysW	mutant_bioH	M_xtsn_e	46.97135801882131	13.35043423289949
+mutant_cysW	mutant_panD	M_xtsn_e	3.5480594996189474	1.0084472112791953
+	mutant_panZ	M_cl_e	0.000786653105959082	2.7889212565567338e-05
+	mutant_bioF	M_cl_e	0.0002801305226963675	9.931467421154318e-06
+	mutant_bioC	M_cl_e	5.743178488619667e-05	2.0361290695703308e-06
+	mutant_icd	M_cl_e	0.0008184117011757762	2.9015150041784795e-05
+	mutant_bioH	M_cl_e	0.0006002857840734703	2.1281931902756746e-05
+	mutant_cysW	M_cl_e	0.00017690039835175416	6.271649822764741e-06
+	mutant_panD	M_cl_e	4.534295285735331e-05	1.607543707651747e-06
+mutant_bioF	mutant_panZ	M_pnto__R_e	0.00010186439846460594	2.2229500965096483e-05
+mutant_bioF	mutant_cysW	M_pnto__R_e	2.29069872217374e-05	4.998909356245755e-06
+mutant_bioF	mutant_panD	M_pnto__R_e	5.871498602483105e-06	1.2813160026249188e-06
+	mutant_panZ	M_pnto__R_e	2.7051846619084637e-18	5.903427101035013e-19
+	mutant_cysW	M_pnto__R_e	6.083345252788059e-19	1.3275465344730281e-19
+	mutant_panD	M_pnto__R_e	1.5592776476634464e-19	3.4027554765006237e-20
+mutant_icd	mutant_panZ	M_glcn_e	14.908929197238534	2.9094313151605884
+mutant_icd	mutant_bioH	M_glcn_e	217.08928169012884	42.36430034505541
+mutant_icd	mutant_cysW	M_glcn_e	63.9748290360641	12.484489564417899
+	mutant_panZ	M_ni2_e	4.881632146489596e-05	2.865195882267724e-06
+	mutant_bioF	M_ni2_e	1.7383700063578616e-05	1.0203084613116451e-06
+	mutant_bioC	M_ni2_e	3.563970512630456e-06	2.091815468860244e-07
+	mutant_icd	M_ni2_e	5.0787123819361326e-05	2.9808689731793018e-06
+	mutant_bioH	M_ni2_e	3.7251163930015544e-05	2.186397465009974e-06
+	mutant_cysW	M_ni2_e	1.0977680819907126e-05	6.443174114351369e-07
+	mutant_panD	M_ni2_e	2.8137893896109738e-06	1.6515086616019274e-07
+mutant_bioF	mutant_panZ	M_gua_e	0.0014082411636643902	0.0002128217132758283
+mutant_bioH	mutant_panZ	M_gua_e	0.0030176902643739524	0.0004560511571247516
+mutant_cysW	mutant_panZ	M_gua_e	0.0008892941062962534	0.00013439537217871698
+mutant_panD	mutant_panZ	M_gua_e	0.00022794307482526546	3.4448102331735594e-05
+	mutant_panZ	M_pi_e	0.13921538303990033	0.013361795013401508
+	mutant_bioF	M_pi_e	0.0495751910499046	0.004758192134336109
+	mutant_bioC	M_pi_e	0.010163803932088072	0.0009755147867390608
+	mutant_icd	M_pi_e	0.14671456793229642	0.014081561529944258
+	mutant_bioH	M_pi_e	0.10623363046529777	0.010196229488517955
+	mutant_cysW	M_pi_e	0.031306374473988485	0.0030047639075512834
+	mutant_panD	M_pi_e	0.0286964220766468	0.0027542625034211064
+	mutant_panZ	M_fe3_e	0.0011800552259997141	6.590018409595403e-05
+	mutant_bioF	M_fe3_e	0.00042022269379697163	2.346733633509188e-05
+	mutant_bioC	M_fe3_e	8.615319431151268e-05	4.811225136326426e-06
+	mutant_icd	M_fe3_e	0.0012276961696023939	6.85606925914457e-05
+	mutant_bioH	M_fe3_e	0.0009004863404506544	5.0287659682466796e-05
+	mutant_cysW	M_fe3_e	0.00026536759084159393	1.4819453110548814e-05
+	mutant_panD	M_fe3_e	6.80187849971594e-05	3.798509048166367e-06
+mutant_bioF	mutant_panZ	M_asp__L_e	99.6411555685826	13.162048624254131
+mutant_bioF	mutant_bioH	M_asp__L_e	0.9382600820567073	0.12393899640923971
+mutant_bioC	mutant_panZ	M_asp__L_e	20.440183791300008	2.700035857819878
+mutant_bioC	mutant_bioH	M_asp__L_e	0.1924727630048313	0.02542459339274168
+mutant_icd	mutant_panZ	M_asp__L_e	4.153329243937349	0.5486319498132821
+mutant_icd	mutant_bioH	M_asp__L_e	0.03910937217646937	0.005166132962964632
+mutant_cysW	mutant_panZ	M_asp__L_e	12.24889161766934	1.6180112137902223
+mutant_cysW	mutant_bioH	M_asp__L_e	0.115340352976816	0.015235826256296017
+	mutant_panZ	M_asp__L_e	2.8156576100190697e-14	3.719328841666639e-15
+	mutant_bioH	M_asp__L_e	2.651333302133105e-16	3.5022654687862133e-17
+mutant_panZ	mutant_bioC	M_mal__L_e	12.390586962018325	1.6364421668955067
+mutant_panZ	mutant_icd	M_mal__L_e	248.67932313974308	32.843426358118265
+mutant_panZ	mutant_cysW	M_mal__L_e	12.356018576169394	1.631876671780698
+mutant_panZ	mutant_panD	M_mal__L_e	11.061830724121695	1.4609514702977657
+mutant_panZ		M_mal__L_e	5.655453022821308e-14	7.46923598358242e-15
+mutant_bioF	mutant_bioC	M_mal__L_e	0.016965898474148373	0.0022407099637386393
+mutant_bioF	mutant_icd	M_mal__L_e	0.34050591484824755	0.04497109288228883
+mutant_bioF	mutant_cysW	M_mal__L_e	0.016918565468333077	0.002234458627394405
+mutant_bioF	mutant_panD	M_mal__L_e	0.01514648963595937	0.002000418091306644
+mutant_bioF		M_mal__L_e	7.743768887190183e-17	1.0227303982076494e-17
+mutant_bioH	mutant_bioC	M_mal__L_e	0.046326992653437316	0.00611847077752918
+mutant_bioH	mutant_icd	M_mal__L_e	0.9297836504010167	0.12279782840557282
+mutant_bioH	mutant_cysW	M_mal__L_e	0.04619774539806728	0.0061014009115663015
+mutant_bioH	mutant_panD	M_mal__L_e	0.04135892450138432	0.005462331061392128
+mutant_bioH		M_mal__L_e	2.1145094372302834e-16	2.7926622168821564e-17
+mutant_panD	mutant_panZ	M_phe__L_e	0.027999863146111307	0.004625260993284037
+mutant_panD	mutant_bioF	M_phe__L_e	0.009970870564330936	0.0016470751463900936
+mutant_panD	mutant_bioC	M_phe__L_e	0.0020442074211222336	0.0003376799664255343
+mutant_panD	mutant_icd	M_phe__L_e	0.029130267784501472	0.004811991065973679
+mutant_panD	mutant_bioH	M_phe__L_e	0.021366368066545915	0.003529482564634233
+mutant_panD	mutant_cysW	M_phe__L_e	0.00629653262260091	0.0010401160384350349
+mutant_icd	mutant_panZ	M_fum_e	146.74232851979292	16.736872370119205
+mutant_icd	mutant_bioF	M_fum_e	90.49220586871105	10.321197131002881
+mutant_icd	mutant_bioC	M_fum_e	8.212403645664123	0.9366755526905963
+mutant_panZ	mutant_bioC	M_acald_e	7.272910432669606	0.32038915954413455
+mutant_panZ	mutant_icd	M_acald_e	67.03442337305252	2.9530272321990587
+mutant_panZ	mutant_bioH	M_acald_e	160.0830319520423	7.052041756764147
+mutant_panZ	mutant_cysW	M_acald_e	38.00542417966523	1.674230148132285
+mutant_panZ	mutant_panD	M_acald_e	12.091969464622931	0.5326802756433552
+mutant_panZ		M_acald_e	4.19167025055932e-14	1.846531345457394e-15
+mutant_bioF	mutant_bioC	M_acald_e	2.58991439249917	0.11409194478413043
+mutant_bioF	mutant_icd	M_acald_e	23.871243774278774	1.0515855792420383
+mutant_bioF	mutant_bioH	M_acald_e	57.00624973808657	2.5112621159620847
+mutant_bioF	mutant_cysW	M_acald_e	13.533893478710253	0.5962004890815354
+mutant_bioF	mutant_panD	M_acald_e	4.306001846167667	0.18968971572811652
+mutant_bioF		M_acald_e	1.492671635521481e-14	6.57557679566465e-16
+mutant_icd	mutant_panZ	M_h2o_e	53.637857638982815	0.9662967329378032
+mutant_icd	mutant_bioF	M_h2o_e	83.91021963031642	1.5116593886840766
+mutant_icd	mutant_bioC	M_h2o_e	18.903327425290456	0.34054722423209266
+mutant_icd	mutant_bioH	M_h2o_e	119.34876441242635	2.150091860642743
+mutant_icd		M_h2o_e	20.17287081641545	0.3634183023318877
+mutant_cysW	mutant_panZ	M_h2o_e	2.324396378492849	0.04187446563782438
+mutant_cysW	mutant_bioF	M_h2o_e	3.636249082504292	0.06550775447113133
+mutant_cysW	mutant_bioC	M_h2o_e	0.8191756297305194	0.014757612804721253
+mutant_cysW	mutant_bioH	M_h2o_e	5.171978300196349	0.09317422347369728
+mutant_cysW		M_h2o_e	0.8741912882702781	0.015748730896446714
+mutant_panD	mutant_panZ	M_h2o_e	2.9717303000430424	0.05353631570133542
+mutant_panD	mutant_bioF	M_h2o_e	4.648928073097564	0.08375136902246724
+mutant_panD	mutant_bioC	M_h2o_e	1.0473123527689723	0.018867541497603595
+mutant_panD	mutant_bioH	M_h2o_e	6.612350960477924	0.1191228250232019
+mutant_panD		M_h2o_e	1.1176496244030951	0.02013468151354664
+mutant_panZ	mutant_bioF	M_uri_e	0.0014082411636643902	0.0003438937595838914
+mutant_panZ	mutant_bioH	M_uri_e	0.0030176902643739524	0.0007369226784813571
+mutant_panZ	mutant_cysW	M_uri_e	0.0008892941062962534	0.00021716642112224073
+mutant_panZ	mutant_panD	M_uri_e	0.00022794307482526546	5.566390402109716e-05
+mutant_panZ	mutant_bioF	M_trp__L_e	1.6554020861677468	0.33807399442698216
+mutant_panZ	mutant_bioC	M_trp__L_e	13.753493804884432	2.8088031462543817
+mutant_panZ	mutant_bioH	M_trp__L_e	58.48758102379984	11.944608688311215
+mutant_panZ	mutant_cysW	M_trp__L_e	0.0678442629929416	0.0138554742564546
+mutant_icd	mutant_bioF	M_trp__L_e	0.7554637342851648	0.15428435449526748
+mutant_icd	mutant_bioC	M_trp__L_e	6.276581306816716	1.2818329344102517
+mutant_icd	mutant_bioH	M_trp__L_e	26.691549285065086	5.451073645277632
+mutant_icd	mutant_cysW	M_trp__L_e	0.030961589754381146	0.006323121379111563
+mutant_panD	mutant_bioF	M_trp__L_e	0.08903684014696284	0.018183521967961438
+mutant_panD	mutant_bioC	M_trp__L_e	0.7397402960887957	0.15107324004664544
+mutant_panD	mutant_bioH	M_trp__L_e	3.1457912525977734	0.6424482748244045
+mutant_panD	mutant_cysW	M_trp__L_e	0.0036490462646299533	0.0007452253786801728
+	mutant_bioF	M_trp__L_e	3.180544101149496e-16	6.495456648940254e-17
+	mutant_bioC	M_trp__L_e	2.6424754418781527e-15	5.396587543749331e-16
+	mutant_bioH	M_trp__L_e	1.1237289862693794e-14	2.2949321510216814e-15
+	mutant_cysW	M_trp__L_e	1.3035000515105652e-17	2.662069069697297e-18
+mutant_bioF		M_for_e	9.601399655736886e-05	4.322300488621696e-06
+mutant_bioC		M_for_e	5.268984265617943	0.23719597227902917
+mutant_bioH		M_for_e	0.00020574636652287705	9.262166480306966e-06
+mutant_cysW		M_for_e	6.0632144168383006e-05	2.729501486885765e-06
+mutant_panD		M_for_e	0.7626566268462993	0.034332818433390595

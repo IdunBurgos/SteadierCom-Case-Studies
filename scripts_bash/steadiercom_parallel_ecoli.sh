@@ -1,32 +1,44 @@
-#!/usr/bin/env bash
-
+source ~/opt/anaconda3/etc/profile.d/conda.sh
+conda activate steadiercom
 
 run_steadiercom() {
     community_dir="$1"
     samples="$2"
+    output_dir="$3"
+    growth="$4"
     
-    community_id=$(echo "$community_dir" | rev | cut -d "/" -f1 | rev)
-    echo "../../output/Venturelli2018/results_steadiercom/${community_id%_abundance.tsv}"
     
-    time steadiercom ../../models/species_used/* -c "$community_dir" -m LB_extend --mediadb ../../data/Venturelli2018/generated/media_db_lb_extend.tsv --growth 0.039683 -o "../../output/Venturelli2018/results_steadiercom/${community_id%.tsv}"  --sample $samples --exchange-detection 'R_EX_(?!biomass__40__e__41__)' | tee -a "../../output/Venturelli2018/results_steadiercom/time_log.txt"
-
+    
+    cmd="steadiercom ../models/Guillen2021/top_7_strains/* -c \"$community_dir\" -m M9 --mediadb ../data/Guillen2021/generated/media_db.tsv"
+    
+    if [ -n "$growth" ]; then
+        cmd+=" --growth $growth"
+    fi
+    
+    cmd+=" -o \"$output_dir\" --sample $samples --exchange-detection '^R_EX_(?!nad_c$|thf_c$).*' --unlimited ../data/Guillen2021/generated/unlimited.txt"
+    
+    time eval "$cmd"
 }
 
+# Run SteadierCom with abundance and growth
 
-num_processes=4
-input_dir="../../data/Venturelli2018/generated/communities_exp_abundance"
-samples=$1
-i=0
+input_dir1="../data/Guillen2021/generated/communities_steadiercom.tsv"
+input_dir2="../data/Guillen2021/generated/communities_smetana.tsv" # No abundance
+output_dir1="../output/Guillen2021/results_steadiercom/results_growth_abundance/ecoli_mutants"
+output_dir2="../output/Guillen2021/results_steadiercom/results_abundance/ecoli_mutants"
+output_dir3="../output/Guillen2021/results_steadiercom/results_growth/ecoli_mutants"
 
-for dir in "$input_dir"/*; do
-    ((i++))
-    run_steadiercom "$dir" "$samples" &
-    if (( i % num_processes == 0 )); then
-        wait  # Wait every 4 processes before continuing
-    fi
-done
+#samples=4000
+samples=20
 
+growth=0.221
+
+run_steadiercom "$input_dir1" "$samples" "$output_dir1" "$growth"&
+run_steadiercom "$input_dir1" "$samples" "$output_dir2"&
 wait
+
+
+run_steadiercom "$input_dir2" "$samples" "$output_dir3" "$growth" 
 
 
 

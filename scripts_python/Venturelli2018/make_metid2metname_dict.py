@@ -69,39 +69,52 @@ for metanetx_id,database_ids in metanetx2other.items():
             
         if database_id=="metacyc.compound":
             database_id = "biocyc"
+
             
+# 
         for model in models.values():
-            for met in model.metabolites:
-               
-                metadata = {}
-                for string in model.metabolites[met].metadata["XMLAnnotation"].split("\n"):
-                    if "<rdf:li rdf:resource=" in string:
-                        url_part = string.split('resource="')[-1].split('"/>')[0]
-
-                        id_part = url_part.split('/')[-1]
-                        database_part= url_part.split('/')[-2] 
-                        
-                        if "SBO:" not in string:
-                            if database_part in metadata:
-                                metadata[database_part].append(id_part)
-                            else:
-                                metadata[database_part]=[id_part]
-
-                if database_id not in metadata.keys():
+            for met_id, met_obj in model.metabolites.items():
+                # Skip if the target db_name isn't in the metadata
+                if database_id not in met_obj.metadata:
                     continue
-                else:
 
-                    if metadata[database_id][0]==id_:
-                        final_mapping[met] = metanetx_id
-
+                # Compare metadata value(s) to id_
+                ids = met_obj.metadata[database_id]
+                if isinstance(ids, list):
+                    if id_ in ids:
+                        final_mapping[met_id] = metanetx_id
+                elif id_ == ids:
+                    final_mapping[met_id] = metanetx_id
 
 metanetx2metname = {metanetx_id:name for name,metanetx_id in metname2metanetx.items()}
 
 metid2metname = {}
-
 for met_id,metanetx_id in final_mapping.items():
     metid2metname[met_id]=metanetx2metname[metanetx_id]
-
+    
 print("Save data ../data/Venturelli2018/generated/metid2metname.json")
 with open("../data/Venturelli2018/generated/metid2metname.json","w") as outfile:
     json.dump(metid2metname,outfile)
+    
+                
+"""
+for string in model.metabolites[met].metadata["XMLAnnotation"].split("\n"):
+    if "<rdf:li rdf:resource=" in string:
+        url_part = string.split('resource="')[-1].split('"/>')[0]
+
+        id_part = url_part.split('/')[-1]
+        database_part= url_part.split('/')[-2] 
+
+        if "SBO:" not in string:
+            if database_part in metadata:
+                metadata[database_part].append(id_part)
+            else:
+                metadata[database_part]=[id_part]
+
+if database_id not in metadata.keys():
+    continue
+else:
+
+    if metadata[database_id][0]==id_:
+        final_mapping[met] = metanetx_id
+"""
