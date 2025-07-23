@@ -1,8 +1,8 @@
 	relative_abundance
-mutant_bioC	3.049022301235027e-05
-mutant_bioF	0.00029309645945090615
-mutant_bioH	6.297382937094017e-05
-mutant_cysW	0.00030838013623976066
-mutant_icd	0.0
-mutant_panD	0.49950110366356903
-mutant_panZ	0.499803955688357
+mutant_panZ	0.0
+mutant_bioF	0.0
+mutant_bioC	0.0006391866106976559
+mutant_icd	0.9993597360567202
+mutant_bioH	1.0773325820520964e-06
+mutant_cysW	0.0
+mutant_panD	0.0

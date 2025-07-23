@@ -28,8 +28,7 @@ output_dir1="../output/Guillen2021/results_steadiercom/results_growth_abundance/
 output_dir2="../output/Guillen2021/results_steadiercom/results_abundance/ecoli_mutants"
 output_dir3="../output/Guillen2021/results_steadiercom/results_growth/ecoli_mutants"
 
-#samples=4000
-samples=20
+samples=4000
 
 growth=0.221
 

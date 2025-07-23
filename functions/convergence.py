@@ -1,36 +1,17 @@
-import reframed
 import cobra
 import pandas as pd
 import numpy as np
-from os import listdir
-import warnings
-import seaborn as sns
-from collections import OrderedDict
-import json
-import os
-import matplotlib.pyplot as plt
-
 import math
-
-from reframed.core.model import ReactionType
-from reframed.solvers import solver_instance
-from math import inf, isinf
-from reframed.community.solution import CommunitySolution
-from reframed.solvers.solution import Status
 from numpy.random import lognormal
-from reframed.core.elements import molecular_weight
-
 import argparse
 import textwrap
+
+# Reframed
+from reframed.community.solution import CommunitySolution
 from reframed.community.model import Community
 from reframed.solvers.solution import Status
 
-import glob
-import pandas as pd
-from reframed.io.cache import ModelCache
-from reframed import Environment, set_default_solver
-from math import inf
-
+# Steadiercom
 import steadiercom.steadiercom as steadiercom
 from steadiercom.steadiercom import allocation_constraints
 from steadiercom.cli import load_communities,load_media_db,precompute_exchange_map
@@ -90,5 +71,110 @@ def SteadierSampleConvergence(community,output_dir, objective=None,n=100, growth
             time2 = time.time()
             print(f"Round {i}. Time passed: {(time2-time1)/60:.2f} minutes")
             time1 = time2
+            
+
+            
+            
+
+def std_sample_size(dfs_tot_abs,sample_sizes,cutoff=1e-6 ):
+    std = lambda x:np.std(x,ddof=1)
+    cv = lambda x: std(x)/ abs(np.mean(x)) * 100 
+
+    datas_std = {}
+    datas_cv = {}
+    for n in sample_sizes:
+        sample_size = int(n)
+
+        number = math.floor(dfs_tot_abs.shape[1]/sample_size)
+        data = pd.DataFrame.from_dict({f"set{i}":dfs_tot_abs[np.arange(0+i*sample_size,(i+1)*sample_size)].T.mean() for i in np.arange(0,number)})
+    
+        # Cutoff data that is actually zero
+        equal_zero= data.sum(axis=1).apply(abs).sort_values() <cutoff 
+        data = data.loc[~equal_zero]
+
+        data_std = data.T.apply(std)
+        datas_std[sample_size]=data_std 
+        data_cv = data.T.apply(cv)
+        datas_cv[sample_size]=data_cv 
+    return datas_std,datas_cv
+
+def std_sampling_grouped(dfs_tot_abs,sample_sizes):
+    std = lambda x:np.std(x,ddof=1)
+    cv = lambda x: std(x)/ abs(np.mean(x)) * 100 
+
+    statistics = {}
+    statistics_cv = {}
+    for n in sample_sizes:
+        b = -6
+
+        statistics[n]={}
+        statistics_cv[n]={}
+        for a in np.linspace(-5.5,1,14):
+
+            sample_size = int(n)
+            
+            # Number of sets it's possible to make with same number of samples
+            number = math.floor(dfs_tot_abs.shape[1]/sample_size)
+
+            # For sample sizes of x calculate the mean value in each group of samples
+            data = pd.DataFrame.from_dict({f"set{i}":dfs_tot_abs[np.arange(0+i*sample_size,(i+1)*sample_size)].T.mean() for i in np.arange(0,number)})
+            
+            # Remove variables with average frequency below or above thresholds
+            data_set_lower= data.mean(axis=1).apply(abs).sort_values() <10**(a)
+            data_set_upper = data.mean(axis=1).apply(abs).sort_values() >10**(b)
+            data_bound = data_set_lower * data_set_upper
+            data = data.loc[data_bound]
+            
+            data_std = data.T.apply(std)
+            mean_std = data_std.mean()
+
+            data_cv = data.T.apply(cv)
+            mean_cv = data_cv.mean()
+
+            statistics[n][(round(10**b,6),round(10**a,6))] =mean_std
+            statistics_cv[n][(round(10**b,6),round(10**a,6))] =mean_cv
+            b=a
+    return statistics,statistics_cv
+
+
+def std_sampling_grouped_freq(dfs_tot_abs,sample_sizes):
+    std = lambda x:np.std(x,ddof=1)
+    cv = lambda x: std(x)/ abs(np.mean(x)) * 100 
+    
+    statistics = {}
+    statistics_cv = {}
+    for n in sample_sizes:
+        b = 0
+
+        statistics[n]={}
+        statistics_cv[n]={}
+        for a in np.linspace(0.1,1,10):
+
+            sample_size = int(n)
+            number = math.floor(dfs_tot_abs.shape[1]/sample_size)
+
+            # For sample sizes of x calculate the mean value in each group of samples
+            data = pd.DataFrame.from_dict({f"set{i}":dfs_tot_abs[np.arange(0+i*sample_size,(i+1)*sample_size)].T.mean() for i in np.arange(0,number)})
+            
+            # For sample sizes of x calculate the frequency of the observation of values above 1e-6
+            data_freq = pd.DataFrame.from_dict({f"set{i}":(dfs_tot_abs[np.arange(0+i*sample_size,(i+1)*sample_size)].T>1e-6).sum()/sample_size for i in np.arange(0,number)})
+            
+            # Remove variables with average frequency below or above thresholds
+            data_set_lower= data_freq.mean(axis=1).sort_values() <a
+            data_set_upper = data_freq.mean(axis=1).sort_values() >b
+            data_bound = data_set_lower * data_set_upper
+            data = data.loc[data_bound]
+
+            # Calculate std and cv
+            data_std = data.T.apply(std)
+            mean_std = data_std.mean()
+
+            data_cv = data.T.apply(cv)
+            mean_cv = data_cv.mean()
+            
+            statistics[n][(round(b,2),round(a,2))] =mean_std
+            statistics_cv[n][(round(b,2),round(a,2))] =mean_cv
+            b=a
+    return statistics,statistics_cv
                           
                           

@@ -1,20 +1,12 @@
 /Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
   __import__('pkg_resources').require('smetana==1.2.0')
-/Users/idunmariaburgos/SteadierCom/smetana/smetana/smetana.py:166: UserWarning: MUS: Failed to find a minimal growth medium for mutant_cysW
-  warn('MUS: Failed to find a minimal growth medium for ' + org_id)
-Traceback (most recent call last):
-  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana", line 7, in <module>
-    exec(compile(f.read(), __file__, 'exec'))
-  File "/Users/idunmariaburgos/SteadierCom/smetana/scripts/smetana", line 107, in <module>
-    main(
-  File "/Users/idunmariaburgos/SteadierCom/smetana/smetana/interface.py", line 384, in main
-    entries = run_detailed(comm_id, community, medium_id, excluded_mets, env, verbose, min_mol_weight,
-  File "/Users/idunmariaburgos/SteadierCom/smetana/smetana/interface.py", line 197, in run_detailed
-    mus = mu_score(community, environment=env, verbose=verbose,
-  File "/Users/idunmariaburgos/SteadierCom/smetana/smetana/smetana.py", line 153, in mu_score
-    medium_list, sols = minimal_medium(community.merged, exchange_reactions=list(exchange_rxns.keys()),
-  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/reframed/cobra/medium.py", line 152, in minimal_medium
-    constraints = {r_id: (-max_uptake if r_id in valid_reactions else 0, model.reactions[r_id].ub)
-  File "/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/lib/python3.8/site-packages/reframed/cobra/medium.py", line 152, in <dictcomp>
-    constraints = {r_id: (-max_uptake if r_id in valid_reactions else 0, model.reactions[r_id].ub)
-KeyboardInterrupt
+/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  __import__('pkg_resources').require('smetana==1.2.0')
+/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  __import__('pkg_resources').require('smetana==1.2.0')
+/Users/idunmariaburgos/SteadierCom/smetana/smetana/smetana.py:366: UserWarning: MRO: Failed to find a valid solution for: Desulfovibrio_piger_ATCC_29098
+  warn('MRO: Failed to find a valid solution for: ' + org_id)
+/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  __import__('pkg_resources').require('smetana==1.2.0')
+/Users/idunmariaburgos/opt/anaconda3/envs/steadiercom_preanalysis/bin/smetana:4: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  __import__('pkg_resources').require('smetana==1.2.0')
