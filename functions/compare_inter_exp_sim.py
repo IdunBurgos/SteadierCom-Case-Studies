@@ -130,12 +130,15 @@ def coop_or_comp_exp_communities(simulated_dict,exp_ser,coop_or_comp="coop",metr
 
 def plot_coop_or_comp(exp_sim_combined,name,ax=False,label_dict = {"coop_or_comp":np.nan,"metric":np.nan,"count_or_sum": np.nan,"sim_thresh":np.nan},verbose=True):
     """
-    Function to plot results comparing gLV results from Venturelli with simulation results.
+    Function for making scatterplots comparing 'experimental'-interaction score with simulated-interaction score.
     """
     if verbose:
         logging.info("plot_coop_comp_venturelli filters exp_sim_combined (receiver!=donor + exp_sim_combined.dropna())")
     
-    if not ax:
+    if ax:
+        has_ax = True
+    else:
+        has_ax = False
         fig,ax = plt.subplots(1,1)
     
     coop_or_comp = label_dict["coop_or_comp"]
@@ -161,7 +164,7 @@ def plot_coop_or_comp(exp_sim_combined,name,ax=False,label_dict = {"coop_or_comp
     r, p = sp.stats.spearmanr(exp_sim_combined)
     plt.text(.1, .85, "Spearman's r={:.2f}, p-value={:.4f}".format(r,p), transform=ax.transAxes)
         
-    if ax:
+    if has_ax:
         return ax
     else:
         return fig,ax
@@ -170,8 +173,13 @@ def plot_coop_or_comp(exp_sim_combined,name,ax=False,label_dict = {"coop_or_comp
 
     
 def plot_coop_comp_combined(simulated_dict_rec,simulated_dict_inter,exp_ser,metric="frequency",count_or_sum = "count",sim_thresh =0.1,verbose=True):
+    
+    """
+    Function for plotting scatterplots of the output of simulated (coop-comp) interactions vs. the 'experimental' interaction score. 
+    """
+    
     if verbose:
-        logging.info("'plot_coop_comp_combined' filters data: receiver!=donor & exp_sim_combined.dropna()")
+        logging.info("'plot_coop_comp_combined' filters data: receiver!=donor. Before combining coop and comp, we use fillna(0)")
 
     data_comp,label_dict = coop_or_comp_exp_communities(simulated_dict_rec,
                                         exp_ser,
@@ -203,7 +211,7 @@ def plot_coop_comp_combined(simulated_dict_rec,simulated_dict_inter,exp_ser,metr
     for name,series in diff_new.T.iterrows():
 
         # Remove entries that do not have a match...
-        combined = pd.concat([series,exp_ser],axis=1).dropna()
+        combined = pd.concat([series,exp_ser],axis=1)
         combined = combined[combined.index.get_level_values(0)!=combined.index.get_level_values(1)]
         combined.plot.scatter(y=name,x=exp_name,ax=axs[i],alpha=0.5)
         axs[i].set_ylabel("Count simulated (coop-comp)")
