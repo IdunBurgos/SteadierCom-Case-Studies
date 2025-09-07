@@ -2,6 +2,7 @@
 import requests
 import pandas as pd
 import reframed
+import json
 
 import logging
 logging.basicConfig(
@@ -99,8 +100,7 @@ def create_mutant_models(model_ecoli, id2name_ser,relative_abundance):
                                                         rename="mutant_"+name) #remove cysZ gene
         else: 
             ecoli_models[name] = reframed.hard_knockout(model_ecoli,[id_],rename="mutant_"+name)
-    return ecoli_models
-
+    return ecoli_models,name2id_38
 
 def main():
     logging.info("STARTING SCRIPT FOR MODEL PREPARATION")
@@ -108,14 +108,19 @@ def main():
     model_ecoli = adjust_btn_biomass(model_ecoli)
     id2name_ser = map_geneid2name(model_ecoli)
     relative_abundance = load_relative_abundance_data()
-    ecoli_models = create_mutant_models(model_ecoli, id2name_ser, relative_abundance)
+    ecoli_models,name2id_38 = create_mutant_models(model_ecoli, id2name_ser, relative_abundance)
     
     logging.info("SAVING DATA.")  
-    logging.info("Saving gene ID to name mapping in ../data/Guillen2021/generated/gene_id2name.tsv.")
+    logging.info("Saving gene ID to name mapping from model in ../data/Guillen2021/generated/gene_id2name.tsv.")
     id2name_ser.to_csv("../data/Guillen2021/generated/gene_id2name.tsv",sep="\t")
 
-    logging.info("SAVING MODELS.")
+    logging.info("Saving gene knockout in model for gene name ../models/Guillen2021/model_gene_KO.json. " \
+                "\n NB: this accounted for effect of knockout of regulatory genes like panZ.")
+    
+    with open("../models/Guillen2021/model_gene_KO.json", mode='w') as writer:
+        json.dump(name2id_38, writer)
 
+    logging.info("SAVING MODELS.")
     logging.info("Saving all mutant models in ../models/Guillen2021/strains/...")
     for name,model in ecoli_models.items():
         reframed.save_cbmodel(model,"../models/Guillen2021/strains/"+model.id+".xml")

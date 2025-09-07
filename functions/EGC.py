@@ -3,29 +3,53 @@ import reframed
 import pandas as pd
 import json
 
+import logging
+logging.basicConfig(
+    level=logging.INFO,  # change to DEBUG for more detail
+    format="%(levelname)-8s | %(message)s",
+)
+
 # Import reaction dataframe
-EGC_rxns = pd.read_excel("../data/EGC.xlsx",
+EGC_rxns_bigg = pd.read_excel("../data/EGC.xlsx",
+                         sheet_name="Sheet2",
+                         usecols="C:E")
+
+EGC_rxns_agora = pd.read_excel("../data/EGC AGORA.xlsx",
                          sheet_name="Sheet2",
                          usecols="C:E")
 
 # Make reframed reactions
-rxns={}
-for index, row in EGC_rxns.iterrows():
-    if not row["Exists"]:
-        reaction_id = row['rxn_ID ']
-        reversible = True
-        stoichiometry = json.loads(row['stoichiometry'])
-        rxn = reframed.CBReaction(reaction_id=reaction_id, reversible=reversible, stoichiometry=stoichiometry)
-        rxns[row['rxn_ID ']]=rxn
+
         
         
 
-def EGC_identifier(model,print_results=False):
+def EGC_identifier(model,print_results=False,agora=False,send_log=False):
+    if agora:
+        EGC_rxns = EGC_rxns_agora.copy()
+    else:
+        EGC_rxns = EGC_rxns_bigg.copy()
+        
+        
+    # Make reframed reactions
+    rxns={}
+    for index, row in EGC_rxns.iterrows():
+        if not row["Exists"]:
+            reaction_id = row['rxn_ID ']
+            reversible = True
+            stoichiometry = json.loads(row['stoichiometry'])
+            rxn = reframed.CBReaction(reaction_id=reaction_id, reversible=reversible, stoichiometry=stoichiometry)
+            rxns[row['rxn_ID ']]=rxn
+    
     EGCs = {}
     model_copy= model.copy()
     
     # Set lower bound to 0 to avoid infeasible solution because of NGAM
-    model_copy.reactions["R_ATPM"].lb=0
+    if agora:
+        model_copy.reactions["R_DM_atp_c_"].lb=0
+    else:
+        model_copy.reactions["R_ATPM"].lb=0
+        
+    log = ""
     
     for index, row in EGC_rxns.iterrows():
 
@@ -67,10 +91,12 @@ def EGC_identifier(model,print_results=False):
         # -> continue to next cycle
         
         if abs(sol_pfba.fobj)<1e-7 :
-            if print_results:print('There are NO energy producing cycles in the model for '+str(row["rxn_ID "]))
+            if print_results:
+                log = log+'There are NO energy producing cycles in the model for '+str(row["rxn_ID "])+"\n"
             continue
         
-        if print_results: print('There are energy producing cycles in the model for '+str(row["rxn_ID "]))
+        if print_results: 
+            log = log+'There are energy producing cycles in the model for '+str(row["rxn_ID "]) + "\n"
         
         EGCs[row["rxn_ID "]]=[]
 
@@ -85,5 +111,11 @@ def EGC_identifier(model,print_results=False):
         # Set upper bound to 0 to avoid flux in the nex cycle. 
         model_copy.reactions[row["rxn_ID "]].ub=0
     
-    print("\033[92mThere are NO energy producing cycles in the model\033[0m" if len(EGCs) == 0 else "\033[91mThere ARE energy producing cycles in the model\033[0m")
-    return EGCs
+    message = "\033[92mThere are NO energy producing cycles in the model\033[0m  \n" if len(EGCs) == 0 else "\033[91mThere ARE energy producing cycles in the model\033[0m \n"
+    
+    log = log+ message
+    
+    if send_log:
+        return EGCs,log
+    else:
+        return EGCs
