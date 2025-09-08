@@ -81,7 +81,7 @@ def plot_co_growth_count(co_growth_count,title,ax=False,order_of_members=False,*
         return fig,ax
     
 
-def plot_co_growth_count_venturelli(abundance_filtered):
+def plot_co_growth_count_venturelli(abundance_filtered,vmax=40):
     """
     This function plots all the co-growth heatmaps for the different conditions in the Venturelli case study.
     """
@@ -97,7 +97,7 @@ def plot_co_growth_count_venturelli(abundance_filtered):
                               title="Full",
                               ax=axs_flat[0],
                               order_of_members=order_of_members_none,
-                              vmax=40,
+                              vmax=vmax,
                               cbar=False)
 
     # Prepare for loop
@@ -114,13 +114,13 @@ def plot_co_growth_count_venturelli(abundance_filtered):
                               title=community,
                               ax=axs_flat[i+1],
                               order_of_members=order_of_members_none,
-                              vmax=40,
+                              vmax=vmax,
                               cbar=False)
         
         member_abund_dict[community]=member_abund
         
     # Add common 
-    norm = mpl.colors.Normalize(vmin=0, vmax=40)
+    norm = mpl.colors.Normalize(vmin=0, vmax=vmax)
     sm = mpl.cm.ScalarMappable(cmap="binary", norm=norm)
     sm.set_array([])  
     cbar_ax = fig.add_axes([0.95, 0.6, 0.015, 0.2])  # [left, bottom, width, height]

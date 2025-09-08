@@ -3,9 +3,19 @@ import numpy as np
 import json
 import csv
 import operator
+import seaborn as sns
 
-from sklearn.metrics import classification_report
+import scipy as sp
+
+from sklearn.metrics import confusion_matrix,recall_score,precision_score,classification_report,average_precision_score, roc_auc_score,precision_recall_curve,roc_curve
+
 import matplotlib.pyplot as plt
+
+from collections import defaultdict
+
+import logging
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
+logger = logging.getLogger(__name__)
 
 def prepare_exp_met_venturelli(dataset4,metname_groups,metname2group):
     """
@@ -44,11 +54,15 @@ def prepare_exp_met_venturelli(dataset4,metname_groups,metname2group):
     return signal_exp
 
 
-def prepare_sim_met_venturelli(simulated_results,metid2group,receiver_or_donor="receiver"):
+def prepare_sim_met_venturelli(simulated_results,metid2group,receiver_or_donor="receiver",verbose=True):
     
     """
-    Function to create new column in simulation results with metabolite group "met_group".
+    Function to create new column in simulation results with metabolite group "met_group" and to filter out results we are not interested in.
     """
+    
+    if verbose:
+        logging.info(f"prepare_sim_met_venturelli removes environment from {receiver_or_donor}s and all compounds that are not found in metabolomics and map to AGORA identifiers")
+    
     # Map met id to met group
     if receiver_or_donor=="receiver":
         simulated_results = simulated_results[simulated_results.receiver!="environment"].copy()
@@ -68,6 +82,29 @@ def prepare_sim_met_venturelli(simulated_results,metid2group,receiver_or_donor="
     simulated_res_reduced["met_group"] = simulated_res_reduced.compound.map(lambda x: metid2group[x])
     
     return simulated_res_reduced
+
+
+
+def prepare_all_simulations_venturelli(sim_dicts, metid2group,verbose=True):
+    """
+    Function to prepare all simulation results for analysis with prepare_sim_met_venturelli.
+    """
+    
+    simulation_dict = {"receiver": {}, "donor": {}}
+    for role in simulation_dict:
+        for method, sim_data in sim_dicts.items():
+            simulation_dict[role][method] = {
+                name: prepare_sim_met_venturelli(
+                    simulated_results=res,
+                    metid2group=metid2group,
+                    receiver_or_donor=role,
+                    verbose=verbose
+                )
+                for name, res in sim_data.items()
+            }
+    return simulation_dict
+
+
 
 
 def filter_exp_by(exp_sim_combined, condition_str):
@@ -91,7 +128,7 @@ def filter_exp_by(exp_sim_combined, condition_str):
     return exp_sim_combined
 
 
-def combine_exp_sim_met(simulated_results,signal_exp,metric="frequency",receiver_or_donor="receiver",agg_method="sum",met_column = "compound"):
+def merge_sim_exp(simulated_results,signal_exp,metric="frequency",receiver_or_donor="receiver",agg_method="sum",met_column = "compound",verbose=True): #combine_exp_sim_met
     """
     Function to combine simulation results (steadycom,steadiercom) with experimental result.
     
@@ -106,6 +143,10 @@ def combine_exp_sim_met(simulated_results,signal_exp,metric="frequency",receiver
     exp_sim_combined (pd.DataFrame): Dataframe with experimental and simulated results combined.
     
     """
+    
+    if verbose:
+        logging.info(f"merge_sim_exp removes nan values in 'experiment' column of the return exp_sim_combined object")
+        
     
     valid_methods = ['sum', 'mean', 'median']
     if agg_method not in valid_methods:
@@ -135,7 +176,6 @@ def combine_exp_sim_met(simulated_results,signal_exp,metric="frequency",receiver
     simulated_res_grouped.index.names = ["member",met_column]
     simulated_res_grouped.name = "simulated"
 
-
     # Combine results with experiments
     exp_sim_combined = pd.concat([simulated_res_grouped,signal_exp],axis=1)
     
@@ -144,65 +184,259 @@ def combine_exp_sim_met(simulated_results,signal_exp,metric="frequency",receiver
     return exp_sim_combined
 
 
+def binarize_sim_exp(exp_sim_combined,sim_thresh=0.5,exp_condition_str="< -1"):
+    
+    exp_sim_combined = filter_exp_by(exp_sim_combined, exp_condition_str)
+    exp_sim_combined.simulated = exp_sim_combined.simulated>sim_thresh
+    
+    return exp_sim_combined
 
-def scoring_met(simulation_res_dict,signal_exp,exp_condition_str="< -1",sim_thresh=0.5,sim_metric="frequency",receiver_or_donor="receiver",agg_method="sum",met_column="compound"):
+
+
+
+def eval_sim_dict(simulation_res_dict,signal_exp,exp_condition_str="< -1",sim_thresh=0.5,sim_metric="frequency",receiver_or_donor="receiver",agg_method="sum",met_column="compound",verbose=True):
     
-    """
-    Input:
-    simulation_res_dict (dict(str,pd.DataFrame)): A dict with raw data from steadiercom, steadycom, or smetana simulation.
-    signal_exp (pd.Series): The experimental data, where with two indeces ("member",met_column). This also has to be the names of the indeces.
-    exp_thresh (float): The threshold for experimental results. Anything above/below will be True/False.
-    sim_thresh (float): The threshold for simulation results. Anything above will be True.
-    sim_metric (str): Determines what metric in the simulation result to study (ex. frequency, rate, mass_rate)
-    
-    receiver_or_donor (str): 'receiver' or 'donor
-    agg_method (str): how to aggregate signals in simulation results (ex. sum, mean, median)
-    
-    Output:
-    scores_df_all (pd.DataFrame): Dataframe with results for all elements in simulation_res_dict. Columns correspond to keys in simulation_res_dict.
-    """
-    
-    scores_list = []
+    exp_sim_combined_bool_dict = {}
     
     # For each result
+    
     for name,simulation_res in simulation_res_dict.items():
-        
+
         # Find average receiving/donating quantity
-        exp_sim_combined = combine_exp_sim_met(simulation_res,
+        exp_sim_combined = merge_sim_exp(simulation_res,
                                            signal_exp,
                                            metric=sim_metric,
                                            receiver_or_donor=receiver_or_donor,
                                            agg_method=agg_method,
-                                           met_column=met_column)
+                                           met_column=met_column,
+                                           verbose=verbose)
         # Make boolean output
         ## Determine positive (True) or negative (False) results
-        exp_sim_combined = filter_exp_by(exp_sim_combined, exp_condition_str)
-        exp_sim_combined.simulated = exp_sim_combined.simulated>sim_thresh
+
+        exp_sim_combined_bool_dict[name]=binarize_sim_exp(exp_sim_combined,sim_thresh=sim_thresh,exp_condition_str=exp_condition_str)
+
+    return exp_sim_combined_bool_dict
+
+
+def run_all_evaluations(simulation_dict, signal_exp, role_config,verbose=True):
+    exp_sim_bool_dict = {}
+
+    for role, cfg in role_config.items():
+        exp_sim_bool_dict[role] = {}
+
+        eval = lambda sim_dict, metric, thresh: eval_sim_dict(
+            simulation_res_dict=sim_dict,
+            signal_exp=signal_exp,
+            sim_metric=metric,
+            exp_condition_str=cfg["exp_cond"],
+            sim_thresh=thresh,
+            agg_method="sum",
+            receiver_or_donor=role,
+            met_column="met_group",
+            verbose=verbose
+        )
+
+        exp_sim_bool_dict[role]["steadiercom_frequency"] = eval(simulation_dict[role]["steadiercom"], "frequency", cfg["freq_thresh"])
+        exp_sim_bool_dict[role]["steadiercom_rate"]      = eval(simulation_dict[role]["steadiercom"], "rate",      cfg["rate_thresh"])
+        exp_sim_bool_dict[role]["steadycom_rate"]        = eval(simulation_dict[role]["steadycom"],   "rate?",      cfg["rate_thresh"])
+        exp_sim_bool_dict[role]["smetana"]               = eval(simulation_dict[role]["smetana"],     "mus",       cfg["freq_thresh"])
+
+    return exp_sim_bool_dict
+
+def merge_eval_results(exp_sim_bool_dict, role, keys):
+    return {
+        key: val
+        for metric in keys
+        for key, val in exp_sim_bool_dict[role][metric].items()
+    }
+
+
+def score_match(exp_sim_combined_bool,name):
+    
+    """
+    Input:
+    exp_sim_combined_bool (pd.DataFrame): One column for experimental results, and one for simulation.
+    
+    """
+    # Score experiment vs simulation overlap
+    scores = classification_report(exp_sim_combined_bool.experimental,exp_sim_combined_bool.simulated,output_dict=True)
+    scores_df = pd.DataFrame(scores)
+
+    # Extract True class (positive class)
+    scores_df_copy1 = scores_df["True"].copy()
+    scores_df_copy1 = scores_df_copy1.drop("support")
+    scores_df_copy1.index = ["precision","sensitivity","f1-score"]
+
+    # Extract False class (negative class)
+    scores_df_copy2 = scores_df["False"].copy()
+    scores_df_copy2 = scores_df_copy2.drop(["support","precision","f1-score"])
+    scores_df_copy2.index = ["specificity"]
+
+    # Combine results
+    scores_df_copy = pd.concat([scores_df_copy1,scores_df_copy2])
+    scores_df_copy["accuracy"] = scores["accuracy"]
+    scores_df_copy.name = name
+    
+    return scores_df_copy
+
+def score_dict_matches(exp_sim_combined_bool_dict):
+    
+    """
+    Input:
+    exp_sim_combined_bool_dict (dict): keys show the  One column for experimental results, and one for simulation.
+    
+    Output:
+    scores_df_all (pd.DataFrame): Dataframe with results for all elements in simulation_res_dict. Columns correspond to keys in simulation_res_dict.
+    """
+    scores_list = []
+    
+    # For each result
+    for name,exp_sim_combined_bool in exp_sim_combined_bool_dict.items():
             
         # Score experiment vs simulation overlap
-        scores = classification_report(exp_sim_combined.experimental,exp_sim_combined.simulated,output_dict=True)
-        scores_df = pd.DataFrame(scores)
-        
-        # Extract True class (positive class)
-        scores_df_copy1 = scores_df["True"].copy()
-        scores_df_copy1 = scores_df_copy1.drop("support")
-        scores_df_copy1.index = ["precision","sensitivity","f1-score"]
-        
-        # Extract False class (negative class)
-        scores_df_copy2 = scores_df["False"].copy()
-        scores_df_copy2 = scores_df_copy2.drop(["support","precision","f1-score"])
-        scores_df_copy2.index = ["specificity"]
-        
-        # Combine results
-        scores_df_copy = pd.concat([scores_df_copy1,scores_df_copy2])
-        scores_df_copy["accuracy"] = scores["accuracy"]
-        scores_df_copy.name = name
+        scores = score_match(exp_sim_combined_bool,name)
 
-        scores_list.append(scores_df_copy)
+        scores_list.append(scores)
 
     scores_df_all = pd.concat(scores_list,axis=1)
     scores_df_all.sort_index(inplace=True)
     return scores_df_all
+
+def plot_scatter_plots(simulation_dict,signal_exp,simulation_method="steadiercom",receiver_or_donor="receiver",agg_method="sum",metric="frequency",verbose=True):
+    
+    if verbose:
+        logging.info(f"plot_scatter_plots uses fillna(0) to for missing entries in simulations that exist in experimental results.")
+        
+    # Process simulated result
+    collected_result = defaultdict(dict)
+    for receiver_or_donor in ["donor","receiver"]:
+        for name, simulated_res in simulation_dict[receiver_or_donor][simulation_method].items():
+
+            exp_sim_combined = merge_sim_exp(
+                simulated_res,
+                signal_exp,
+                metric=metric,
+                agg_method=agg_method,
+                receiver_or_donor=receiver_or_donor,
+                met_column="met_group",
+                verbose=verbose
+            ).fillna(0)
+
+            collected_result[name][receiver_or_donor] = exp_sim_combined
+
+
+    # Plot results    
+    fig, axs = plt.subplots(2,3,figsize=(15,10))
+
+    i = 0
+    for name, subdict in collected_result.items():
+        j = 0
+        
+        for receiver_or_donor,color in {"receiver":"tab:blue","donor":"tab:orange"}.items():
+            ax = axs[j][i]
+
+            merged = subdict[receiver_or_donor]
+            sns.scatterplot(ax=ax,x="experimental", y="simulated", data=merged,alpha=0.5,color=color)
+            
+            if receiver_or_donor=="receiver":
+                ax.set_title(f"{name}")
+
+            ax.set_ylabel(f"Simulated - {agg_method} of {metric}")
+            ax.set_xlabel(f"Experimental - log2 conc. change")
+            if metric!="frequency":
+                ax.set_yscale('log')
+
+            ax.axvspan(-1, 1, alpha=0.2, color='grey')
+
+            r, p = sp.stats.spearmanr(subdict[receiver_or_donor])
+            plt.text(.1, .75, "Spearman's \n r={:.2f}, p-value={:.4f}".format(r,p), transform=ax.transAxes)
+            j+=1
+
+        i +=1
+        
+    fig.text(0.01, 0.70, "Receivers", va='center', ha='left', fontsize=12)
+    
+    fig.text(0.01, 0.30, "Donors", va='center', ha='left', fontsize=12)
+    return fig,axs
+
+def plot_diagnostic_curve(simulation_dict,signal_exp,PR_or_ROC="PR", receiver_or_donor="receiver",simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",verbose=True):
+    fig,axs =  plt.subplots(1,3,figsize=(20, 6))
+    
+    if verbose:
+        logging.info(f"plot_diagnostic_curve uses fillna(0) to for missing entries in simulations that exist in experimental results.")
+        
+
+    i=0
+    for name,sim_df in simulation_dict[receiver_or_donor][simulation_method].items():
+
+
+        exp_sim_combined = merge_sim_exp(sim_df,
+                                         signal_exp=signal_exp,metric=metric,
+                                         receiver_or_donor=receiver_or_donor,
+                                         agg_method=agg_method,
+                                         met_column = met_column,
+                                         verbose=verbose).fillna(0)
+        if receiver_or_donor=="receiver":
+            exp_sim_combined["experimental"]=(exp_sim_combined["experimental"]<-1).map(int)
+        elif receiver_or_donor=="donor":
+            exp_sim_combined["experimental"]=(exp_sim_combined["experimental"]>1).map(int)
+            
+        y_true=exp_sim_combined["experimental"].values
+        y_scores=exp_sim_combined["simulated"]
+
+        
+        
+        if PR_or_ROC=="PR":
+            baseline = sum(y_true)/len(y_true)
+            auc = average_precision_score(y_true, y_scores)
+            precision, recall, thresholds = precision_recall_curve(y_true, y_scores)
+            # Plot the curve
+            ax=axs[i]
+            ax.plot(recall, precision, marker='.', label='PR curve')
+            ax.set_xlabel('Recall')
+            ax.set_ylabel('Precision')
+            plt.text(.1, .75, f"Area Under Precision-Recall curve (PR-AUC): {auc:.3f}",transform=ax.transAxes)
+            ax.axhline(y=baseline, color='black', linestyle='--',label=f"baseline={baseline:.3f}")
+        elif PR_or_ROC=="ROC":
+            auc = roc_auc_score(y_true, y_scores)
+            fpr, tpr, thresholds = roc_curve(y_true, y_scores)
+            # Plot the curve
+            ax=axs[i]
+            ax.plot(fpr, tpr, marker='.', label='ROC curve')
+            ax.set_xlabel('FPR')
+            ax.set_ylabel('TPR')
+
+            plt.text(.1, .75, f"Area Under the Receiver Operating Characteristic curve \n (ROC-AUC): {auc:.3f}",transform=ax.transAxes)
+        
+        ax.set_title(f"{name}")
+        ax.legend()
+
+        i+=1
+    fig.suptitle(f"{receiver_or_donor.upper()}")
+    return fig,axs
+
+
+def plot_confusion_matrix_venturelli(exp_sim_combined_bool_dict,suptitle="No title"):
+
+    i = 0
+    fig,axs=plt.subplots(2,3,figsize=(15,10))
+    axs_flat = axs.flatten()
+
+    for name,exp_sim_combined_bool in exp_sim_combined_bool_dict.items():
+            
+        cf_matrix = confusion_matrix(exp_sim_combined_bool.experimental, exp_sim_combined_bool.simulated)
+
+        ax = sns.heatmap(cf_matrix, 
+                         annot = cf_matrix,
+                         fmt="", cmap='winter_r',vmin=0,vmax=200, ax=axs_flat[i])
+        ax.set_ylabel("Experimental")
+        ax.set_xlabel("Simulated")
+        ax.set_yticklabels(["False","True"])
+        ax.set_xticklabels(["False","True"])
+        ax.set_title(name)
+        i +=1
+    fig.suptitle(suptitle)
+    return fig,axs
 
 
 
@@ -242,3 +476,7 @@ def plot_radar_chart(scores_df,ax=False):
     plt.legend(loc='upper right', bbox_to_anchor=(1.6, 1.1))
     
     return fig,ax
+
+
+
+

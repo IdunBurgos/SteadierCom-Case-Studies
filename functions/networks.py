@@ -91,7 +91,7 @@ def cooperation_network_data(results,metric="frequency",freq_cutoff=0,metabolomi
     
     return network_data 
 
-def competition_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
+def competition_centrality_metrics(network_data,cutoff=0,SP_centrality=True,max_iter=1000):
     """
     A function for finding some centrality metrics for nodes in network. 
     
@@ -118,11 +118,11 @@ def competition_centrality_metrics(network_data,cutoff=0,SP_centrality=True):
                      "closeness (1/data)":nx.centrality.closeness_centrality(G,distance="weight")})
     else:
         return pd.DataFrame({"degree (data)":dict(G.degree(weight="weight")),
-                 "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=1000)})
+                 "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=max_iter)})
     
 
     
-def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True,degree_type="both",SP_type="in",get_graph=False):
+def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True,degree_type="both",SP_type="in",get_graph=False, max_iter=1000):
     """
     A function for finding some centrality metrics for nodes in network. 
     
@@ -160,14 +160,14 @@ def cooperation_centrality_metrics(network_data,cutoff=0,SP_centrality=True,degr
     else:
         if degree_type=="both":
             return pd.DataFrame({"degree (data)":dict(G.degree(weight="weight")),
-                     "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=1000)})
+                     "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=max_iter)})
 
         elif degree_type=="in":
                 return pd.DataFrame({"degree (data)":dict(G.in_degree(weight="weight")),
-                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=1000)})
+                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=max_iter)})
         elif degree_type=="out":
                 return pd.DataFrame({"degree (data)":dict(G.out_degree(weight="weight")),
-                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=1000)})
+                         "eigenvector (data)":nx.centrality.eigenvector_centrality(G,weight="weight",max_iter=max_iter)})
         else:
             raise Exception("degree_type must be 'in', 'out' or 'both'")
 
