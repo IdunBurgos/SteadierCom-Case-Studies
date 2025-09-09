@@ -11,6 +11,7 @@ sys.path.append("../functions/")
 from minimal_medium import minimal_medium
 
 from EGC import EGC_identifier
+from general import test_growth_models_venturelli2018
 
 import logging
 logging.basicConfig(
@@ -121,7 +122,8 @@ def change_models_remove_EGCs(models):
     
     return models_new, changed_elements
 
-def atp_EGC_community(models):
+def atp_EGC_community(models,get_EGC_data=False):
+    logging.info("Testing for ATP-generating cycles in community model...")
     comm_test = reframed.Community('EGC_test',models.values())
     comm_model = comm_test.merged_model
     env_empty = reframed.Environment.empty(comm_model)
@@ -152,7 +154,14 @@ def atp_EGC_community(models):
     atp_string = "".join([f"{rxn} = {value}\n" for rxn,value in atp_sol.items()])
     logging.info("\nATP demand optimum by member:\n%s",atp_string
                  )
-    return rxns_members
+    # Safe intersection
+    common = set.intersection(*map(set, rxns_members.values())) if rxns_members else set()
+    logging.info(
+        "Reactions active in ALL ATP-production solutions across species: %s",
+        sorted(common)
+    )
+    if get_EGC_data:
+        return rxns_members,common
 
 def load_data_models():
     """
@@ -160,99 +169,95 @@ def load_data_models():
     """
     logging.info("load media data and models from '../models/Venturelli2018/species_used/'...")
 
-    media_db = pd.read_csv("../data/Venturelli2018/generated/media_db.tsv",sep="\t")
-    
     models = {}
     
     for filename in listdir("../models/Venturelli2018/species_used/"):
         if filename.endswith(".xml"):
             models[filename.replace(".xml","")] = reframed.load_cbmodel("../models/Venturelli2018/species_used/"+filename,exchange_detection='^R_EX_(?!biomass__40__e__41__$).*')
             
-    return media_db,models
+    return models
 
 
 
-def analyze_EGC_models(models,media_db):
+def analyze_EGC_models(models,get_EGC_data):
     """
     Find infeasible cycles in single models and ATP-generating cycles in the community.
     Returns (rxns_members, common_reactions).
     """
-    
-    # GROWTH
-    logging.info("Check growth of single models")
-    env_rxns = media_db.compound.map(lambda x:x.replace("91","40").replace("93","41")).values
-    
-    env_lb = reframed.Environment.from_reactions(env_rxns)
-    log_growth = ""
-    
-    for model in models.values():
-
-        model_copy = model.copy()
-        try: 
-            env_lb.apply(model_copy,inplace=True,exclusive=True,warning=False)
-        except Exception as e:
-            logging.exception("Setting environment failed for %s: %s", member, e)
-        try:
-            sol = reframed.FBA(model_copy)
-            log_growth = log_growth+f"{model.id}: {sol.fobj} \n"   
-        except Exception as e:
-            logging.exception("FBA failed for %s: %s", member, e)
-    
-    logging.info(f"Results: \n {log_growth}")    
-    
+    rxns_members = {}
     # EGC-single models
     logging.info("Testing infeasible cycles in single models (EGC_identifier)...")
     log_EGC_single = ""
+    EGCs_results = {}
     for member, model in models.items():
         try:
             EGCs,log = EGC_identifier(model, agora=True,send_log=True)
-            
+            EGCs_results[member] = EGCs
             log_EGC_single = log_EGC_single+f"EGC_identifier on {member}: "+log
         except Exception as e:
             logging.exception("EGC_identifier failed for %s: %s", member, e)
             
     logging.info(f"Results: \n {log_EGC_single}")
-    
-    # EGC-community model
-    logging.info("Testing for ATP-generating cycles in community model...")
-    rxns_members = atp_EGC_community(models)
+    if get_EGC_data:
+        return EGCs_results
 
-    # Safe intersection
-    common = set.intersection(*map(set, rxns_members.values())) if rxns_members else set()
-    logging.info(
-        "Reactions active in ALL ATP-production solutions across species: %s",
-        sorted(common)
-    )
-    return rxns_members, common
+
+def analyze_models(models, media_db=False,get_EGC_data=False):
+    """
+    Analyze the given models using the provided media database or use a complete environment.
+    """
+
+    if media_db:
+        rxns_or_mets = media_db.compound.values
+        is_rxns = rxns_or_mets[0].startswith("R_EX")
+        if is_rxns:
+            env = reframed.Environment.from_reactions(rxns_or_mets)
+        else:
+            env = reframed.Environment.from_metabolites(rxns_or_mets)
+        complete_env = False
+    else:
+        complete_env = True
+        env = False
+
+    test_growth_models_venturelli2018(models,
+                                        env=env,
+                                        complete_env=complete_env)
+
+    EGCs_single_results = analyze_EGC_models(models,get_EGC_data=get_EGC_data)
+    EGCs_community_results = atp_EGC_community(models,get_EGC_data=get_EGC_data)
+
+    if get_EGC_data:
+        return {"community": {"rxns_members": EGCs_community_results[0], 
+                              "common": EGCs_community_results[1]},
+                "single": EGCs_single_results}
 
 
 def main():
     logging.info("LOAD DATA AND MODELS")
-    media_db,models = load_data_models()
+    models = load_data_models()
         
     logging.info("Make community model")
     comm_test = reframed.Community('EGC_test',models.values())
 
     logging.info("ANALYZE CURRENT MODELS")
     
-    rxns_members, common = analyze_EGC_models(models,media_db)
+    analyze_models(models,get_EGC_data=False)
     
     logging.info("CHANGE MODELS: Remove reactions+metabolites in EGCs")
     models_new,changed_elements = change_models_remove_EGCs(models)
     
     logging.info("CHANGE MODELS: Remove reactions+metabolites in oxygen exchange")
-    models_new2,changed_elements2 = change_models_remove_oxygen(models)
+    models_new2,changed_elements2 = change_models_remove_oxygen(models_new)
     
     
     logging.info("ANALYZE NEW MODELS")
-    rxns_members_new, common_new = analyze_EGC_models(models_new, media_db)
+    analyze_models(models_new2,get_EGC_data=False)
 
     logging.info("SAVE MODELS AND DATA")
 
     for name,model in models_new2.items():
 
         reframed.save_cbmodel(model,"../models/Venturelli2018/species_used_noO2/"+name+".xml")
-
 
 
 if __name__ == "__main__":
