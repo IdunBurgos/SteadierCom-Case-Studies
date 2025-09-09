@@ -1,7 +1,7 @@
-ecoli_auxotrophs	mutant_panZ
-ecoli_auxotrophs	mutant_bioF
-ecoli_auxotrophs	mutant_bioC
-ecoli_auxotrophs	mutant_icd
-ecoli_auxotrophs	mutant_bioH
-ecoli_auxotrophs	mutant_cysW
-ecoli_auxotrophs	mutant_panD
+Ecoli_mutants	mutant_icd
+Ecoli_mutants	mutant_panZ
+Ecoli_mutants	mutant_bioH
+Ecoli_mutants	mutant_bioF
+Ecoli_mutants	mutant_cysW
+Ecoli_mutants	mutant_bioC
+Ecoli_mutants	mutant_panD
