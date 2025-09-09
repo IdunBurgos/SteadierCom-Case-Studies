@@ -25,6 +25,21 @@ def load_data_guillen2021():
     
     return relative_abundance_ecoli
 
+def load_data_models_venturelli2018():
+
+    logging.info("Loading models and data from Venturelli et al (2018)...")
+    # Load media
+    media_db_gut = pd.read_csv("../data/Venturelli2018/generated/media_db.tsv",sep="\t")
+    reactions = media_db_gut[media_db_gut.medium=="LB_extend"].compound.values
+    env_gut = reframed.Environment.from_reactions(reactions,max_uptake=10)
+    
+    datasetev1 = pd.read_excel("../data/Venturelli2018/msb178157-sup-0002-datasetev1.xlsx",sheet_name="PW1",header=None,index_col=0)
+    datasetev3 = pd.read_excel("../data/Venturelli2018/msb178157-sup-0004-datasetev3.xlsx",sheet_name="Dataset EV3")
+    
+    models_gut = general.load_models_venturelli2018()
+
+    return models_gut, env_gut, datasetev1, datasetev3
+
 def make_media_smetana_venturelli2018(env_gut):
     """
     SMETANA requires a difference prefix for the media_db compared to SteadierCom. 
@@ -39,20 +54,6 @@ def make_media_smetana_venturelli2018(env_gut):
     
     return media_db_gut_smetana
 
-
-def load_data_models_venturelli2018():
-
-    logging.info("Loading models and data from Venturelli et al (2018)...")
-    # Load media
-    media_db_gut = pd.read_csv("../data/Venturelli2018/generated/media_db.tsv",sep="\t")
-    reactions = media_db_gut[media_db_gut.medium=="LB_extend"].compound.values
-    env_gut = reframed.Environment.from_reactions(reactions,max_uptake=10)
-
-    datasetev3 = pd.read_excel("../data/Venturelli2018/msb178157-sup-0004-datasetev3.xlsx",sheet_name="Dataset EV3")
-    
-    models_gut = general.load_models_venturelli2018()
-
-    return models_gut, env_gut, datasetev3
 
 
 def make_community_df_guillen2021(relative_abundance_ecoli):
@@ -102,11 +103,31 @@ def make_community_df_venturelli2018(datasetev3, models_gut):
     return communities_df_gut
 
 
-def make_pairwise_df_venturelli2018(dataset_pairwise):
+def make_pairwise_df_venturelli2018(datasetev1,models_gut):
     """
     Make df from pairwise data from Venturelli 2018 study for SteadierCom, SteadyCom and SMETANA.
     """
-    #return pairwise_df
+    logging.info("Creating pairwise df for Venturelli et al (2018) for SteadierCom, SteadyCom, and SMETANA ...")    
+
+    # Clean input data
+    datasetev1.index = datasetev1.index.map(lambda x: x.replace("'","").replace(" ",""))
+    new_index = [(string[0:2],string[2:]) for string in datasetev1.index.values]
+    datasetev1.index = pd.MultiIndex.from_tuples(new_index, names=["member1","member2"])
+    relative_abundance_pairwise = datasetev1.iloc[:,-1].fillna(0) # Get only final timepoint
+
+    # Make community pairwise gut
+    id2name_member = {name.split("_")[0][0].upper()+name.split("_")[1][0].upper():name for name in models_gut.keys()}
+    community_pairwise_gut=[]
+
+    for index,value in relative_abundance_pairwise.items():
+        member1=index[0]
+        member2=index[1]
+        community_pairwise_gut.append({"community":"-".join(index),"member":member1,"abundance":value})
+        community_pairwise_gut.append({"community":"-".join(index),"member":member2,"abundance":1-value})
+
+    community_df_pairwise_gut = pd.DataFrame(community_pairwise_gut)
+    community_df_pairwise_gut["member"] = community_df_pairwise_gut["member"].map(id2name_member)
+    return community_df_pairwise_gut
 
 def make_pairwise_df_guillen2021(dataset_pairwise):
     """
@@ -120,13 +141,13 @@ def main():
     logging.info("STARTING SCRIPT FOR PREPARING FILES FOR SIMULATION")
     logging.info("LOADING DATA...")
     relative_abundance_ecoli = load_data_guillen2021()
-    models_gut, env_gut, datasetev3 = load_data_models_venturelli2018()
+    models_gut, env_gut, datasetev1,datasetev3 = load_data_models_venturelli2018()
 
     logging.info("CREATING DATA FILES FOR SIMULATION...")
     media_db_gut_smetana = make_media_smetana_venturelli2018(env_gut)
     communities_df_gut = make_community_df_venturelli2018(datasetev3, models_gut)
     community_df_ecoli = make_community_df_guillen2021(relative_abundance_ecoli)
-    # pairwise_gut_df = make_pairwise_df_venturelli2018(dataset_pairwise)    
+    community_df_pairwise_gut = make_pairwise_df_venturelli2018(datasetev1,models_gut)    
     # pairwise_ecoli_df = make_pairwise_df_guillen2021(dataset_pairwise)
 
     ## SAVE DATA
@@ -136,8 +157,9 @@ def main():
         " Saving SMETANA community data for Venturelli et al (2018) in ../data/Venturelli2018/generated/communities_smetana.tsv \n" \
         " Saving SMETANA community data for Guillen et al (2021) in ../data/Guillen2021/generated/communities_smetana.tsv \n" \
         " Saving STEADIERCOM community data for Venturelli et al (2018) in ../data/Venturelli2018/generated/communities_steadiercom/ and communities_steadiercom_no_abundance/ \n" \
-        " Saving STEADIERCOM community data for Guillen et al (2021) in ../data/Guillen2021/generated/communities_steadiercom.tsv \n"
-        )
+        " Saving STEADIERCOM community data for Guillen et al (2021) in ../data/Guillen2021/generated/communities_steadiercom.tsv \n" \
+        " Saving STEADIERCOM community data for PAIRWISE COMMUNITIES Venturelli et al (2018) in ../data/Venturelli2018/generated/community_df_pairwise_gut.tsv and community_df_pairwise_gut_no_abundance.tsv \n"
+    )
     media_db_gut_smetana.to_csv("../data/Venturelli2018/generated/media_db_smetana.tsv",
                                 index=False,
                                 sep="\t")
@@ -171,7 +193,15 @@ def main():
                                                         sep="\t",
                                                         header=None,
                                                         index=None)
-    # pairwise_gut_df.to_csv("../data/Venturelli2018/generated/pairwise_df.tsv",sep="\t",index=False)
+    community_df_pairwise_gut.to_csv("../data/Venturelli2018/generated/community_df_pairwise_gut.tsv",
+                                     sep="\t",
+                                     index=None,
+                                     header=None)
+
+    community_df_pairwise_gut.iloc[:,:-1].to_csv("../data/Venturelli2018/generated/community_df_pairwise_gut_no_abundance.tsv",
+                                    sep="\t",
+                                    index=None,
+                                    header=None)
     # pairwise_ecoli_df.to_csv("../data/Guillen2021/generated/pairwise_df.tsv",sep="\t",index=False)
 
 if __name__ == "__main__":
