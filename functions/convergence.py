@@ -1,10 +1,8 @@
-import cobra
+
 import pandas as pd
 import numpy as np
 import math
 from numpy.random import lognormal
-import argparse
-import textwrap
 
 # Reframed
 from reframed.community.solution import CommunitySolution
@@ -17,6 +15,8 @@ from steadiercom.steadiercom import allocation_constraints
 from steadiercom.cli import load_communities,load_media_db,precompute_exchange_map
 from steadiercom.steadiercom import build_problem 
 import time
+rng = np.random.default_rng(42)
+
 
 def SteadierSampleConvergence(community,output_dir, objective=None,n=100, growth=0.1, abundance=None, allocation=False, constraints=None,
              w_e=0.002, w_r=0.2, solver=None):
@@ -73,10 +73,42 @@ def SteadierSampleConvergence(community,output_dir, objective=None,n=100, growth
             time1 = time2
             
 
+def std_sample_size(dfs_tot_abs,sample_sizes,cutoff=1e-6):
+    """
+    Function for making sets of variables and finding STD, and CV of the samples.
+    """
+
+    std = lambda x:np.std(x,ddof=1)
+    cv = lambda x: std(x)/ abs(np.mean(x)) * 100 
+        
+    S = 200  
+
+    datas_std = {}
+    datas_cv = {}
+    for n in sample_sizes:
+        # makes S sets with n number of samples
+        n=int(n)
+        #data = pd.DataFrame({f"set{i}":dfs_tot_abs.sample(n=n, axis=1, replace=True,
+        data = pd.concat([dfs_tot_abs.sample(n=n, axis=1, replace=True,
+         
+                                             random_state=int(rng.integers(1_000_000_000))).T.mean()
+        for i in range(S)
+        ],axis=1)
+
+        # Compare mean between the S sets.
+        # Cutoff data that is actually zero
+        equal_zero= data.sum(axis=1).apply(abs).sort_values() <cutoff 
+        data = data.loc[~equal_zero]
+        data_std = data.T.apply(std)
+        datas_std[n]=data_std 
+        data_cv = data.T.apply(cv)
+        datas_cv[n]=data_cv 
+
+    return datas_std,datas_cv
             
             
 
-def std_sample_size(dfs_tot_abs,sample_sizes,cutoff=1e-6 ):
+def std_sample_size_old(dfs_tot_abs,sample_sizes,cutoff=1e-6 ):
     std = lambda x:np.std(x,ddof=1)
     cv = lambda x: std(x)/ abs(np.mean(x)) * 100 
 
@@ -86,6 +118,7 @@ def std_sample_size(dfs_tot_abs,sample_sizes,cutoff=1e-6 ):
         sample_size = int(n)
 
         number = math.floor(dfs_tot_abs.shape[1]/sample_size)
+
         data = pd.DataFrame.from_dict({f"set{i}":dfs_tot_abs[np.arange(0+i*sample_size,(i+1)*sample_size)].T.mean() for i in np.arange(0,number)})
     
         # Cutoff data that is actually zero
@@ -138,6 +171,10 @@ def std_sampling_grouped(dfs_tot_abs,sample_sizes):
 
 
 def std_sampling_grouped_freq(dfs_tot_abs,sample_sizes):
+    """
+    Grouping results by magnitude of rate/frequency and calculating standard deviation and coefficient of variation across different sample sizes.
+    """
+
     std = lambda x:np.std(x,ddof=1)
     cv = lambda x: std(x)/ abs(np.mean(x)) * 100 
     
@@ -176,5 +213,4 @@ def std_sampling_grouped_freq(dfs_tot_abs,sample_sizes):
             statistics_cv[n][(round(b,2),round(a,2))] =mean_cv
             b=a
     return statistics,statistics_cv
-                          
-                          
+
