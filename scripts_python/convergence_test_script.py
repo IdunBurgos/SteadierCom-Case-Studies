@@ -10,6 +10,9 @@ from pathlib import Path
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
+from pathlib import Path
+from html import escape
+
 rng = np.random.default_rng(42)
 
 import os
@@ -302,24 +305,27 @@ def make_report(results,output_dir,ecoli_or_gut="Venturelli2018"):
                     f"We have <b>{dfs_tot_abs.shape[1]} samples</b> and <b>{dfs_tot_abs.shape[0]} metabolite-member interactions (variables)</b>, which is assumed to be a larger number than what in most cases will be necessary to perform." \
                     " This therefore serves as an approximate to the 'population'.\n" \
                     "<b>SteadierCom</b> takes a number of samples, a batch, and gives the user the mean value of each variable from this batch. Based on the sample mean of "\
-                    "the 'population' dataset described above, the following results show the max, median and mean flux of the variables:"
+                    "the 'population' dataset described above, the following results show the max, median and mean flux of the variables:",
+                    escape_html=False
                     )
     r.add_table(overall_results_df)
 
     r.add_heading("Bootstrapping for calculating SE and RSE")
     r.add_paragraph("In order to evaluate the effect of increasing sample size we have created <i><b>S</b></i> batches of <i><b>N</b></i> samples. We assess the similarity between these batches "\
                     "by computing the <b>standard error (SE)</b> of the batch means for each variable. Since the mean of each variable is quite different we also look at "\
-                    "the <b>realtive SE (RSE)</b>, which expresses the variability of the mean of each variable relative to their mean."
+                    "the <b>realtive SE (RSE)</b>, which expresses the variability of the mean of each variable relative to their mean.",
+                    escape_html=False
                     )
     
-    r.add_paragraph("The <i><b>S</b></i>=200 batches were created using bootstrapping with replacement at various <i><b>N</b></i> values."
+    r.add_paragraph("The <i><b>S</b></i>=200 batches were created using bootstrapping with replacement at various <i><b>N</b></i> values.",
+                    escape_html=False
                     )
     r.add_heading("SE and RSE vs batch size",level=3)    
 
     r.add_paragraph("This figure shows the change in standard error of the mean (SE) and relative standard error (RSE) when batch size increases (has more samples)."\
                     " A low SE means that the results from simulations with a similar number of samples are quite similar.")
 
-    r.add_image(os.path.join("figures",
+    r.add_image(os.path.join("figures",              
                              "fig_std_cv.png"), 
                             caption="Change in SE at various batch sizes", 
                             width=None)
@@ -373,7 +379,7 @@ class HTMLReport:
 <title>{escape(self.title)}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  :root {{ --fg:#111; --muted:#666; --bg:#fff0f5; --card:#fafafa; --accent:#0b5fff; }}
+  :root {{ --fg:#111; --muted:#666; --bg:#fff; --card:#fafafa; --accent:#0b5fff; }}
   .report {{
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     color: var(--fg);
@@ -412,8 +418,6 @@ class HTMLReport:
     def add_heading(self, text, level=2):
         self.blocks.append(f"<h{level}>{escape(text)}</h{level}>")
 
-    def add_paragraph_old(self, text):
-        self.blocks.append(f"<p>{escape(text)}</p>")
 
     def add_paragraph(self, text, escape_html=True):
         if escape_html:

@@ -5,7 +5,7 @@
 <title>Convergence analysis</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  :root { --fg:#111; --muted:#666; --bg:#fff0f5; --card:#fafafa; --accent:#0b5fff; }
+  :root { --fg:#111; --muted:#666; --bg:#fff; --card:#fafafa; --accent:#0b5fff; }
   .report {
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     color: var(--fg);
@@ -34,11 +34,11 @@
   <div class="report">
     <header>
       <h1>Convergence analysis</h1>
-      <div class="meta">Generated 2025-09-18 15:46 · Idun Burgos</div>
+      <div class="meta">Generated 2025-09-19 12:33 · Idun Burgos</div>
     </header>
     <h2>General results across 20001 samples</h2><p>As a basis for this analysis we calculate some general properties of our data. 
-We have &lt;b&gt;20001 samples&lt;/b&gt; and &lt;b&gt;2602 metabolite-member interactions (variables)&lt;/b&gt;, which is assumed to be a larger number than what in most cases will be necessary to perform. This therefore serves as an approximate to the &#x27;population&#x27;.
-&lt;b&gt;SteadierCom&lt;/b&gt; takes a number of samples, a batch, and gives the user the mean value of each variable from this batch. Based on the sample mean of the &#x27;population&#x27; dataset described above, the following results show the max, median and mean flux of the variables:</p><div class="card"><table class="dataframe table">
+We have <b>20001 samples</b> and <b>2602 metabolite-member interactions (variables)</b>, which is assumed to be a larger number than what in most cases will be necessary to perform. This therefore serves as an approximate to the 'population'.
+<b>SteadierCom</b> takes a number of samples, a batch, and gives the user the mean value of each variable from this batch. Based on the sample mean of the 'population' dataset described above, the following results show the max, median and mean flux of the variables:</p><div class="card"><table class="dataframe table">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -63,7 +63,7 @@ We have &lt;b&gt;20001 samples&lt;/b&gt; and &lt;b&gt;2602 metabolite-member int
       <td>0.000128</td>
     </tr>
   </tbody>
-</table></div><h2>Bootstrapping for calculating SE and RSE</h2><p>In order to evaluate the effect of increasing sample size we have created &lt;i&gt;&lt;b&gt;S&lt;/b&gt;&lt;/i&gt; batches of &lt;i&gt;&lt;b&gt;N&lt;/b&gt;&lt;/i&gt; samples. We assess the similarity between these batches by computing the &lt;b&gt;standard error (SE)&lt;/b&gt; of the batch means for each variable. Since the mean of each variable is quite different we also look at the &lt;b&gt;realtive SE (RSE)&lt;/b&gt;, which expresses the variability of the mean of each variable relative to their mean.</p><p>The &lt;i&gt;&lt;b&gt;S&lt;/b&gt;&lt;/i&gt;=200 batches were created using bootstrapping with replacement at various &lt;i&gt;&lt;b&gt;N&lt;/b&gt;&lt;/i&gt; values.</p><h3>SE and RSE vs batch size</h3><p>This figure shows the change in standard error of the mean (SE) and relative standard error (RSE) when batch size increases (has more samples). A low SE means that the results from simulations with a similar number of samples are quite similar.</p>
+</table></div><h2>Bootstrapping for calculating SE and RSE</h2><p>In order to evaluate the effect of increasing sample size we have created <i><b>S</b></i> batches of <i><b>N</b></i> samples. We assess the similarity between these batches by computing the <b>standard error (SE)</b> of the batch means for each variable. Since the mean of each variable is quite different we also look at the <b>realtive SE (RSE)</b>, which expresses the variability of the mean of each variable relative to their mean.</p><p>The <i><b>S</b></i>=200 batches were created using bootstrapping with replacement at various <i><b>N</b></i> values.</p><h3>SE and RSE vs batch size</h3><p>This figure shows the change in standard error of the mean (SE) and relative standard error (RSE) when batch size increases (has more samples). A low SE means that the results from simulations with a similar number of samples are quite similar.</p>
         <div class="card img">
           <figure>
             <img src="figures/fig_std_cv.png" loading="lazy" />

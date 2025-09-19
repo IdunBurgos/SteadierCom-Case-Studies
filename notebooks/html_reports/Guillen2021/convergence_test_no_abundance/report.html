@@ -5,8 +5,13 @@
 <title>Convergence analysis</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  :root { --fg:#111; --muted:#666; --bg: #fff0f5; --card:#fafafa; --accent:#0b5fff; }
-  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--fg); background:var(--bg); margin: 24px; }
+  :root { --fg:#111; --muted:#666; --bg:#fff; --card:#fafafa; --accent:#0b5fff; }
+  .report {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 24px;
+  }
   header { margin-bottom: 24px; }
   h1 { margin: 0 0 4px 0; }
   h2 { margin-top: 28px; }
@@ -26,13 +31,14 @@
 </style>
 </head>
 <body>
-  <header>
-    <h1>Convergence analysis</h1>
-    <div class="meta">Generated 2025-09-18 15:20 · Idun Burgos</div>
-  </header>
-  <h2>General results across 20001 samples</h2><p>As a basis for this analysis we calculate some general properties of our data. 
-We have &lt;b&gt;20001 samples&lt;/b&gt; and &lt;b&gt;2282 metabolite-member interactions (variables)&lt;/b&gt;, which is assumed to be a larger number than what in most cases will be necessary to perform. This therefore serves as an approximate to the &#x27;population&#x27;.
-&lt;b&gt;SteadierCom&lt;/b&gt; takes a number of samples, a batch, and gives the user the mean value of each variable from this batch. Based on the sample mean of the &#x27;population&#x27; dataset described above, the following results show the max, median and mean flux of the variables:</p><div class="card"><table class="dataframe table">
+  <div class="report">
+    <header>
+      <h1>Convergence analysis</h1>
+      <div class="meta">Generated 2025-09-19 12:38 · Idun Burgos</div>
+    </header>
+    <h2>General results across 20001 samples</h2><p>As a basis for this analysis we calculate some general properties of our data. 
+We have <b>20001 samples</b> and <b>2282 metabolite-member interactions (variables)</b>, which is assumed to be a larger number than what in most cases will be necessary to perform. This therefore serves as an approximate to the 'population'.
+<b>SteadierCom</b> takes a number of samples, a batch, and gives the user the mean value of each variable from this batch. Based on the sample mean of the 'population' dataset described above, the following results show the max, median and mean flux of the variables:</p><div class="card"><table class="dataframe table">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -57,7 +63,7 @@ We have &lt;b&gt;20001 samples&lt;/b&gt; and &lt;b&gt;2282 metabolite-member int
       <td>0.001387</td>
     </tr>
   </tbody>
-</table></div><h2>Bootstrapping for calculating SE and RSE</h2><p>In order to evaluate the effect of increasing sample size we have created &lt;i&gt;&lt;b&gt;S&lt;/b&gt;&lt;/i&gt; batches of &lt;i&gt;&lt;b&gt;N&lt;/b&gt;&lt;/i&gt; samples. We assess the similarity between these batches by computing the &lt;b&gt;standard error (SE)&lt;/b&gt; of the batch means for each variable. Since the mean of each variable is quite different we also look at the &lt;b&gt;realtive SE (RSE)&lt;/b&gt;, which expresses the variability of the mean of each variable relative to their mean.</p><p>The &lt;i&gt;&lt;b&gt;S&lt;/b&gt;&lt;/i&gt;=200 batches were created using bootstrapping with replacement at various &lt;i&gt;&lt;b&gt;N&lt;/b&gt;&lt;/i&gt; values.</p><h3>SE and RSE vs batch size</h3><p>This figure shows the change in standard error of the mean (SE) and relative standard error (RSE) when batch size increases (has more samples). A low SE means that the results from simulations with a similar number of samples are quite similar.</p>
+</table></div><h2>Bootstrapping for calculating SE and RSE</h2><p>In order to evaluate the effect of increasing sample size we have created <i><b>S</b></i> batches of <i><b>N</b></i> samples. We assess the similarity between these batches by computing the <b>standard error (SE)</b> of the batch means for each variable. Since the mean of each variable is quite different we also look at the <b>realtive SE (RSE)</b>, which expresses the variability of the mean of each variable relative to their mean.</p><p>The <i><b>S</b></i>=200 batches were created using bootstrapping with replacement at various <i><b>N</b></i> values.</p><h3>SE and RSE vs batch size</h3><p>This figure shows the change in standard error of the mean (SE) and relative standard error (RSE) when batch size increases (has more samples). A low SE means that the results from simulations with a similar number of samples are quite similar.</p>
         <div class="card img">
           <figure>
             <img src="figures/fig_std_cv.png" loading="lazy" />
@@ -90,58 +96,59 @@ We have &lt;b&gt;20001 samples&lt;/b&gt; and &lt;b&gt;2282 metabolite-member int
     <tr>
       <th>500</th>
       <th>1000</th>
-      <td>-20.184502</td>
-      <td>49.690638</td>
+      <td>-20.242729</td>
+      <td>49.689172</td>
     </tr>
     <tr>
       <th>1000</th>
       <th>1500</th>
-      <td>-9.007345</td>
-      <td>40.683293</td>
+      <td>-9.219198</td>
+      <td>40.469974</td>
     </tr>
     <tr>
       <th>1500</th>
       <th>2000</th>
-      <td>-5.580721</td>
-      <td>35.102572</td>
+      <td>-5.458832</td>
+      <td>35.011142</td>
     </tr>
     <tr>
       <th>2000</th>
       <th>2500</th>
-      <td>-3.592837</td>
-      <td>31.509735</td>
+      <td>-3.641306</td>
+      <td>31.369835</td>
     </tr>
     <tr>
       <th>2500</th>
       <th>3000</th>
-      <td>-2.952720</td>
-      <td>28.557015</td>
+      <td>-2.747565</td>
+      <td>28.622270</td>
     </tr>
     <tr>
       <th>3000</th>
       <th>3500</th>
-      <td>-1.987219</td>
-      <td>26.569796</td>
+      <td>-2.056903</td>
+      <td>26.565368</td>
     </tr>
     <tr>
       <th>3500</th>
       <th>4000</th>
-      <td>-1.817680</td>
-      <td>24.752116</td>
+      <td>-1.836222</td>
+      <td>24.729145</td>
     </tr>
     <tr>
       <th>4000</th>
       <th>4500</th>
-      <td>-1.445372</td>
-      <td>23.306744</td>
+      <td>-1.413144</td>
+      <td>23.316001</td>
     </tr>
     <tr>
       <th>4500</th>
       <th>5000</th>
-      <td>-1.195758</td>
-      <td>22.110986</td>
+      <td>-1.221331</td>
+      <td>22.094670</td>
     </tr>
   </tbody>
 </table></div>
+  </div>
 </body>
 </html>
