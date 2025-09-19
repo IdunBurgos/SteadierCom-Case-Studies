@@ -158,7 +158,7 @@ def main():
         " Saving SMETANA community data for Guillen et al (2021) in ../data/Guillen2021/generated/communities_smetana.tsv \n" \
         " Saving STEADIERCOM community data for Venturelli et al (2018) in ../data/Venturelli2018/generated/communities_steadiercom/ and communities_steadiercom_no_abundance/ \n" \
         " Saving STEADIERCOM community data for Guillen et al (2021) in ../data/Guillen2021/generated/communities_steadiercom.tsv \n" \
-        " Saving STEADIERCOM community data for PAIRWISE COMMUNITIES Venturelli et al (2018) in ../data/Venturelli2018/generated/community_df_pairwise_gut.tsv and community_df_pairwise_gut_no_abundance.tsv \n"
+        " Saving STEADIERCOM community data for PAIRWISE COMMUNITIES Venturelli et al (2018) in ../data/Venturelli2018/generated/communities_pairwise.tsv and communities_pairwise_no_abundance.tsv \n"
     )
     media_db_gut_smetana.to_csv("../data/Venturelli2018/generated/media_db_smetana.tsv",
                                 index=False,
@@ -193,12 +193,12 @@ def main():
                                                         sep="\t",
                                                         header=None,
                                                         index=None)
-    community_df_pairwise_gut.to_csv("../data/Venturelli2018/generated/community_df_pairwise_gut.tsv",
+    community_df_pairwise_gut.to_csv("../data/Venturelli2018/generated/communities_pairwise.tsv",
                                      sep="\t",
                                      index=None,
                                      header=None)
 
-    community_df_pairwise_gut.iloc[:,:-1].to_csv("../data/Venturelli2018/generated/community_df_pairwise_gut_no_abundance.tsv",
+    community_df_pairwise_gut.iloc[:,:-1].to_csv("../data/Venturelli2018/generated/communities_pairwise_no_abundance.tsv",
                                     sep="\t",
                                     index=None,
                                     header=None)
