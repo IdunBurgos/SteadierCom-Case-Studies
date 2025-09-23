@@ -130,7 +130,7 @@ def plot_mean_vs_cv_plot(datas_mean,datas_cv,population_mean,ax=None,title="",yl
 
     tol = 1e-6
     ax_given = ax is not None
-    if ax is None:
+    if not ax_given:
         fig,ax = plt.subplots(figsize=(15,5))
 
     colors = plt.get_cmap("Set3").colors
@@ -157,9 +157,9 @@ def plot_mean_vs_cv_plot(datas_mean,datas_cv,population_mean,ax=None,title="",yl
     ax_twin.legend(title="Histogram of total 'population'", loc="upper left")
 
     ax.set_xlabel(xlabel=xlabel)
-    ax.set_ylabel("Uncertainty in mean (RSE %)")
+    ax.set_ylabel("Uncertainty in mean flux (RSE %)")
     ax.set_title(title)
-    ax.legend()
+    ax.legend(title = "Sample size")
     ax.set_xscale("log")
     
     if ylim:
@@ -167,6 +167,47 @@ def plot_mean_vs_cv_plot(datas_mean,datas_cv,population_mean,ax=None,title="",yl
     if xlim:
         ax.set_xlim(xlim)
     
+    if ax_given:
+        return ax
+    else:
+        return fig,ax
+    
+def plot_scatter_plot(datas_mean,datas_cv,population_mean,ax=None,title="",xlabel="",xlim=False,ylim=False):
+    tol = 1e-6
+    ax_given = ax is not None
+    colors = plt.get_cmap("Set3").colors
+
+    if not ax_given:
+        fig,ax = plt.subplots(figsize=(15,5))
+
+    N = max(datas_mean.keys())
+
+    mean_mean = datas_mean[N]
+    mean_cv = datas_cv[N]
+
+    mean_cv_new = mean_cv[population_mean>tol].map(np.log10)
+    mean_mean_new = mean_mean[population_mean>tol].map(np.log10)
+    smoothed = sm.nonparametric.lowess(exog=mean_mean_new, endog=mean_cv_new, frac=0.2)  
+    
+    ax_twin = ax.twinx()
+    pd.concat([mean_mean,mean_cv] ,axis=1).plot(kind="scatter",alpha=0.1,ax=ax,x=0,y=1,label="Variable")
+    ax_twin.plot(10**smoothed[:, 0], 10**smoothed[:, 1], c=colors[len(datas_mean)-1],label = str(N))
+
+    ax.set_ylabel("Uncertainty in mean flux (RSE %)")
+    ax_twin.set_ylabel("")
+    ax.set_xlabel(xlabel=xlabel)
+    ax.set_xscale("log")
+    ax.set_title(title)
+
+    ax_twin.legend(title = "Sample size")
+    ax.legend(loc="upper left")
+
+    if xlim:
+        ax.set_xlim(xlim)
+        ax_twin.set_xlim(xlim)
+    if ylim:
+        ax.set_ylim(ylim)
+        ax_twin.set_ylim(ylim)
     if ax_given:
         return ax
     else:
@@ -289,11 +330,24 @@ def make_report(results,output_dir,ecoli_or_gut="Venturelli2018"):
     fig_std_cv.savefig(os.path.join(fig_dir,"fig_std_cv.png"))
     plt.close(fig_std_cv)
 
-    fig_flux_sample,(ax1,ax2) = plt.subplots(1,2,figsize=(14,5))
-    ax1 = plot_mean_vs_cv_plot(datas_mean,datas_cv,population_mean,ax=ax1,title="Mean rate vs RSE",xlabel="Mean value",xlim=[1e-7,10])
-    ax2 = plot_mean_vs_cv_plot(datas_freq,datas_cv,population_freq,ax=ax2,title="Frequency vs RSE",xlabel="Frequency of observation")
+    fig_flux_sample,axs = plt.subplots(2,2,figsize=(12,8), 
+                constrained_layout=True,
+                gridspec_kw={
+                "height_ratios": [2, 1],       # top row 3x the height of bottom row
+                "hspace": 0.01,                # vertical spacing
+                "wspace": 0.01                 # horizontal spacing
+            })
 
-    fig_flux_sample.tight_layout()
+    ax1,ax2,ax3,ax4 = axs.flatten()
+    ax1 = plot_mean_vs_cv_plot(datas_mean,datas_cv,population_mean,ax=ax1,title="Mean flux vs RSE",xlabel="Mean flux",xlim=[1e-7,10])
+    ax2 = plot_mean_vs_cv_plot(datas_freq,datas_cv,population_freq,ax=ax2,title="Frequency vs RSE",xlabel="Frequency of observation",xlim=[1e-5,5])
+
+    ylim_1 = ax1.get_ylim()
+    ax3 = plot_scatter_plot(datas_mean,datas_cv,population_mean,ax=ax3,title="",xlabel="Mean flux",xlim=[1e-7,10],ylim=[ylim_1[0],ylim_1[1]/2])
+    ylim_2 = ax2.get_ylim()
+    ax4 = plot_scatter_plot(datas_freq,datas_cv,population_freq,ax=ax4,title="",xlabel="Frequency of observation",xlim=[1e-5,5],ylim=[ylim_2[0],ylim_2[1]/2])
+
+    #fig_flux_sample.tight_layout()
     fig_flux_sample.savefig(os.path.join(fig_dir,"fig_flux_sample.png"))
     plt.close(fig_flux_sample)
     
