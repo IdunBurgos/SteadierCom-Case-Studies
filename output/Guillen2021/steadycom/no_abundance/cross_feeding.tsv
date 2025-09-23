@@ -1,0 +1,121 @@
+community	donor	receiver	compound	rate?	mass_rate?
+Ecoli_mutants	mutant_bioC		M_co2_e	0.601789753184335	0.026484466142766
+Ecoli_mutants	mutant_icd		M_co2_e	7.500676477093837	0.33010102141866127
+Ecoli_mutants	mutant_bioH		M_co2_e	0.0007179072732453914	3.1594740141893056e-05
+Ecoli_mutants	mutant_bioC	mutant_icd	M_akg_e	0.3701766898848545	0.0533358348496586
+Ecoli_mutants	mutant_bioH	mutant_icd	M_akg_e	0.00035988317590279767	5.185272373874447e-05
+Ecoli_mutants		mutant_icd	M_akg_e	3.382238933369308e-12	4.8732008822161e-13
+Ecoli_mutants	mutant_icd	mutant_bioC	M_idon__L_e	0.5393031029185794	0.10524332869494173
+Ecoli_mutants	mutant_icd	mutant_bioH	M_idon__L_e	0.0010773325820520967	0.00021023811365646232
+Ecoli_mutants		mutant_bioC	M_ca2_e	1.7674508514531342e-06	7.083589522453872e-08
+Ecoli_mutants		mutant_icd	M_ca2_e	0.0027633858201555907	0.00011075097690019578
+Ecoli_mutants	mutant_icd	mutant_bioC	M_ade_e	0.00015117085280938643	2.0427188242147557e-05
+Ecoli_mutants	mutant_bioH	mutant_bioC	M_ade_e	0.0010772168068847925	0.00014556053685551792
+Ecoli_mutants		mutant_bioC	M_ade_e	5.6587211045427965e-12	7.646431773330022e-13
+Ecoli_mutants		mutant_icd	M_cu2_e	0.00037641509058411406	2.3919673346258114e-05
+Ecoli_mutants		mutant_icd	M_zn2_e	0.00018104026218502525	1.1838222744278803e-05
+Ecoli_mutants		mutant_icd	M_cobalt2_e	1.3272746494503318e-05	7.822054237098629e-07
+Ecoli_mutants	mutant_icd	mutant_bioC	M_arg__L_e	0.00010044146441172432	1.7598178229088717e-05
+Ecoli_mutants	mutant_icd		M_arg__L_e	1.6929150327737238e-07	2.966127649367284e-08
+Ecoli_mutants	mutant_icd	mutant_bioC	M_pyr_e	0.12408136325227795	0.010801778996563805
+Ecoli_mutants	mutant_icd	mutant_bioH	M_pyr_e	0.0007195522729560254	6.263990356991384e-05
+Ecoli_mutants		mutant_bioC	M_pyr_e	2.7732449557259574e-11	2.414220663757675e-12
+Ecoli_mutants		mutant_bioH	M_pyr_e	1.608214689984727e-13	1.4000152162193044e-14
+Ecoli_mutants	mutant_icd	mutant_bioC	M_ac_e	0.09148875551716895	0.0054018529318801715
+Ecoli_mutants	mutant_icd		M_ac_e	12.005025350506337	0.708823516292761
+Ecoli_mutants	mutant_bioH	mutant_bioC	M_ac_e	8.148117413575084e-06	4.810966297553859e-07
+Ecoli_mutants	mutant_bioH		M_ac_e	0.0010691844648658953	6.312882062509542e-05
+Ecoli_mutants		mutant_bioC	M_k_e	6.62812745541384e-05	2.591485156900069e-06
+Ecoli_mutants		mutant_icd	M_k_e	0.10362988826006345	0.004051752460158439
+Ecoli_mutants	mutant_icd	mutant_bioC	M_etoh_e	0.6388299605037641	0.029429746386479504
+Ecoli_mutants	mutant_bioH	mutant_bioC	M_etoh_e	0.00035665017350154524	1.6430231522903883e-05
+Ecoli_mutants		mutant_bioC	M_etoh_e	2.0390467092568088e-11	9.393521161138451e-13
+Ecoli_mutants	mutant_bioC	mutant_icd	M_pro__L_e	0.11736027905369723	0.013511700663480066
+Ecoli_mutants	mutant_bioC		M_pro__L_e	1.265170567615881e-07	1.4565921396667312e-08
+Ecoli_mutants	mutant_bioC	mutant_icd	M_dha_e	0.037352950720490434	0.003364667889115121
+Ecoli_mutants		mutant_icd	M_dha_e	2.8402275260158705e-07	2.5584116302019973e-08
+Ecoli_mutants	mutant_icd	mutant_bioC	M_ala__D_e	0.0073764615917851625	0.0006571903549507563
+Ecoli_mutants		mutant_bioC	M_ala__D_e	7.952013660397772e-09	7.084679578444526e-10
+Ecoli_mutants		mutant_bioC	M_fe2_e	2.8024537708591198e-06	1.5650303083362755e-07
+Ecoli_mutants		mutant_icd	M_fe2_e	0.004381599072765434	0.0002446904002185857
+Ecoli_mutants	mutant_icd	mutant_bioC	M_5dglcn_e	0.09880617519702452	0.01908254530259406
+Ecoli_mutants	mutant_bioH	mutant_bioC	M_5dglcn_e	0.0010773325820520967	0.00020806642663756167
+Ecoli_mutants		mutant_bioC	M_5dglcn_e	1.3877787807814457e-17	2.6802324248897946e-18
+Ecoli_mutants		mutant_icd	M_mn2_e	0.0003668587131080717	2.0154483980731245e-05
+Ecoli_mutants	mutant_icd	mutant_bioC	M_h_e	0.10805311953448053	0.00010890673917880291
+Ecoli_mutants	mutant_icd		M_h_e	22.966296509815372	0.023147730252242912
+Ecoli_mutants	mutant_icd	mutant_bioC	M_asn__L_e	8.185453698466559e-05	1.0814424975525252e-05
+Ecoli_mutants	mutant_icd		M_asn__L_e	1.3796371545761715e-07	1.8227434973343276e-08
+Ecoli_mutants	mutant_bioC	mutant_bioH	M_adn_e	0.0010773325820520967	0.0002879072210936679
+Ecoli_mutants	mutant_bioC		M_adn_e	5.812104270086493e-12	1.5532313948213304e-12
+Ecoli_mutants	mutant_bioC	mutant_icd	M_lac__D_e	0.6388308320914212	0.05690053444821648
+Ecoli_mutants	mutant_bioC	mutant_bioH	M_lac__D_e	0.0003557785770685905	3.168912670378395e-05
+Ecoli_mutants	mutant_bioC		M_lac__D_e	2.916622499071764e-11	2.597829826678222e-12
+Ecoli_mutants	mutant_icd	mutant_bioC	M_gly_e	6.421636163551146e-05	4.8204910890759585e-06
+Ecoli_mutants	mutant_icd		M_gly_e	3.506317915950147e-07	2.6320666320588015e-08
+Ecoli_mutants	mutant_bioC	mutant_icd	M_glyc_e	0.639186610697656	0.05886493213228459
+Ecoli_mutants	mutant_bioH	mutant_icd	M_glyc_e	0.0010773325820520967	9.921532814521477e-05
+Ecoli_mutants	mutant_icd	mutant_bioC	M_glyald_e	0.639186610697656	0.057576459762440246
+Ecoli_mutants	mutant_icd	mutant_bioH	M_glyald_e	0.0010773325820520967	9.704364112631416e-05
+Ecoli_mutants	mutant_bioC	mutant_icd	M_indole_e	0.639186610697656	0.07487917739536473
+Ecoli_mutants		mutant_bioC	M_mg2_e	2.9457514191449005e-06	7.15964882423168e-08
+Ecoli_mutants		mutant_icd	M_mg2_e	0.004605643033592651	0.00011194015393146937
+Ecoli_mutants		mutant_bioC	M_so4_e	8.550862724343915e-05	8.214181055435599e-06
+Ecoli_mutants		mutant_icd	M_so4_e	0.13581659725022105	0.013046895455009087
+Ecoli_mutants	mutant_bioC	mutant_icd	M_orn_e	0.00010044146441172432	1.3375629109366269e-05
+Ecoli_mutants		mutant_icd	M_orn_e	1.6929150327737238e-07	2.2544278625042433e-08
+Ecoli_mutants	mutant_bioC	mutant_icd	M_glu__L_e	0.0825780031427712	0.012066380397224867
+Ecoli_mutants	mutant_bioC	mutant_bioH	M_glu__L_e	0.00036086809500134043	5.273040690969086e-05
+Ecoli_mutants	mutant_bioC		M_glu__L_e	3.529967984583493e-12	5.158024518753245e-13
+Ecoli_mutants	mutant_bioC	mutant_icd	M_his__L_e	5.0141171165252185e-05	7.779613299207771e-06
+Ecoli_mutants	mutant_bioC		M_his__L_e	5.409404727657504e-08	8.39291862995918e-09
+Ecoli_mutants	mutant_icd	mutant_bioC	M_tyr__L_e	4.6900776975316945e-05	8.497862668681424e-06
+Ecoli_mutants	mutant_icd		M_tyr__L_e	7.904931085009153e-08	1.4322794439237467e-08
+Ecoli_mutants	mutant_bioC	mutant_icd	M_xan_e	0.16727413268747537	0.025444185414984756
+Ecoli_mutants	mutant_bioC	mutant_bioH	M_xan_e	0.0010765528432394467	0.0001637552065721425
+Ecoli_mutants	mutant_bioC		M_xan_e	7.1326000661287026e-12	1.0849447888788832e-12
+Ecoli_mutants	mutant_bioC	mutant_icd	M_kdo2lipid4_e	0.010329382231882263	0.01900613354646254
+Ecoli_mutants	mutant_bioC		M_kdo2lipid4_e	1.1135309566784324e-08	2.048904532298821e-08
+Ecoli_mutants		mutant_icd	M_glc__D_e	10.0	1.8015539999999999
+Ecoli_mutants		mutant_icd	M_mobd_e	3.716369018460929e-06	5.943871415269967e-07
+Ecoli_mutants	mutant_bioC	mutant_icd	M_nh4_e	0.28104975903385465	0.00506965986838038
+Ecoli_mutants	mutant_bioH	mutant_icd	M_nh4_e	0.001077332582052097	1.9433248314830342e-05
+Ecoli_mutants		mutant_icd	M_nh4_e	5.733926527843145	0.10343028688719301
+Ecoli_mutants		mutant_bioC	M_o2_e	0.11035911875326784	0.003531359369162067
+Ecoli_mutants		mutant_icd	M_o2_e	9.88964079029001	0.316456637720332
+Ecoli_mutants	mutant_icd	mutant_bioC	M_xtsn_e	0.16727427138412196	0.04754352978415206
+Ecoli_mutants	mutant_bioH	mutant_bioC	M_xtsn_e	0.0010764141463655008	0.00030594381075073443
+Ecoli_mutants		mutant_bioC	M_xtsn_e	7.359973741571935e-12	2.091888536698283e-12
+Ecoli_mutants		mutant_bioC	M_cl_e	1.7674508514869405e-06	6.266143503776651e-08
+Ecoli_mutants		mutant_icd	M_cl_e	0.0027633858201555907	9.797031748197616e-05
+Ecoli_mutants	mutant_bioH	mutant_icd	M_pnto__R_e	0.00035783324581341433	7.808866103417648e-05
+Ecoli_mutants	mutant_bioH		M_pnto__R_e	2.2886960284227527e-07	4.99453894976995e-08
+Ecoli_mutants	mutant_bioC	mutant_icd	M_glcn_e	0.639186610697656	0.12473528559915442
+Ecoli_mutants		mutant_icd	M_ni2_e	0.00017148388470898286	1.0064972238778215e-05
+Ecoli_mutants		mutant_bioC	M_pi_e	0.02098478888491692	0.0020141053478221066
+Ecoli_mutants		mutant_icd	M_pi_e	0.4890412464159777	0.04693783650213305
+Ecoli_mutants		mutant_bioC	M_fe3_e	2.6513460611738773e-06	1.4806442078625517e-07
+Ecoli_mutants		mutant_icd	M_fe3_e	0.004145344185163276	0.00023149674602044313
+Ecoli_mutants	mutant_bioC	mutant_icd	M_asp__L_e	0.05281902081518195	0.0069771021450710504
+Ecoli_mutants	mutant_bioC	mutant_bioH	M_asp__L_e	0.001077332581996631	0.00014230970875255396
+Ecoli_mutants		mutant_icd	M_asp__L_e	2.71934940459948e-12	3.592110999258659e-13
+Ecoli_mutants		mutant_bioH	M_asp__L_e	5.546569531569358e-14	7.326713289878884e-15
+Ecoli_mutants	mutant_icd		M_meoh_e	0.0010624999997527764	3.404430624207853e-05
+Ecoli_mutants	mutant_bioH	mutant_icd	M_mal__L_e	0.0007236482379045697	9.557323588758957e-05
+Ecoli_mutants		mutant_icd	M_mal__L_e	1.46852842386469e-12	1.9395060487960297e-13
+Ecoli_mutants	mutant_icd	mutant_bioC	M_phe__L_e	6.29100445726663e-05	1.0392028479900802e-05
+Ecoli_mutants	mutant_icd		M_phe__L_e	1.0603326105835186e-07	1.7515496550989765e-08
+Ecoli_mutants	mutant_icd	mutant_bioC	M_fum_e	0.639186610697656	0.07290319590705399
+Ecoli_mutants	mutant_icd	mutant_bioH	M_fum_e	5.560497875115847e-06	6.342092577437881e-07
+Ecoli_mutants	mutant_icd		M_fum_e	3.93529653308633e-12	4.4884496843700107e-13
+Ecoli_mutants	mutant_icd	mutant_bioH	M_acald_e	0.0010773325820520967	4.745908583759178e-05
+Ecoli_mutants	mutant_icd		M_acald_e	1.8431436932253575e-17	8.119490323144073e-19
+Ecoli_mutants	mutant_icd	mutant_bioC	M_h2o_e	0.6391866106976549	0.011515074629040395
+Ecoli_mutants	mutant_icd	mutant_bioH	M_h2o_e	0.0010773325820520967	1.9408361932184934e-05
+Ecoli_mutants	mutant_icd		M_h2o_e	22.118313316400066	0.3984658380576105
+Ecoli_mutants	mutant_bioC	mutant_icd	M_uri_e	0.01389178739100695	0.003392386983492549
+Ecoli_mutants	mutant_bioC		M_uri_e	1.734723475976807e-18	4.2362103408466467e-19
+Ecoli_mutants	mutant_icd	mutant_bioC	M_trp__L_e	0.6090080690047576	0.1243744901900759
+Ecoli_mutants	mutant_icd		M_trp__L_e	3.2533416405300386e-08	6.644127205347548e-09
+Ecoli_mutants	mutant_bioC		M_for_e	0.1304566962160576	0.005872821276236752
+Ecoli_mutants	mutant_icd		M_for_e	5.9480532099997925	0.26776589057584466

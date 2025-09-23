@@ -1,0 +1,13 @@
+	BH-CA	BU-BH	PC-BH	BO-BH	BV-BH	BT-BH	EL-BH	FP-BH	CH-BH	DP-BH	ER-BH	BU-CA	PC-CA	BO-CA	BV-CA	BT-CA	EL-CA	FP-CA	CH-CA	DP-CA	ER-CA	PC-BU	BU-BO	BV-BU	BT-BU	EL-BU	BU-FP	CH-BU	BU-DP	BU-ER	PC-BO	BV-PC	BT-PC	EL-PC	PC-FP	CH-PC	PC-DP	PC-ER	BV-BO	BT-BO	EL-BO	BO-FP	CH-BO	BO-DP	BO-ER	BT-BV	EL-BV	BV-FP	CH-BV	BV-DP	BV-ER	EL-BT	BT-FP	CH-BT	BT-DP	BT-ER	EL-FP	EL-CH	EL-DP	EL-ER	CH-FP	FP-DP	ER-FP	CH-DP	CH-ER	ER-DP
+M_Collinsella_aerofaciens_ATCC_25986	0.72662											0.02356	0.21519999999999986	0.028909999999999908	1.0	0.017129999999999902	0.73732	0.20284	0.59158	0.6156200000000001	0.82926																																													
+M_Blautia_hydrogenotrophica_DSM_10507	0.27338	1.0	1.0	1.0	1.0	1.0	0.55078	0.3199499999999999	0.20723	1.0	0.35304																																																							
+M_Bacteroides_uniformis_ATCC_8492		0.0										0.97644										1.0	0.0	1.0	1.0	1.0	0.0	1.0	0.0	0.95328																																				
+M_Prevotella_copri_CB7_DSM_18205			0.0										0.7848									0.0									0.0	1.0	1.0	0.6514	0.81698	1.0	0.0	0.82892																												
+M_Bacteroides_ovatus_ATCC_8483				0.0										0.97109									1.0								1.0								1.0	1.0	1.0	0.0	1.0	0.93962	0.0																					
+M_Bacteroides_vulgatus_ATCC_8482					0.0										0.0									0.0								0.0							0.0							1.0	0.8702199999999999	0.0	1.0	0.0	0.9461															
+M_Bacteroides_thetaiotaomicron_VPI_5482						0.0										0.9828700000000001									0.0								0.0							0.0						0.0						1.0	0.0	1.0	0.0	0.9588										
+M_Eggerthella_lenta_DSM_2243							0.44922										0.26268									0.0								0.3486							0.0						0.12978					0.0					0.79838	0.0	0.44498	0.71975						
+M_Faecalibacterium_prausnitzii_A2_165								0.68005										0.79716									1.0								0.1830199999999999							1.0						1.0					1.0				0.20162				0.59284	0.0	0.77566			
+M_Clostridium_hiranonis_TO_931_DSM_13275									0.79277										0.40842									0.0								0.0							0.0						0.0					0.0				1.0			0.40716			0.53099	0.42026	
+M_Desulfovibrio_piger_ATCC_29098										0.0										0.38438									1.0								1.0							0.0603799999999999						1.0					1.0				0.5550200000000001			1.0		0.46901		0.73485
+M_Eubacterium_rectale_ATCC_33656											0.64696										0.17074									0.04671999999999991								0.17108							1.0						0.0538999999999999					0.0412				0.28025			0.22434		0.5797399999999999	0.26515
