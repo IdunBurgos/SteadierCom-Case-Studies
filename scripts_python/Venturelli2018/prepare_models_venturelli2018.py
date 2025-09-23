@@ -122,6 +122,21 @@ def change_models_remove_EGCs(models):
     
     return models_new, changed_elements
 
+def load_data_models():
+    """
+    Specific function
+    """
+    logging.info("load media data and models from '../models/Venturelli2018/species_used/'...")
+
+    models = {}
+    
+    for filename in listdir("../models/Venturelli2018/species_used/"):
+        if filename.endswith(".xml"):
+            models[filename.replace(".xml","")] = reframed.load_cbmodel("../models/Venturelli2018/species_used/"+filename,exchange_detection='^R_EX_(?!biomass__40__e__41__$).*')
+            
+    return models
+
+
 def atp_EGC_community(models,get_EGC_data=False):
     logging.info("Testing for ATP-generating cycles in community model...")
     comm_test = reframed.Community('EGC_test',models.values())
@@ -162,20 +177,6 @@ def atp_EGC_community(models,get_EGC_data=False):
     )
     if get_EGC_data:
         return rxns_members,common
-
-def load_data_models():
-    """
-    Specific function
-    """
-    logging.info("load media data and models from '../models/Venturelli2018/species_used/'...")
-
-    models = {}
-    
-    for filename in listdir("../models/Venturelli2018/species_used/"):
-        if filename.endswith(".xml"):
-            models[filename.replace(".xml","")] = reframed.load_cbmodel("../models/Venturelli2018/species_used/"+filename,exchange_detection='^R_EX_(?!biomass__40__e__41__$).*')
-            
-    return models
 
 
 

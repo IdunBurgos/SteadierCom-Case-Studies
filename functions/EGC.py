@@ -1,7 +1,6 @@
 import json
 import reframed
 import pandas as pd
-import json
 
 import logging
 logging.basicConfig(
