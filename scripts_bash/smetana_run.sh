@@ -36,6 +36,28 @@ smetana "../models/Venturelli2018/species_used_noO2/*" \
   --exclude "../data/inorganic.txt" \
   --agora-model
 
+echo "Detailed analysis for Gut microbiome - pairwise"
+smetana "../models/Venturelli2018/species_used_noO2/*" \
+  -c "../data/Venturelli2018/generated/communities_pairwise_no_abundance.tsv" \
+  -m "LB_extend" \
+  --mediadb "../data/Venturelli2018/generated/media_db_smetana.tsv" \
+  -d \
+  -o "../output/Venturelli2018/smetana/pairwise" \
+  --exchange-detection '^R_EX_(?!biomass__40__e__41__$).*' \
+  --exclude "../data/inorganic.txt" \
+  --agora-model \
+  -v
+
+
+echo "Global analysis for Gut microbiome - pairwise"
+smetana "../models/Venturelli2018/species_used_noO2/*" \
+  -c "../data/Venturelli2018/generated/communities_pairwise_no_abundance.tsv" \
+  -g \
+  -o "../output/Venturelli2018/smetana/pairwise" \
+  --exchange-detection '^R_EX_(?!biomass__40__e__41__$).*' \
+  --exclude "../data/inorganic.txt" \
+  --agora-model
+
 
 echo "Detailed analysis for E.coli mutants"
 smetana "../models/Guillen2021/top_7_strains/*" \
