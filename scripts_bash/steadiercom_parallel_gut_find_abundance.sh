@@ -24,7 +24,7 @@ run_steadiercom() {
     time eval "$cmd"
 }
 
-samples=3000
+samples=2000
 num_processes=2
 growth=0.125
 

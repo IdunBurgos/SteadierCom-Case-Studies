@@ -28,16 +28,16 @@ output_dir1="../output/Guillen2021/results_steadiercom/results_growth_abundance/
 output_dir2="../output/Guillen2021/results_steadiercom/results_abundance/ecoli_mutants"
 output_dir3="../output/Guillen2021/results_steadiercom/results_growth/ecoli_mutants"
 
-samples=4000
+samples1=2000
+samples2=4000
 
 growth=0.221
 
-run_steadiercom "$input_dir1" "$samples" "$output_dir1" "$growth"&
-run_steadiercom "$input_dir1" "$samples" "$output_dir2"&
+run_steadiercom "$input_dir1" "$samples1" "$output_dir1" "$growth"&
+run_steadiercom "$input_dir1" "$samples1" "$output_dir2"&
 wait
 
-
-run_steadiercom "$input_dir2" "$samples" "$output_dir3" "$growth" 
+run_steadiercom "$input_dir2" "$samples2" "$output_dir3" "$growth" 
 
 
 
