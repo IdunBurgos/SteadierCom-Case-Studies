@@ -1,0 +1,212 @@
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	49m6.218s
+user	48m49.398s
+sys	0m11.885s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	136m32.291s
+user	134m59.581s
+sys	0m54.195s

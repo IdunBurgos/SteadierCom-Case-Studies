@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 source ~/opt/anaconda3/etc/profile.d/conda.sh
 conda activate steadiercom
 
@@ -25,26 +27,16 @@ run_steadiercom() {
 }
 
 samples=2000
-num_processes=2
 growth=0.125
-
 
 # Run SteadierCom with growth
  
 output_dir="../output/Venturelli2018/results_steadiercom/results_growth"
 input_dir="../data/Venturelli2018/generated/communities_steadiercom_no_abundance"
 
-i=0
-
 for dir in "$input_dir"/*; do
-    ((i++))
-    run_steadiercom "$dir" "$samples" "$output_dir" "$growth"&
-    if (( i % num_processes == 0 )); then
-        wait  # Wait every 4 processes before continuing
-    fi
+  run_steadiercom "$dir" "$samples" "$output_dir" "$growth"
 done
-
-wait
 
 
 

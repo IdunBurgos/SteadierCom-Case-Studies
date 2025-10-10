@@ -33,10 +33,8 @@ samples2=4000
 
 growth=0.221
 
-run_steadiercom "$input_dir1" "$samples1" "$output_dir1" "$growth"&
-run_steadiercom "$input_dir1" "$samples1" "$output_dir2"&
-wait
-
+run_steadiercom "$input_dir1" "$samples1" "$output_dir1" "$growth"
+run_steadiercom "$input_dir1" "$samples1" "$output_dir2"
 run_steadiercom "$input_dir2" "$samples2" "$output_dir3" "$growth" 
 
 

@@ -1,16 +1,78 @@
 /Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
   warn(f"Atomic weight not listed for elements: {missing}")
-Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
-BrokenPipeError: [Errno 32] Broken pipe
 
-real	310m9.470s
-user	148m5.417s
-sys	1m3.017s
+real	73m53.266s
+user	72m59.268s
+sys	0m20.682s
 /Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
   warn(f"Atomic weight not listed for elements: {missing}")
-Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
-BrokenPipeError: [Errno 32] Broken pipe
 
-real	1386m12.665s
-user	177m51.715s
-sys	1m8.838s
+real	59m31.707s
+user	58m55.767s
+sys	0m14.265s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	55m41.374s
+user	55m9.218s
+sys	0m11.288s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	61m42.420s
+user	61m38.298s
+sys	0m7.552s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	58m5.217s
+user	57m59.938s
+sys	0m6.842s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	73m48.084s
+user	73m40.765s
+sys	0m8.797s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	75m10.374s
+user	75m3.665s
+sys	0m8.949s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	73m43.787s
+user	73m36.727s
+sys	0m8.535s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	68m44.591s
+user	68m37.880s
+sys	0m8.218s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	66m35.293s
+user	66m28.048s
+sys	0m8.486s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	67m45.003s
+user	67m37.101s
+sys	0m8.345s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	81m41.878s
+user	81m33.384s
+sys	0m8.449s
+/Users/idunmariaburgos/SteadierCom/reframed/reframed/core/elements.py:62: UserWarning: Atomic weight not listed for elements: {'X'}
+  warn(f"Atomic weight not listed for elements: {missing}")
+
+real	73m39.748s
+user	73m35.697s
+sys	0m5.899s
