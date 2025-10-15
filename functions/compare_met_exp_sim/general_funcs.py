@@ -24,8 +24,7 @@ def merge_sim_exp(simulated_results,signal_exp,metric="frequency",receiver_or_do
     """
     
     if verbose:
-        logging.info(f"merge_sim_exp removes nan values in 'experiment' column of the return exp_sim_combined object")
-        
+        logging.info(f"merge_sim_exp removes compounds not in experimental data")
     
     valid_methods = ['sum', 'mean', 'median']
     if agg_method not in valid_methods:
@@ -60,6 +59,9 @@ def merge_sim_exp(simulated_results,signal_exp,metric="frequency",receiver_or_do
     
     # NB - removes results for compounds that are not in the dataset
     exp_sim_combined = exp_sim_combined[~exp_sim_combined.experimental.isna()].copy()
+
+    assert len(signal_exp.index)==len(exp_sim_combined.index)
+
     return exp_sim_combined
 
 
