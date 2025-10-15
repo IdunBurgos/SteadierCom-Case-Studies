@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
-from os import listdir
 import json
 
 import seaborn as sns
 import matplotlib.pyplot as plt
+
 
 from sklearn.metrics import confusion_matrix
 
@@ -12,7 +12,6 @@ import sys
 sys.path.append("../functions/")
 import general
 import compare_met_exp_sim.correlation as correlation
-import compare_met_exp_sim.diagnostic as diagnostic
 import logging
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -171,33 +170,30 @@ def _prepare_sim_met(simulated_results,metid2group,receiver_or_donor="receiver",
 
 
 
-def _prepare_all_simulations(sim_dicts, metid2group,verbose=True):
-    """
-    Function to prepare all simulation results for analysis with prepare_sim_met_venturelli.
-    """
-    
-    simulation_dict = {"receiver": {}, "donor": {}}
-    for role in simulation_dict:
-        i=0
-        for method, sim_data in sim_dicts.items():
-            verbose_spec= (verbose and i==0)
-
-            simulation_dict[role][method] = {
-                name: _prepare_sim_met(
-                    simulated_results=res,
-                    metid2group=metid2group,
-                    receiver_or_donor=role,
-                    verbose=verbose_spec
-                )
-                for name, res in sim_data.items()
-            }
-
-            i+=1
-    return simulation_dict
-
-
-
 def load_simulation_results(metid2group,verbose=True):
+    def _prepare_all_simulations(sim_dicts, metid2group,verbose=True):
+        """
+        Function to prepare all simulation results for analysis with prepare_sim_met_venturelli.
+        """
+        
+        simulation_dict = {"receiver": {}, "donor": {}}
+        for role in simulation_dict:
+            i=0
+            for method, sim_data in sim_dicts.items():
+                verbose_spec= (verbose and i==0)
+
+                simulation_dict[role][method] = {
+                    name: _prepare_sim_met(
+                        simulated_results=res,
+                        metid2group=metid2group,
+                        receiver_or_donor=role,
+                        verbose=verbose_spec
+                    )
+                    for name, res in sim_data.items()
+                }
+
+                i+=1
+        return simulation_dict
 
     if verbose:
         logging.info(f"load_simulation_results loads simulation results from \n\t../output/Venturelli2018/results_steadiercom, \n\t../output/Venturelli2018/steadycom and \n\t../output/Venturelli2018/smetana"\
@@ -207,6 +203,10 @@ def load_simulation_results(metid2group,verbose=True):
     steadiercom_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_abundance/NONE.tsv",sep="\t")
     steadiercom_growth = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_growth/NONE.tsv",sep="\t")
     steadiercom_growth_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_growth_abundance/NONE.tsv",sep="\t")
+
+    steadiercom_abundance["frequency*mass_rate"] = steadiercom_abundance.frequency * steadiercom_abundance.mass_rate
+    steadiercom_growth["frequency*mass_rate"] = steadiercom_growth.frequency * steadiercom_growth.mass_rate
+    steadiercom_growth_abundance["frequency*mass_rate"] = steadiercom_growth_abundance.frequency * steadiercom_growth_abundance.mass_rate
 
     # SMETANA results
     smetana = pd.read_csv("../output/Venturelli2018/smetana/no_coupling_detailed.tsv",sep="\t")
@@ -233,8 +233,6 @@ def load_simulation_results(metid2group,verbose=True):
         "SteadierCom - fixed growth":steadiercom_growth,
         "SteadierCom - fixed growth & abundance":steadiercom_growth_abundance,
         "SteadierCom - fixed abundance":steadiercom_abundance,
-        #"SteadierCom - pairwise fixed growth":steadiercom_pairwise_growth,
-        #"SteadierCom - pairwise fixed growth & abundance":steadiercom_pairwise_growth_abundance,
     }
 
     steadycom_dict = {
@@ -263,112 +261,44 @@ def find_correlations(simulation_dict,signal_exp):
     metric = "rate?"
 
     results_corr = []
-    results_corr.append(correlation.find_correlation_simulation_method(simulation_dict,
-                                                signal_exp,
-                    simulation_method=simulation_method,
-                    agg_method=agg_method,
-                    metric=metric,
-                    verbose=False)
-    )
+    results_corr_member = []
+    results_corr_mets = []
 
-    simulation_method="steadiercom"
-    metric = "rate"
-    results_corr.append(correlation.find_correlation_simulation_method(simulation_dict,
-                                                signal_exp,
-                    simulation_method=simulation_method,
-                    agg_method=agg_method,
-                    metric=metric,
-                    verbose=False)
-                    )
+    sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("steadiercom","frequency"),("smetana","mus")]
 
-    simulation_method="steadiercom"
-    metric = "frequency"
-    results_corr.append(correlation.find_correlation_simulation_method(simulation_dict,
-                                                signal_exp,
-                    simulation_method=simulation_method,
-                    agg_method=agg_method,
-                    metric=metric,
-                    verbose=False)
-                    )
+    for simulation_method,metric in sim_method_metric:
+        results_corr.append(correlation.find_correlation_simulation_method(simulation_dict,
+                                                    signal_exp,
+                                                    simulation_method=simulation_method,
+                                                    agg_method=agg_method,
+                                                    metric=metric,
+                                                    verbose=False)
+        )
 
+        results_corr_member.append(correlation.find_correlation_simulation_method_detailed(simulation_dict,
+                                                    signal_exp,
+                                                    member_or_met="member",
+                                                    simulation_method=simulation_method,
+                                                    agg_method=agg_method,
+                                                    metric=metric,
+                                                    verbose=False)
+        )
 
-    simulation_method="smetana"
-    metric = "mus"
-    results_corr.append(correlation.find_correlation_simulation_method(simulation_dict,
-                                                signal_exp,
-                    simulation_method=simulation_method,
-                    agg_method=agg_method,
-                    metric=metric,
-                    verbose=False)
-                    )
-    
+        results_corr_mets.append(correlation.find_correlation_simulation_method_detailed(simulation_dict,
+                                                    signal_exp,
+                                                    member_or_met="met_group",
+                                                    simulation_method=simulation_method,
+                                                    agg_method=agg_method,
+                                                    metric=metric,
+                                                    verbose=False)
+        )
+
     results_corr_df = pd.concat(results_corr)
+    results_corr_member_df = pd.concat(results_corr_member)
+    results_corr_met_df = pd.concat(results_corr_mets)
 
-    return results_corr_df
+    return results_corr_df,results_corr_member_df,results_corr_met_df
 
-
-def find_diagnostic_PR_pvalues(simulation_dict,signal_exp):
-
-
-    N=10000
-
-    results_pr_auc = []
-    for exp_thresh in [0.5,1]:
-
-        agg_method ="sum"
-        simulation_method="steadiercom"
-        metric = "frequency"
-        results_pr_auc.append(diagnostic.pr_auc_pvalue_simulation_method(simulation_dict,
-                                                                        signal_exp,
-                                                                        exp_thresh=exp_thresh,
-                                                                        simulation_method=simulation_method,
-                                                                        metric=metric,
-                                                                        agg_method=agg_method,
-                                                                        N=N,
-                                                                        verbose=True)
-        )
-
-        agg_method ="sum"
-        simulation_method="steadiercom"
-        metric = "rate"
-        results_pr_auc.append(diagnostic.pr_auc_pvalue_simulation_method(simulation_dict,
-                                                                        signal_exp,
-                                                                        exp_thresh=exp_thresh,
-                                                                        simulation_method=simulation_method,
-                                                                        metric=metric,
-                                                                        agg_method=agg_method,
-                                                                        N=N,
-                                                                        verbose=True)
-        )
-
-        simulation_method="steadycom"
-        metric = "rate?"
-        results_pr_auc.append(diagnostic.pr_auc_pvalue_simulation_method(simulation_dict,
-                                                                        signal_exp,
-                                                                        exp_thresh=exp_thresh,
-                                                                        simulation_method=simulation_method,
-                                                                        metric=metric,
-                                                                        agg_method=agg_method,
-                                                                        N=N,
-                                                                        verbose=True)
-        )
-
-        simulation_method="smetana"
-        metric = "mus"
-        results_pr_auc.append(diagnostic.pr_auc_pvalue_simulation_method(simulation_dict,
-                                                                        signal_exp,
-                                                                        exp_thresh=exp_thresh,
-                                                                        simulation_method=simulation_method,
-                                                                        metric=metric,
-                                                                        agg_method=agg_method,
-                                                                        N=N,
-                                                                        verbose=True)
-         )
-
-
-    results_pr_auc_df = pd.concat(results_pr_auc)
-
-    return results_pr_auc_df
 
 
 def load_simulation_results_pairwise(metid2group,verbose=True):

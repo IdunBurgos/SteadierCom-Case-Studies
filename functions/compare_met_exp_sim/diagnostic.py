@@ -1,15 +1,10 @@
 import pandas as pd
 import numpy as np
-from os import listdir
-
-import operator
-import seaborn as sns
-
-import scipy as sp
 
 from sklearn.metrics import confusion_matrix,recall_score,precision_score,classification_report,average_precision_score, roc_auc_score,precision_recall_curve,roc_curve,PrecisionRecallDisplay,RocCurveDisplay
 
 import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm
 
 from collections import defaultdict
 
@@ -236,7 +231,7 @@ def _permutation_test(y_true,y_scores,N):
 
     return p_value
 
-def pr_auc_pvalue(simulation_dict,signal_exp,exp_thresh=1,receiver_or_donor="receiver",name="SteadierCom - fixed abundance",simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
+def pr_permutation_test(simulation_dict,signal_exp,exp_thresh=1,receiver_or_donor="receiver",name="SteadierCom - fixed abundance",simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
 
 
     sim_df = simulation_dict[receiver_or_donor][simulation_method][name]
@@ -268,9 +263,8 @@ def pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1,simu
     for receiver_or_donor in ["receiver", "donor"]:
 
         for i,name in enumerate(simulation_dict[receiver_or_donor][simulation_method].keys()):
-            print(f"{simulation_method}, {name}, {receiver_or_donor}, {metric}")
             verbose_spec = (i==0 and verbose)
-            pvalue = pr_auc_pvalue(simulation_dict,
+            pvalue = pr_permutation_test(simulation_dict,
                                           signal_exp,
                                           exp_thresh=exp_thresh,
                                           name=name,
@@ -290,7 +284,7 @@ def pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1,simu
     return pvalues_df
 
 
-def plot_diagnostic_curve(simulation_dict,signal_exp,PR_or_ROC="PR", exp_thresh=1,receiver_or_donor="receiver",name="SteadierCom - fixed abundance",simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",ax=None,verbose=True):
+def plot_diagnostic_curve(simulated_res,signal_exp,PR_or_ROC="PR", exp_thresh=1,receiver_or_donor="receiver",metric="frequency",met_column="met_group",agg_method="sum",ax=None,title="",plot_cbar=True, verbose=True):
     if verbose:
             logging.info(f"plot_diagnostic_curve uses fillna(0) to for missing entries in simulations that exist in experimental results.")
     
@@ -299,13 +293,11 @@ def plot_diagnostic_curve(simulation_dict,signal_exp,PR_or_ROC="PR", exp_thresh=
     else:
         fig = ax.get_figure()
 
-    sim_df = simulation_dict[receiver_or_donor][simulation_method][name]
-
-    exp_sim_combined = merge_sim_exp(sim_df,
+    exp_sim_combined = merge_sim_exp(simulated_res,
                                     signal_exp=signal_exp,metric=metric,
                                     receiver_or_donor=receiver_or_donor,
                                     agg_method=agg_method,
-                                    met_column = met_column,
+                                    met_column=met_column,
                                     verbose=verbose).fillna(0)
     
     exp_sim_combined.experimental=_eval_exp(exp_sim_combined.experimental,receiver_or_donor=receiver_or_donor,exp_thresh=exp_thresh)
@@ -317,71 +309,257 @@ def plot_diagnostic_curve(simulation_dict,signal_exp,PR_or_ROC="PR", exp_thresh=
         baseline = sum(y_true)/len(y_true)
         auc = average_precision_score(y_true, y_scores)
         precision, recall, thresholds = precision_recall_curve(y_true, y_scores)
+
         # Plot the curve
         
-        PrecisionRecallDisplay(precision,recall).plot(ax, marker='.', label='PR curve')
+        prec_pts   = precision[:-1]
+        recall_pts = recall[:-1]
+        thr        = np.ravel(thresholds)
+
+        # Avoid log(0) issues
+        thr = np.clip(thr, a_min=1e-8, a_max=None)
+
+        # Plot base PR curve
+        disp = PrecisionRecallDisplay(precision=precision, recall=recall)
+        disp.plot(ax=ax, marker='', label='PR curve')
+
+        sc = ax.scatter(
+            recall_pts, prec_pts,
+            c=thr,
+            cmap='viridis',
+            norm=LogNorm(vmin=1e-6, vmax=1),
+            s=30,
+            alpha=0.9,
+            edgecolor='none'
+        )
+        if plot_cbar:
+            cbar = plt.colorbar(sc, ax=ax,shrink=0.7)
+            cbar.set_label('Threshold (log scale)')
+
         ax.set_xlabel('Recall TP/(FN+TP)')
         ax.set_ylabel('Precision TP/(FP+TP)')
-        plt.text(.1, .75, f"Area Under Precision-Recall curve (PR-AUC): {auc:.3f}",transform=ax.transAxes)
-        ax.axhline(y=baseline, color='black', linestyle='--',label=f"baseline={baseline:.3f}")
+        
+        # No skill line and annotation
+        ax.axhline(y=baseline, color='black', linestyle='--',label=f"no-skill={baseline:.3f}")
+        plt.text(.1, .75, f"Area Under PR-curve \n (PR-AUC): {auc:.3f}",transform=ax.transAxes)
     
     elif PR_or_ROC=="ROC":
         auc = roc_auc_score(y_true, y_scores)
         fpr, tpr, thresholds = roc_curve(y_true, y_scores)
-        # Plot the curve
-        
-        RocCurveDisplay(fpr=fpr, tpr=tpr).plot(ax=ax, marker='.', label='ROC curve')
+
+        # Drop the first (infinite) threshold to avoid inf and align arrays
+        fpr_pts = fpr[1:]
+        tpr_pts = tpr[1:]
+        thr = thresholds[1:]
+
+        # Define fixed log normalization range (since thresholds > 0)
+        vmin, vmax = 1e-6, 1
+        norm = LogNorm(vmin=vmin, vmax=vmax)
+
+        # Plot ROC curve
+        RocCurveDisplay(fpr=fpr, tpr=tpr).plot(ax=ax, marker='', label='ROC curve')
         ax.set_xlabel('FPR (FP/(FP+TN))')
         ax.set_ylabel('TPR (TP/(FN+TP))')
 
-        plt.text(.1, .75, f"Area Under the Receiver Operating Characteristic curve \n (ROC-AUC): {auc:.3f}",transform=ax.transAxes)
-    
+        # Threshold-colored scatter
+        sc = ax.scatter(
+            fpr_pts, tpr_pts,
+            c=thr,
+            cmap='viridis',
+            norm=norm,
+            s=40,
+            edgecolors='none',
+            alpha=1.0
+        )
+        if plot_cbar:
+            cbar = plt.colorbar(sc, ax=ax,shrink=0.7)
+            cbar.set_label('Threshold (log scale)')
+
+        # Diagonal no-skill line and annotation
+        ax.plot([0, 1], [0, 1], '--', color='black', label='no-skill')
+        ax.text(.1, .75, f"Area Under the ROC-curve\n(ROC-AUC): {auc:.3f}", transform=ax.transAxes)
+
     else:
         raise Exception("PR_or_ROC must be either 'PR' or 'ROC'")
+    
     ax.set_xlim([0,1])
     ax.set_ylim([0,1])
-    ax.set_title(f"{name}")
+    ax.set_title(title)
     ax.legend()
 
     return fig,ax
 
 
-def plot_diagnostic_curves(simulation_dict,signal_exp,PR_or_ROC="PR",exp_thresh=1,simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",verbose=True):
-    fig,axs =  plt.subplots(2, 3, figsize=(18, 10))
+def plot_diagnostic_curves_method(simulation_dict,signal_exp,PR_or_ROC="PR",exp_thresh=1,simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",verbose=True):
     
+    
+    names = simulation_dict["receiver"][simulation_method].keys()
+    fig,axs =  plt.subplots(2, len(names), figsize=(7*len(names), 12))
+
     if verbose:
         logging.info(f"plot_diagnostic_curve uses fillna(0) to for missing entries in simulations that exist in experimental results.")
         
-
     i=0
+
 
     for receiver_or_donor in ["receiver","donor"]:
         j=0
-        for name in simulation_dict[receiver_or_donor][simulation_method].keys():
 
-            _ , _ = plot_diagnostic_curve(simulation_dict,
+        for name in names:
+            simulated_res = simulation_dict[receiver_or_donor][simulation_method][name]
+            
+            _ , _ = plot_diagnostic_curve(simulated_res,
                                 signal_exp,
                                 exp_thresh=exp_thresh,
                                 PR_or_ROC=PR_or_ROC,
                                 receiver_or_donor=receiver_or_donor,
-                                name=name,
-                                simulation_method=simulation_method,
                                 metric=metric,
                                 met_column=met_column,
                                 agg_method=agg_method,
                                 ax=axs[i][j],
-                                verbose=(i==0 and j==0 and verbose))
-
+                                verbose=(i==0 and j==0 and verbose),
+                                plot_cbar=False)
             j+=1
-    
         i+=1
-        
+
+    col_titles = [f"{name} \n {agg_method} of {metric}, exp. thresh={exp_thresh} " for name in names]
+    for col_idx, col_title in enumerate(col_titles):
+        pos = axs[0][col_idx].get_position()  # top row’s subplot in this column
+        x_center = pos.x0 + pos.width / 2
+        y_top = pos.y1 + 0.02  
+        fig.text(x_center, y_top, col_title, ha='center', va='bottom', fontsize=16)
 
     fig.text(0.05, 0.75, "Receiver",fontsize=14)
     fig.text(0.05, 0.25, "Donor",fontsize=14)
-    fig.tight_layout()
 
-    #fig.suptitle(f"{receiver_or_donor.upper()}")
+    cmap = plt.cm.viridis
+    vmin = 1e-6
+    vmax = 1
+    norm = LogNorm(vmin=vmin, vmax=vmax)
+
+    sm = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
+    sm.set_array([])  # required by mpl
+    cbar = fig.colorbar(sm, ax=axs, location='right', fraction=0.03, pad=0.02,shrink=0.7)
+    cbar.set_label('Threshold (log scale)')
+
+    return fig,axs
+
+def find_pvalues_of_PR(simulation_dict,signal_exp):
+
+    N=10000
+    results_pr_auc = []
+    sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("steadiercom","frequency"),("smetana","mus")]
+
+    verbose=True
+    for exp_thresh in [0.5,1]:
+
+        agg_method ="sum"
+
+        for simulation_method,metric in sim_method_metric:
+            results_pr_auc.append(pr_auc_pvalue_simulation_method(simulation_dict,
+                                                                            signal_exp,
+                                                                            exp_thresh=exp_thresh,
+                                                                            simulation_method=simulation_method,
+                                                                            metric=metric,
+                                                                            agg_method=agg_method,
+                                                                            N=N,
+                                                                            verbose=verbose)
+            )
+            verbose=False
+
+    pr_auc_pvalue_df = pd.concat(results_pr_auc)
+
+    return pr_auc_pvalue_df
+
+def plot_diagnostic_curves_pvalues(pr_auc_pvalue_df,simulation_dict,signal_exp,receiver_or_donor="receiver"):
+
+    elements = pr_auc_pvalue_df.index
+
+    fig, axs = plt.subplots(len(elements),2,figsize=(10,4*len(elements)))
+
+    i = 0
+
+    verbose=True
+
+    row_titles = []
+    for  index in elements:
+        dict_ = dict(zip(elements.names,index))
+
+        agg_method = dict_["agg_method"]
+        metric = dict_["metric"]
+        simulation_method = dict_["simulation_method"]
+        name = dict_["condition"]
+        exp_thresh = dict_["exp_thresh"]
+        if len(elements)>1:
+            ax1 = axs[i,0]
+            ax2 = axs[i,1]
+        else:
+            ax1 = axs[0]
+            ax2 = axs[1]
+
+
+
+        simulated_res = simulation_dict[receiver_or_donor][simulation_method][name]
+        _,_ = plot_diagnostic_curve(simulated_res,
+                                                        signal_exp,
+                                                        PR_or_ROC="PR", 
+                                                        exp_thresh=exp_thresh,
+                                                        receiver_or_donor=receiver_or_donor,
+                                                        metric=metric,
+                                                        met_column="met_group",
+                                                        agg_method=agg_method,
+                                                        ax=ax1,
+                                                        verbose=verbose,
+                                                        plot_cbar=False,
+                                                        )
+
+        _,_ = plot_diagnostic_curve(simulated_res,
+                                                        signal_exp,
+                                                        PR_or_ROC="ROC", 
+                                                        exp_thresh=exp_thresh,
+                                                        receiver_or_donor=receiver_or_donor,
+                                                        metric=metric,
+                                                        met_column="met_group",
+                                                        agg_method=agg_method,
+                                                        ax=ax2,
+                                                        verbose=verbose,
+                                                        plot_cbar=False,
+                                                        )
+        verbose=False
+
+        row_title = f"{name}, \n {agg_method} of {metric}, exp. thresh={exp_thresh}"
+        row_titles.append(row_title)
+        
+        if i<len(elements)-1:
+            ax1.set_xlabel("")
+            ax2.set_xlabel("")
+            ax1.set_xticklabels([])
+            ax2.set_xticklabels([])
+        ax2.set_yticklabels([])
+
+        i+=1
+
+
+    for row_axes, row_title in zip(axs, row_titles):
+        # Find the vertical center of this row by averaging y-lims of axes positions
+        pos = row_axes[0].get_position()  
+        y_center = pos.y0 + pos.height / 2  
+        fig.text(0.1, y_center, row_title, va='center', ha='right', fontsize=14)
+
+    fig.text(0.3, 0.9, "PR",fontsize=16)
+    fig.text(0.7, 0.9, "ROC",fontsize=16)
+
+    cmap = plt.cm.viridis
+    vmin = 1e-6
+    vmax = 1
+    norm = LogNorm(vmin=vmin, vmax=vmax)
+
+    sm = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
+    sm.set_array([])  # required by mpl
+    cbar = fig.colorbar(sm, ax=axs, location='right', fraction=0.03, pad=0.02,shrink=0.5)
+    cbar.set_label('Threshold (log scale)')
+
+
     return fig,axs
 
 def plot_radar_chart(scores_df,ax=False):
@@ -418,7 +596,5 @@ def plot_radar_chart(scores_df,ax=False):
     plt.legend(loc='upper right', bbox_to_anchor=(1.6, 1.1))
     
     return fig,ax
-
-
 
 
