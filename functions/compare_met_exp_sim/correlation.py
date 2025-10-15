@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import seaborn as sns
 
 import scipy as sp
@@ -12,11 +13,10 @@ logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 
-def find_correlation(simulation_dict,signal_exp,name="SteadierCom - fixed abundance",simulation_method="steadiercom",receiver_or_donor="receiver",metric="frequency",agg_method="sum",verbose=True):
+def find_correlation(simulated_res,signal_exp,receiver_or_donor="receiver",metric="frequency",agg_method="sum",met_column="met_group",verbose=True):
     if verbose:
         logging.info(f"find_correlation uses dropna() to for missing entries in simulations that exist in experimental results.")
        
-    simulated_res = simulation_dict[receiver_or_donor][simulation_method][name]
 
     exp_sim_combined = general_funcs.merge_sim_exp(
                 simulated_res,
@@ -24,14 +24,15 @@ def find_correlation(simulation_dict,signal_exp,name="SteadierCom - fixed abunda
                 metric=metric,
                 agg_method=agg_method,
                 receiver_or_donor=receiver_or_donor,
-                met_column="met_group",
+                met_column=met_column,
                 verbose=verbose
             ).dropna()
 
     
     r, p = sp.stats.kendalltau(x=exp_sim_combined.experimental,y=exp_sim_combined.simulated)
 
-    correlation = {"r":r,"p-value":p}
+
+    correlation = {"r":r,"p-value":p,"datapoints":exp_sim_combined.shape[0]}
 
     return correlation
 
@@ -50,11 +51,10 @@ def find_correlation_simulation_method(simulation_dict,signal_exp,simulation_met
         for i,name in enumerate(simulation_dict[receiver_or_donor][simulation_method].keys()):
 
             verbose_spec = (i==0 and verbose)
+            simulated_res = simulation_dict[receiver_or_donor][simulation_method][name]
 
-            correlation = find_correlation(simulation_dict,
+            correlation = find_correlation(simulated_res,
                                           signal_exp,
-                                          name=name,
-                                          simulation_method=simulation_method,
                                           receiver_or_donor=receiver_or_donor,
                                           metric=metric,
                                           agg_method=agg_method,
@@ -68,8 +68,55 @@ def find_correlation_simulation_method(simulation_dict,signal_exp,simulation_met
     correlations_df = correlations_df.sort_index()
     return correlations_df
 
+def find_correlation_simulation_method_detailed(simulation_dict,signal_exp,member_or_met="member",simulation_method="steadiercom",metric="frequency",agg_method="sum",met_column="met_group",verbose=True):
+    """
+    Function to calculate spearman correlation between experimental and simulated results.
+    """
+ 
+    # Process simulated result
+    correlations_dict = defaultdict(dict)
 
-def make_scatterplot(simulation_dict, signal_exp,name="SteadierCom - fixed abundance",simulation_method="steadiercom",receiver_or_donor="receiver",metric="frequency",agg_method="sum", met_column="met_group",ax=None,verbose=True,legend=True):
+    if member_or_met=="member":
+        classes = signal_exp.index.get_level_values(0).unique()
+    elif member_or_met==met_column:
+        classes = signal_exp.index.get_level_values(1).unique()
+
+    for receiver_or_donor in ["receiver", "donor"]:
+
+        for i,name in enumerate(simulation_dict[receiver_or_donor][simulation_method].keys()):
+
+            verbose_spec = (i==0 and verbose)
+            
+            for class_ in classes:
+                simulated_res = simulation_dict[receiver_or_donor][simulation_method][name]
+                
+                if member_or_met=="member":
+                    simulated_res_copy = simulated_res[simulated_res[receiver_or_donor]==class_].copy()
+                    signal_exp_copy = signal_exp[signal_exp.index.get_level_values(0)==class_].copy()
+                elif member_or_met==met_column:
+                    simulated_res_copy = simulated_res[simulated_res[met_column]==class_].copy()
+                    signal_exp_copy = signal_exp[signal_exp.index.get_level_values(1)==class_].copy()
+
+                correlation = find_correlation(simulated_res_copy,
+                                                signal_exp_copy,
+                                                receiver_or_donor=receiver_or_donor,
+                                                metric=metric,
+                                                agg_method=agg_method,
+                                                verbose=verbose_spec)
+
+                correlations_dict[(receiver_or_donor,simulation_method,name,agg_method,metric,class_)] = correlation
+
+    correlations_df = pd.DataFrame(correlations_dict).T
+    correlations_df["p-value corrected"] = correlations_df["p-value"]*len(classes)
+    correlations_df["number comparisons"] = len(classes)
+
+    correlations_df.index.names = ["role","simulation_method","condition","agg_method","metric",member_or_met]
+    correlations_df = correlations_df.sort_index()
+
+    return correlations_df
+
+
+def make_scatterplot(simulated_res, signal_exp,receiver_or_donor="receiver",metric="frequency",agg_method="sum", met_column="met_group",ax=None,xlabel="",ylabel="",title="",legend=True,verbose=True):
     color = {"receiver":"black","donor":"black"}  
     color_palettes = {"receiver":"RdGy_r","donor":"RdGy_r"}
     
@@ -83,7 +130,6 @@ def make_scatterplot(simulation_dict, signal_exp,name="SteadierCom - fixed abund
 
 
     # Combine experimental and simulated results
-    simulated_res = simulation_dict[receiver_or_donor][simulation_method][name]
     exp_sim_combined = general_funcs.merge_sim_exp(
         simulated_res,
         signal_exp,
@@ -131,26 +177,27 @@ def make_scatterplot(simulation_dict, signal_exp,name="SteadierCom - fixed abund
                     legend=legend
                     )
 
-
-
     ax.set_yscale('log')
 
-    ax.set_title(f"{name}, {agg_method} of {metric} \n #simulated={exp_sim_combined_no_nan.shape[0]}, #not simulated={exp_sim_combined.simulated.isna().sum()}")
+    ax.set_ylabel(f"{ylabel}")
+    ax.set_xlabel(f"{xlabel}")
+    ax.set_title(f"{title}\n #simulated={exp_sim_combined_no_nan.shape[0]}, #not simulated={exp_sim_combined.simulated.isna().sum()}")
 
-    ax.set_ylabel(f"Simulated - {agg_method} of {metric}")
-    ax.set_xlabel(f"Experimental - log2 conc. change")
-
-    #ax.axvspan(-1, 1, alpha=0.1, color='grey')
-    r, p = sp.stats.kendalltau(x=exp_sim_combined_no_nan.experimental,y=exp_sim_combined_no_nan.simulated)
-    plt.text(.1, .65, "Correlation (Kendall's Tau) \n r={:.2f}, p-value={:.3f}".format(r,p), transform=ax.transAxes)
+    correlation = find_correlation(simulated_res,
+                                   signal_exp,
+                                   receiver_or_donor=receiver_or_donor,
+                                   metric=metric,
+                                   agg_method=agg_method,
+                                   verbose=verbose)
+    plt.text(.1, .65, "Correlation (Kendall's Tau) \n r={:.2f}, p-value={:.3f}".format(correlation["r"],correlation["p-value"]), transform=ax.transAxes)
 
     return fig, ax, ax_twin
 
-def make_scatterplots_simulation_method(simulation_dict, signal_exp, simulation_method="steadiercom", metric="frequency", agg_method="sum",  met_column="met_group",verbose=True):
+def make_scatterplots_simulation_method(simulation_dict, signal_exp, simulation_method="steadiercom", metric="frequency", agg_method="sum",  met_column="met_group",xlabel="Experimental - log2 conc. change",verbose=True):
 
     
     names = simulation_dict["receiver"][simulation_method].keys()
-    fig, axs = plt.subplots(2, max(len(names),2), figsize=(6*max(len(names),2), 10))
+    fig, axs = plt.subplots(2, len(names), figsize=(8*len(names), 12))
 
     twin_axes = []
     for i, receiver_or_donor in enumerate(["receiver", "donor"]):
@@ -158,22 +205,24 @@ def make_scatterplots_simulation_method(simulation_dict, signal_exp, simulation_
         for j, name in enumerate(names):
             
             verbose_spec = (j==0 and verbose)
-
             legend = (i==0 and j==len(names)-1)
 
-            _,_,ax_twin = make_scatterplot(simulation_dict, 
+            ylabel = f"Simulated - {agg_method} of {metric}"
+            
+            simulated_res = simulation_dict[receiver_or_donor][simulation_method][name]
+            _,_,ax_twin = make_scatterplot(simulated_res, 
                              signal_exp, 
-                             name=name,
-                             simulation_method=simulation_method, 
                              receiver_or_donor=receiver_or_donor, 
                              metric=metric, 
                              agg_method=agg_method, 
                              met_column=met_column, 
                              ax=axs[i,j], 
                              verbose=verbose_spec,
-                             legend=legend)
+                             legend=legend,
+                             xlabel=xlabel,
+                             ylabel=ylabel,
+                             )
 
-            
             if legend:
                 sns.move_legend(ax_twin,loc="upper left",bbox_to_anchor=(1.1, 1))
                 axs[i,j].legend(loc="upper left",bbox_to_anchor=(1.1, 0.7))
@@ -182,9 +231,99 @@ def make_scatterplots_simulation_method(simulation_dict, signal_exp, simulation_
 
             twin_axes.append(ax_twin)
 
+    col_titles = [f"{name}, {agg_method} of {metric}" for name in names]
 
-    fig.text(-0.06, 0.75, "Receiver",fontsize=14)
-    fig.text(-0.06, 0.25, "Donor",fontsize=14)
-    fig.tight_layout()
+    for col_idx, col_title in enumerate(col_titles):
+        pos = axs[0][col_idx].get_position()  # top row’s subplot in this column
+        x_center = pos.x0 + pos.width / 2
+        y_top = pos.y1 + 0.02  
+        fig.text(x_center, y_top, col_title, ha='center', va='bottom', fontsize=16)
+
+
+    fig.text(0.05, 0.75, "Receiver",fontsize=14)
+    fig.text(0.05, 0.25, "Donor",fontsize=14)
 
     return fig, axs, twin_axes
+
+
+def plot_scatterplots_from_corr(correlations_df, simulation_dict,signal_exp,member_or_met="member",met_column="met_group",xlabel="Experimental - log2 conc. change"):
+
+    parameters = correlations_df.index
+    parameters_list = [dict(zip(parameters.names,param)) for param in parameters]
+
+    rows = int(np.ceil(len(parameters_list)/3))
+    cols = min(len(parameters_list),3)
+
+    fig,axs = plt.subplots(rows,cols,figsize=(5*cols,5*rows))
+
+    axs_twin = []
+    for i,param_dict in enumerate(parameters_list):
+
+        if rows==1:
+            ax = axs[i]
+        else:
+            row = int(np.floor(i/3))
+            col = i%3
+            
+            ax = axs[row,col]
+
+        role = param_dict["role"]
+        simulation_method = param_dict["simulation_method"]
+        condition = param_dict["condition"]
+        agg_method = "sum"
+        metric = param_dict["metric"]
+
+        simulated_res = simulation_dict[role][simulation_method][condition]
+        
+
+        if member_or_met=="member":
+            member = param_dict["member"]
+            signal_exp_member_or_met = signal_exp[signal_exp.index.get_level_values(0)==member].copy()
+            simulated_res_member_or_met = simulated_res[simulated_res[role]==member].copy()
+            title = f"{condition} \n -  member={member} - {role}"
+        elif member_or_met=="met":
+            met = param_dict[met_column]
+            signal_exp_member_or_met = signal_exp[signal_exp.index.get_level_values(1)==met].copy()
+            simulated_res_member_or_met = simulated_res[simulated_res[met_column]==met].copy()
+            title = f"{condition} \n -  met={met} - {role}"
+
+        elif not member_or_met:
+            signal_exp_member_or_met = signal_exp
+            simulated_res_member_or_met = simulated_res
+            title = f"{condition}"
+        else:
+            raise Exception("member_or_met must be either 'met', 'member' or None")
+
+        _, _, ax_twin = make_scatterplot(simulated_res_member_or_met,
+                                    signal_exp_member_or_met,
+                                    receiver_or_donor=role,
+                                    metric=metric,
+                                    agg_method=agg_method,
+                                    xlabel=xlabel,
+                                    ylabel=f"Simulated - {agg_method} of {metric}",
+                                    title=title,
+                                    ax=ax,
+                                    legend=True,
+                                    verbose=False)
+        if rows==1 and i!=(cols-1):
+            ax_twin.set_ylabel("")
+            ax_twin.set_yticklabels([])
+
+
+        elif rows>1 and col!=(cols-1):
+            ax_twin.set_ylabel("")
+            ax_twin.set_yticklabels([])
+
+
+
+        axs_twin.append(ax_twin)
+
+
+
+
+
+    return fig, axs, axs_twin
+        
+
+
+
