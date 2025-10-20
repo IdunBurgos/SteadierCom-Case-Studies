@@ -104,7 +104,6 @@ def run_all_evaluations(simulation_dict, signal_exp, role_config=None,verbose=Tr
         exp_sim_combined_method_bool_dict = {}
         
         # For each result
-
         i=0
         for name,simulation_res in simulation_dict_method.items():
             # Find average receiving/donating quantity
@@ -118,7 +117,6 @@ def run_all_evaluations(simulation_dict, signal_exp, role_config=None,verbose=Tr
                                             )
             # Make boolean output
             ## Determine positive (True) or negative (False) results
-
             exp_sim_combined_method_bool_dict[name]=_eval_sim_exp(exp_sim_combined,
                                                             sim_thresh=sim_thresh,
                                                             exp_thresh=exp_thresh,
@@ -175,7 +173,6 @@ def _create_classification_report(exp_sim_combined_bool,name):
 
     # Extract True class (positive class)
     report_df_copy1 = report_df['1'].copy()
-#    report_df_copy1 = report_df_copy1.drop("support")
     report_df_copy1.index = ["precision","sensitivity","f1-score","support positive"]
 
     # Extract False class (negative class)
@@ -216,23 +213,22 @@ def create_classification_reports(exp_sim_combined_bool_dict):
     return reports_df
 
 
-def _permutation_test(y_true,y_scores,N):
 
-    observed_auc = average_precision_score(y_true,y_scores)
+def _pr_permutation_test(simulation_dict,signal_exp,exp_thresh=1,receiver_or_donor="receiver",name="SteadierCom - fixed abundance",simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
 
-    auc_values = []
+    def _permutation_test(y_true,y_scores,N):
 
-    for _ in range(N):
-        y_true_i = np.random.permutation(y_true)
-        auc_i = average_precision_score(y_true_i, y_scores)
-        auc_values.append(auc_i)
+        observed_auc = average_precision_score(y_true,y_scores)
+        auc_values = []
 
-    p_value = np.mean(auc_values >= observed_auc)
+        for _ in range(N):
+            y_true_i = np.random.permutation(y_true)
+            auc_i = average_precision_score(y_true_i, y_scores)
+            auc_values.append(auc_i)
 
-    return p_value
+        p_value = np.mean(auc_values >= observed_auc)
 
-def pr_permutation_test(simulation_dict,signal_exp,exp_thresh=1,receiver_or_donor="receiver",name="SteadierCom - fixed abundance",simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
-
+        return p_value
 
     sim_df = simulation_dict[receiver_or_donor][simulation_method][name]
     exp_sim_combined = merge_sim_exp(sim_df,
@@ -255,7 +251,7 @@ def pr_permutation_test(simulation_dict,signal_exp,exp_thresh=1,receiver_or_dono
     return {"p_value":p_value}
 
 
-def pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1,simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
+def _pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1,simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
     
     # Process simulated result
     pvalues_dict = defaultdict(dict)
@@ -264,7 +260,7 @@ def pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1,simu
 
         for i,name in enumerate(simulation_dict[receiver_or_donor][simulation_method].keys()):
             verbose_spec = (i==0 and verbose)
-            pvalue = pr_permutation_test(simulation_dict,
+            pvalue = _pr_permutation_test(simulation_dict,
                                           signal_exp,
                                           exp_thresh=exp_thresh,
                                           name=name,
@@ -282,6 +278,34 @@ def pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1,simu
     pvalues_df.index.names = ["role","simulation_method","condition","agg_method","metric","exp_thresh"]
     pvalues_df = pvalues_df.sort_index()
     return pvalues_df
+
+
+def find_pvalues_of_PR(simulation_dict,signal_exp):
+
+    N=10000
+    results_pr_auc = []
+    sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("steadiercom","frequency"),("smetana","mus")]
+
+    verbose=True
+    for exp_thresh in [0.5,1]:
+
+        agg_method ="sum"
+
+        for simulation_method,metric in sim_method_metric:
+            results_pr_auc.append(_pr_auc_pvalue_simulation_method(simulation_dict,
+                                                                            signal_exp,
+                                                                            exp_thresh=exp_thresh,
+                                                                            simulation_method=simulation_method,
+                                                                            metric=metric,
+                                                                            agg_method=agg_method,
+                                                                            N=N,
+                                                                            verbose=verbose)
+            )
+            verbose=False
+
+    pr_auc_pvalue_df = pd.concat(results_pr_auc)
+
+    return pr_auc_pvalue_df
 
 
 def plot_diagnostic_curve(simulated_res,signal_exp,PR_or_ROC="PR", exp_thresh=1,receiver_or_donor="receiver",metric="frequency",met_column="met_group",agg_method="sum",ax=None,title="",plot_cbar=True, verbose=True):
@@ -311,7 +335,6 @@ def plot_diagnostic_curve(simulated_res,signal_exp,PR_or_ROC="PR", exp_thresh=1,
         precision, recall, thresholds = precision_recall_curve(y_true, y_scores)
 
         # Plot the curve
-        
         prec_pts   = precision[:-1]
         recall_pts = recall[:-1]
         thr        = np.ravel(thresholds)
@@ -392,7 +415,6 @@ def plot_diagnostic_curve(simulated_res,signal_exp,PR_or_ROC="PR", exp_thresh=1,
 
 def plot_diagnostic_curves_method(simulation_dict,signal_exp,PR_or_ROC="PR",exp_thresh=1,simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",verbose=True):
     
-    
     names = simulation_dict["receiver"][simulation_method].keys()
     fig,axs =  plt.subplots(2, len(names), figsize=(7*len(names), 12))
 
@@ -400,7 +422,6 @@ def plot_diagnostic_curves_method(simulation_dict,signal_exp,PR_or_ROC="PR",exp_
         logging.info(f"plot_diagnostic_curve uses fillna(0) to for missing entries in simulations that exist in experimental results.")
         
     i=0
-
 
     for receiver_or_donor in ["receiver","donor"]:
         j=0
@@ -444,32 +465,6 @@ def plot_diagnostic_curves_method(simulation_dict,signal_exp,PR_or_ROC="PR",exp_
 
     return fig,axs
 
-def find_pvalues_of_PR(simulation_dict,signal_exp):
-
-    N=10000
-    results_pr_auc = []
-    sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("steadiercom","frequency"),("smetana","mus")]
-
-    verbose=True
-    for exp_thresh in [0.5,1]:
-
-        agg_method ="sum"
-
-        for simulation_method,metric in sim_method_metric:
-            results_pr_auc.append(pr_auc_pvalue_simulation_method(simulation_dict,
-                                                                            signal_exp,
-                                                                            exp_thresh=exp_thresh,
-                                                                            simulation_method=simulation_method,
-                                                                            metric=metric,
-                                                                            agg_method=agg_method,
-                                                                            N=N,
-                                                                            verbose=verbose)
-            )
-            verbose=False
-
-    pr_auc_pvalue_df = pd.concat(results_pr_auc)
-
-    return pr_auc_pvalue_df
 
 def plot_diagnostic_curves_pvalues(pr_auc_pvalue_df,simulation_dict,signal_exp,receiver_or_donor="receiver"):
 
@@ -559,42 +554,4 @@ def plot_diagnostic_curves_pvalues(pr_auc_pvalue_df,simulation_dict,signal_exp,r
     cbar = fig.colorbar(sm, ax=axs, location='right', fraction=0.03, pad=0.02,shrink=0.5)
     cbar.set_label('Threshold (log scale)')
 
-
     return fig,axs
-
-def plot_radar_chart(scores_df,ax=False):
-    """
-    This functions plots the results from scores_df as a radar chart. 
-    """
-
-    fig, ax = plt.subplots(figsize=(5, 5), subplot_kw={'projection': 'polar'})
-
-    # Set up radar chart
-    metrics = scores_df.index.values
-    N = len(metrics)
-    theta = np.linspace(0, 2 * np.pi, N, endpoint=False)
-    theta = np.concatenate([theta, [theta[0]]])
-    ax.set_theta_zero_location("N")
-    ax.set_theta_direction(-1)
-    ax.set_rlabel_position(90)
-    ax.spines['polar'].set_zorder(1)
-    ax.spines['polar'].set_color('lightgrey')
-    ax.set_ylim(0, 0.5)
-
-
-    for idx, (i, row) in enumerate(scores_df.T.iterrows()):
-        values = row[metrics].values.flatten().tolist()
-        values = values + [values[0]] # circle back
-        ax.plot(theta, values, linewidth=1.75, linestyle='solid', label=i, marker='o', markersize=10)
-
-    # Use only the non-duplicated angles for labeling
-    ax.set_xticks(theta[:-1])
-    ax.set_xticklabels(metrics, color='black', size=12)
-
-    # Optional: customize radial ticks
-    ax.set_yticks([0.0, 0.25, 0.5,1.0])
-    plt.legend(loc='upper right', bbox_to_anchor=(1.6, 1.1))
-    
-    return fig,ax
-
-
