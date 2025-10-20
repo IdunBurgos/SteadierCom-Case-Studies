@@ -205,7 +205,6 @@ def find_correlation_simulation_method_detailed(simulation_dict,signal_exp,simul
                 assert signal_exp_member.shape[0]==exp_sim_combined_isna_member.shape[0], f"The size of signal_exp (experimental signal) and merged simulation and experimental results do not match {signal_exp_member.shape[0]}!={exp_sim_combined_isna_member.shape[0]}."
 
                 correlation = _find_correlation(exp_sim_combined_isna_member,verbose=True)
-                correlation["#comparisons"]=len(main_members)
                 correlations_dict[(coop_or_comp, simulation_method,name, metric, main_member)]=correlation
 
     correlations_df = pd.DataFrame(correlations_dict).T
