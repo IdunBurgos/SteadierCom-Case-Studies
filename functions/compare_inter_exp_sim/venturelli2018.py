@@ -2,6 +2,10 @@
 import pandas as pd
 import libsbml
 
+import sys
+sys.path.append("../functions/")
+import compare_inter_exp_sim.correlation as correlation
+
 
 def load_experimental_results():
     """
@@ -53,9 +57,9 @@ def _process_simulation_results(steadiercom_dict,steadycom_dict,smetana_dict):
 
                 simulated = simulated[ (simulated.receiver!="environment")].copy()
 
-                simulated.donor = simulated.donor.map(lambda x: x.split("_")[0][0].upper()+x.split("_")[1][0].upper() if x!="environment" else x)
-                simulated.receiver = simulated.receiver.map(lambda x: x.split("_")[0][0].upper()+x.split("_")[1][0].upper())
-            
+            simulated.donor = simulated.donor.map(lambda x: x.split("_")[0][0].upper()+x.split("_")[1][0].upper() if x!="environment" else x)
+            simulated.receiver = simulated.receiver.map(lambda x: x.split("_")[0][0].upper()+x.split("_")[1][0].upper())
+        
             simulation_dict[simulation_method][name]=simulated
 
     return simulation_dict
@@ -101,4 +105,35 @@ def load_simulation_results():
     simulation_dict = _process_simulation_results(steadiercom_dict,steadycom_dict,smetana_dict)
 
     return simulation_dict
+
+
+def find_correlations(simulation_dict,signal_exp):
+
+
+    simulation_method="steadycom"
+    metric = "rate?"
+
+    results_corr = []
+    results_corr_member = []
+
+    sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("smetana","scs")]
+
+    for simulation_method,metric in sim_method_metric:
+        print(simulation_method)
+        results_corr.append(correlation.find_correlation_simulation_method(simulation_dict,
+                                                    signal_exp,
+                                                    simulation_method=simulation_method,
+                                                    metric=metric)
+        )
+
+        results_corr_member.append(correlation.find_correlation_simulation_method_detailed(simulation_dict,
+                                                                                           signal_exp,
+                                                                                           simulation_method=simulation_method,
+                                                                                           metric=metric))
+
+    results_corr_df = pd.concat(results_corr)
+    results_corr_member_df = pd.concat(results_corr_member)
+
+
+    return results_corr_df,results_corr_member_df
 
