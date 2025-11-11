@@ -20,8 +20,9 @@ def make_co_growth_count_matrix(abundance_filtered,community,verbose=True):
         logger.info("Make_co_growth_count_matrix sets diagonal entries (memberA==memberB) to 0.")
     
     # Filter out data not related to community
+
     abundance_filtered_subdf = abundance_filtered.query(f"community=='{community}'")
-    
+        
     # Create data series with 'sample','member' as index and 'relative_abundance' as values
     member_abund = abundance_filtered_subdf.set_index(["sample","member"])["relative_abundance"].unstack().fillna(0)
 
