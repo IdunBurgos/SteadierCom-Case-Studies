@@ -4,3 +4,4 @@ models/
 **/.ipynb_checkpoints/* 
 **/.DS_Store/*
 notebooks/old\ notebooks
+data/.DS_Store
