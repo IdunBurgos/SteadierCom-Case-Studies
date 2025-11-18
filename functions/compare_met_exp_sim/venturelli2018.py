@@ -17,8 +17,32 @@ logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 
-
 def _assign_groups_and_filter_by_models(dataset4_stack,metname_groups,verbose=True):
+    """
+    This is a helper function for load_experimental_results_venturelli. It assigns metabolite groups to the metabolites 
+    and filters out metabolites that do not exist in any model. It returns the filtered dataframe,
+    the set of metabolite groups found in the models and the list of metabolite names not included in any model.
+
+    Inputs:
+    ------------
+    dataset4_stack: pd.DataFrame
+        Dataframe with columns: metname, member, change.
+    metname_groups: dict
+        Dictionary with metabolite groups as keys and dictionaries as values. The inner dictionaries have metabolite names as keys and weights as values.
+    verbose: bool
+        Whether to print information during the function execution. Default is True.  
+    Outputs:
+    ------------
+    dataset4_stack_filtered: pd.DataFrame
+        Dataframe with metabolite groups assigned and filtered by model metabolites.
+    met_groups_model: set of tuples
+        Set of tuples with (member_id, met_group) found in the models.
+    metnames_not_included: list
+        List of metabolite names not included in any model.
+    ------------
+    """
+    
+    # VALIDATE INPUT
     assert isinstance(metname_groups,dict), f"metname_groups is not a dict: {type(metname_groups)}"
     assert len(metname_groups)!=0, f"metname_groups is empty: {type(metname_groups)}"
     assert isinstance(dataset4_stack,pd.DataFrame), f"dataset4_stack is not a pd.DataFrame: {type(dataset4_stack)}"
@@ -58,6 +82,8 @@ def _assign_groups_and_filter_by_models(dataset4_stack,metname_groups,verbose=Tr
     # Find mets and met_groups matching with model
     met_ids_keys = metid2metname.keys()
     met_groups_model  = []
+    groups_included = []
+    mets_included = []
     for member_name,model in models.items():
         # For each model check all metabolites 
         for met_id in model.metabolites:
@@ -67,8 +93,16 @@ def _assign_groups_and_filter_by_models(dataset4_stack,metname_groups,verbose=Tr
                     member_id = member_name.split("_")[0][0].upper()+member_name.split("_")[1][0].upper()
                     # Add groups that the met is assigned to list
                     met_groups_model.append((member_id,group))
+                    groups_included.append(group)
+                mets_included.append(met_id)
+                    
     met_groups_model = set(met_groups_model)
-    assert len(met_groups_model)!=0, "met_groups_model is empty"
+
+    groups_included = set(groups_included)
+    mets_not_included = set(met_ids_keys) - set(mets_included)
+    metnames_not_included = [metid2metname[metid] for metid in mets_not_included]
+
+    assert len(met_groups_model)!=0, "met_groups_model is empty meaning that no metabolites from experimental data are found in any model"
 
     ## ASSIGN GROUPS
     # Add group name to df
@@ -76,16 +110,17 @@ def _assign_groups_and_filter_by_models(dataset4_stack,metname_groups,verbose=Tr
     assert not dataset4_stack.empty, "dataset4_stack is empty after merging with mapping_df"
 
     ## FILTER METABOLITES BASED ON MODEL COMPONENTS
-    mask = dataset4_stack[["member","met_group"]].apply(tuple,axis=1).isin(met_groups_model)
-    dataset4_stack = dataset4_stack[mask].copy() 
-    assert not dataset4_stack.empty, "dataset4_stack is empty after filtering based on model metabolites"
-
-    return dataset4_stack
+    #mask = dataset4_stack[["member","met_group"]].apply(tuple,axis=1).isin(met_groups_model)
+    mask = dataset4_stack["met_group"].isin(groups_included)
+    dataset4_stack_filtered = dataset4_stack[mask].copy() 
+    assert not dataset4_stack_filtered.empty, "dataset4_stack is empty after filtering based on model metabolites"
+    
+    return dataset4_stack_filtered,met_groups_model,metnames_not_included
 
 
 def load_experimental_results(verbose=True):
     """
-    Function for processing metabolomics data which gives output 'signal_exp'
+    Function for processing metabolomics data which gives output 'signal_exp' to be compared with simulation results.
     """
 
     ## LOAD DATA
@@ -114,17 +149,19 @@ def load_experimental_results(verbose=True):
     dataset4_stack = dataset4.stack().reset_index()
     assert len(dataset4_stack.columns)==3, "number of columns in dataset4_stack should be 3"
     dataset4_stack.columns = ["metname","member","change"]
-    dataset4_stack = _assign_groups_and_filter_by_models(dataset4_stack,metname_groups)
+
+    # Filter out metabolites not in any model and assign groups
+    dataset4_stack_filtered,met_groups_model,metnames_not_included = _assign_groups_and_filter_by_models(dataset4_stack,metname_groups)
 
     ## ASSIGN WEIGHTS AND AGGREGATE
     # Add met weight to df
-    dataset4_stack["weight"]=dataset4_stack.apply(lambda x: metname_groups[x["met_group"]][x["metname"]],axis=1)
-    dataset4_stack["change*weight"]=dataset4_stack.change*dataset4_stack.weight
+    dataset4_stack_filtered["weight"]=dataset4_stack_filtered.apply(lambda x: metname_groups[x["met_group"]][x["metname"]],axis=1)
+    dataset4_stack_filtered["change*weight"]=dataset4_stack_filtered.change*dataset4_stack_filtered.weight
 
     # Find the sum of the change and weights within a group
 
-    combined_signal = dataset4_stack[["member","met_group","change*weight"]].groupby(["member","met_group"]).sum()["change*weight"]
-    combined_weights = dataset4_stack[["member","met_group","weight"]].groupby(["member","met_group"]).sum()["weight"]
+    combined_signal = dataset4_stack_filtered[["member","met_group","change*weight"]].groupby(["member","met_group"]).sum()["change*weight"]
+    combined_weights = dataset4_stack_filtered[["member","met_group","weight"]].groupby(["member","met_group"]).sum()["weight"]
 
     # Find the geometric average of the signal
     signal_exp = (combined_signal/combined_weights).unstack()
@@ -136,7 +173,7 @@ def load_experimental_results(verbose=True):
 
     raw_data_exp = dataset4.copy()
  
-    return raw_data_exp,signal_exp
+    return raw_data_exp,signal_exp,met_groups_model,metnames_not_included
 
 
 def _prepare_sim_met(simulated_results,metid2group,receiver_or_donor="receiver",verbose=True):
@@ -162,38 +199,38 @@ def _prepare_sim_met(simulated_results,metid2group,receiver_or_donor="receiver",
     else:
         raise Exception("receiver_or_donor must be either 'receiver' or 'donor'")
 
-    
+    # Filter metabolites based on those present in experimental data
     simulated_res_reduced = simulated_results[simulated_results.compound.isin(metid2group.keys())].copy()
     simulated_res_reduced["met_group"] = simulated_res_reduced.compound.map(lambda x: metid2group[x])
     
     return simulated_res_reduced
 
+def _prepare_all_simulations(sim_dicts, metid2group,verbose=True):
+    """
+    Function to prepare all simulation results for analysis with prepare_sim_met_venturelli.
+    """
+    
+    simulation_dict = {"receiver": {}, "donor": {}}
+    for role in simulation_dict:
+        i=0
+        for method, sim_data in sim_dicts.items():
+            verbose_spec= (verbose and i==0)
+
+            simulation_dict[role][method] = {
+                name: _prepare_sim_met(
+                    simulated_results=res,
+                    metid2group=metid2group,
+                    receiver_or_donor=role,
+                    verbose=verbose_spec
+                )
+                for name, res in sim_data.items()
+            }
+
+            i+=1
+    return simulation_dict
 
 
 def load_simulation_results(metid2group,verbose=True):
-    def _prepare_all_simulations(sim_dicts, metid2group,verbose=True):
-        """
-        Function to prepare all simulation results for analysis with prepare_sim_met_venturelli.
-        """
-        
-        simulation_dict = {"receiver": {}, "donor": {}}
-        for role in simulation_dict:
-            i=0
-            for method, sim_data in sim_dicts.items():
-                verbose_spec= (verbose and i==0)
-
-                simulation_dict[role][method] = {
-                    name: _prepare_sim_met(
-                        simulated_results=res,
-                        metid2group=metid2group,
-                        receiver_or_donor=role,
-                        verbose=verbose_spec
-                    )
-                    for name, res in sim_data.items()
-                }
-
-                i+=1
-        return simulation_dict
 
     if verbose:
         logging.info(f"load_simulation_results loads simulation results from \n\t../output/Venturelli2018/results_steadiercom, \n\t../output/Venturelli2018/steadycom and \n\t../output/Venturelli2018/smetana"\
@@ -219,6 +256,63 @@ def load_simulation_results(metid2group,verbose=True):
     steadycom = pd.read_csv("../output/Venturelli2018/steadycom/no_abundance/cross_feeding.tsv",sep="\t")
     steadycom = steadycom[steadycom.community=="NONE"]
 
+    # Adjust SteadyCom results for easier merging
+    steadycom.donor = steadycom.donor.map(lambda x: x.replace("M_","") if isinstance(x,str) else x)
+    steadycom.receiver = steadycom.receiver.map(lambda x: x.replace("M_","") if isinstance(x,str) else x)
+
+    steadycom_fixed_abundance.donor = steadycom_fixed_abundance.donor.map(lambda x: x.replace("M_","") if isinstance(x,str) else x)
+    steadycom_fixed_abundance.receiver = steadycom_fixed_abundance.receiver.map(lambda x: x.replace("M_","") if isinstance(x,str) else x)
+
+    # Combine results
+    steadiercom_dict = {
+        "SteadierCom - fixed growth":steadiercom_growth,
+        "SteadierCom - fixed growth & abundance":steadiercom_growth_abundance,
+        "SteadierCom - fixed abundance":steadiercom_abundance,
+    }
+
+    steadycom_dict = {
+        "SteadyCom - Nothing fixed":steadycom,
+        "SteadyCom - Fixed  abundance":steadycom_fixed_abundance
+    }
+
+    smetana_dict = {"Smetana":smetana}
+
+    simulation_sources = {
+        "steadiercom": steadiercom_dict,
+        "steadycom": steadycom_dict,
+        "smetana": smetana_dict
+    }
+
+    # Prepare data for analysis
+    simulation_dict = _prepare_all_simulations(simulation_sources, metid2group,verbose=verbose)
+
+    return simulation_dict
+
+
+def load_simulation_results_pairwise(metid2group,verbose=True):
+
+    """
+    Function to load pairwise simulation results for Venturelli2018 case study.
+    """
+
+    if verbose:
+        logging.info(f"load_simulation_results loads simulation results from \n\t../output/Venturelli2018/results_steadiercom, \n\t../output/Venturelli2018/steadycom and \n\t../output/Venturelli2018/smetana")
+
+    # SteadierCom results
+    steadiercom_growth = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_pairwise_growth/.tsv",sep="\t")
+    steadiercom_growth_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_pairwise_growth_abundance/.tsv",sep="\t")
+    
+    steadiercom_growth["frequency*mass_rate"] = steadiercom_growth.frequency * steadiercom_growth.mass_rate
+    steadiercom_growth_abundance["frequency*mass_rate"] = steadiercom_growth_abundance.frequency * steadiercom_growth_abundance.mass_rate
+    steadiercom_growth["frequency*rate"] = steadiercom_growth.frequency * steadiercom_growth.rate
+    steadiercom_growth_abundance["frequency*rate"] = steadiercom_growth_abundance.frequency * steadiercom_growth_abundance.rate
+
+    # SMETANA results
+    smetana = pd.read_csv("../output/Venturelli2018/smetana/pairwise_detailed.tsv",sep="\t")
+
+    # SteadyCom results
+    steadycom_fixed_abundance = pd.read_csv("../output/Venturelli2018/steadycom/pairwise_no_abundance/cross_feeding.tsv",sep="\t")
+    steadycom = pd.read_csv("../output/Venturelli2018/steadycom/pairwise_no_abundance/cross_feeding.tsv",sep="\t")
 
 
     # Adjust SteadyCom results for easier merging
@@ -232,7 +326,6 @@ def load_simulation_results(metid2group,verbose=True):
     steadiercom_dict = {
         "SteadierCom - fixed growth":steadiercom_growth,
         "SteadierCom - fixed growth & abundance":steadiercom_growth_abundance,
-        "SteadierCom - fixed abundance":steadiercom_abundance,
     }
 
     steadycom_dict = {
@@ -300,60 +393,6 @@ def find_correlations(simulation_dict,signal_exp):
     return results_corr_df,results_corr_member_df,results_corr_met_df
 
 
-
-def load_simulation_results_pairwise(metid2group,verbose=True):
-
-    if verbose:
-        logging.info(f"load_simulation_results loads simulation results from \n\t../output/Venturelli2018/results_steadiercom, \n\t../output/Venturelli2018/steadycom and \n\t../output/Venturelli2018/smetana"\
-                     "\n Only loads results for community 'NONE' (full community)")
-
-    # SteadierCom results
-    steadiercom_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_pairwise_abundance/.tsv",sep="\t")
-    steadiercom_growth = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_pairwise_growth/.tsv",sep="\t")
-    steadiercom_growth_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_pairwise_growth_abundance/.tsv",sep="\t")
-    
-    # SMETANA results
-    smetana = pd.read_csv("../output/Venturelli2018/smetana/pairwise_detailed.tsv",sep="\t")
-
-    # SteadyCom results
-    steadycom_fixed_abundance = pd.read_csv("../output/Venturelli2018/steadycom/pairwise_no_abundance/cross_feeding.tsv",sep="\t")
-    steadycom = pd.read_csv("../output/Venturelli2018/steadycom/pairwise_no_abundance/cross_feeding.tsv",sep="\t")
-
-
-
-    # Adjust SteadyCom results for easier merging
-    steadycom.donor = steadycom.donor.map(lambda x: x.replace("M_","") if isinstance(x,str) else x)
-    steadycom.receiver = steadycom.receiver.map(lambda x: x.replace("M_","") if isinstance(x,str) else x)
-
-    steadycom_fixed_abundance.donor = steadycom_fixed_abundance.donor.map(lambda x: x.replace("M_","") if isinstance(x,str) else x)
-    steadycom_fixed_abundance.receiver = steadycom_fixed_abundance.receiver.map(lambda x: x.replace("M_","") if isinstance(x,str) else x)
-
-    # Combine results
-    steadiercom_dict = {
-        "SteadierCom - fixed growth":steadiercom_growth,
-        "SteadierCom - fixed growth & abundance":steadiercom_growth_abundance,
-        "SteadierCom - fixed abundance":steadiercom_abundance,
-    }
-
-    steadycom_dict = {
-        "SteadyCom - Nothing fixed":steadycom,
-        "SteadyCom - Fixed  abundance":steadycom_fixed_abundance
-    }
-
-    smetana_dict = {"Smetana":smetana}
-
-    simulation_sources = {
-        "steadiercom": steadiercom_dict,
-        "steadycom": steadycom_dict,
-        "smetana": smetana_dict
-    }
-
-    # Prepare data for analysis
-    simulation_dict = _prepare_all_simulations(simulation_sources, metid2group,verbose=verbose)
-
-    return simulation_dict
-
-
 def plot_confusion_matrix_venturelli(exp_sim_combined_bool_dict,suptitle="No title"):
 
     i = 0
@@ -375,9 +414,5 @@ def plot_confusion_matrix_venturelli(exp_sim_combined_bool_dict,suptitle="No tit
         i +=1
     fig.suptitle(suptitle)
     return fig,axs
-
-
-
-
 
 

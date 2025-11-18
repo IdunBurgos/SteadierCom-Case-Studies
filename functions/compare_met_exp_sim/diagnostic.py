@@ -32,7 +32,29 @@ def _eval_exp(exp_ser,receiver_or_donor="receiver",exp_thresh=1):
         
     return exp_ser
 
-def identify_support(signal_exp, exp_thresh_list=[0.25,0.5,1]):
+def _eval_sim(sim_ser,sim_thresh=0.5):
+    """
+    Function to classify simulated interaction as True or False.
+    """
+    
+    sim_ser = sim_ser.copy()
+    sim_ser = (sim_ser>sim_thresh).map(int)
+    
+    return sim_ser
+
+def _eval_sim_exp(exp_sim_combined,sim_thresh=0.5,exp_thresh=1,receiver_or_donor="receiver"):
+
+    """
+    Function to classify both experimental and simulated interactions as True or False.
+    """
+
+    exp_sim_combined.experimental= _eval_exp(exp_sim_combined=exp_sim_combined.experimental,receiver_or_donor=receiver_or_donor,exp_thresh=exp_thresh)
+    exp_sim_combined.simulated= _eval_sim(exp_sim_combined=exp_sim_combined.simulated,sim_thresh=sim_thresh)
+    
+    return exp_sim_combined
+
+
+def identify_support(signal_exp, exp_thresh_list=[1]):
     """
     Function to identify number of interactions that are supported by experimental data at different thresholds.
     """
@@ -61,28 +83,6 @@ def identify_support(signal_exp, exp_thresh_list=[0.25,0.5,1]):
 
     return pd.DataFrame.from_dict(support_dict, orient="index")
 
-
-
-def _eval_sim(sim_ser,sim_thresh=0.5):
-    """
-    Function to classify simulated interaction as True or False.
-    """
-    
-    sim_ser = sim_ser.copy()
-    sim_ser = (sim_ser>sim_thresh).map(int)
-    
-    return sim_ser
-
-def _eval_sim_exp(exp_sim_combined,sim_thresh=0.5,exp_thresh=1,receiver_or_donor="receiver"):
-
-    """
-    Function to classify both experimental and simulated interactions as True or False.
-    """
-
-    exp_sim_combined.experimental= _eval_exp(exp_sim_combined=exp_sim_combined.experimental,receiver_or_donor=receiver_or_donor,exp_thresh=exp_thresh)
-    exp_sim_combined.simulated= _eval_sim(exp_sim_combined=exp_sim_combined.simulated,sim_thresh=sim_thresh)
-    
-    return exp_sim_combined
 
 def run_all_evaluations(simulation_dict, signal_exp, role_config=None,verbose=True):
     """
@@ -187,6 +187,7 @@ def _create_classification_report(exp_sim_combined_bool,name):
 
     return report_df_copy.sort_index()
 
+
 def create_classification_reports(exp_sim_combined_bool_dict):
     """
     Input:
@@ -211,8 +212,6 @@ def create_classification_reports(exp_sim_combined_bool_dict):
     reports_df = pd.concat(reports_dict)
 
     return reports_df
-
-
 
 def _pr_permutation_test(simulation_dict,signal_exp,exp_thresh=1,receiver_or_donor="receiver",name="SteadierCom - fixed abundance",simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
 
@@ -287,7 +286,7 @@ def find_pvalues_of_PR(simulation_dict,signal_exp):
     sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("steadiercom","frequency"),("smetana","mus")]
 
     verbose=True
-    for exp_thresh in [0.5,1]:
+    for exp_thresh in [1]:
 
         agg_method ="sum"
 
@@ -537,7 +536,10 @@ def plot_diagnostic_curves_pvalues(pr_auc_pvalue_df,simulation_dict,signal_exp,r
 
     for row_axes, row_title in zip(axs, row_titles):
         # Find the vertical center of this row by averaging y-lims of axes positions
-        pos = row_axes[0].get_position()  
+        if len(elements)==1:
+            pos = row_axes.get_position() 
+        else:
+            pos = row_axes[0].get_position()  
         y_center = pos.y0 + pos.height / 2  
         fig.text(0.1, y_center, row_title, va='center', ha='right', fontsize=14)
 
@@ -555,3 +557,6 @@ def plot_diagnostic_curves_pvalues(pr_auc_pvalue_df,simulation_dict,signal_exp,r
     cbar.set_label('Threshold (log scale)')
 
     return fig,axs
+
+
+

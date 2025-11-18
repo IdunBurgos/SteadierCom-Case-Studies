@@ -88,9 +88,7 @@ def std_sample_size(dfs_tot_abs,sample_sizes,cutoff=1e-6):
     for n in sample_sizes:
         # makes S sets with n number of samples
         n=int(n)
-        #data = pd.DataFrame({f"set{i}":dfs_tot_abs.sample(n=n, axis=1, replace=True,
         data = pd.concat([dfs_tot_abs.sample(n=n, axis=1, replace=True,
-         
                                              random_state=int(rng.integers(1_000_000_000))).T.mean()
         for i in range(S)
         ],axis=1)

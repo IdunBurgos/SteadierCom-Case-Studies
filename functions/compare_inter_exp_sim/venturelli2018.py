@@ -106,6 +106,37 @@ def load_simulation_results():
 
     return simulation_dict
 
+def load_simulation_results_pairwise():
+    """
+    Loads experimental data from all simulation methods and 
+    """
+    steadiercom_growth = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_pairwise_growth/.tsv",sep="\t")
+
+    steadiercom_growth_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_pairwise_growth_abundance/.tsv",sep="\t")
+
+    smetana = pd.read_csv("../output/Venturelli2018/smetana/pairwise_detailed.tsv",sep="\t")
+
+    steadycom_fixed_abundance = pd.read_csv("../output/Venturelli2018/steadycom/pairwise_fixed_abundance/cross_feeding.tsv",sep="\t")
+    steadycom = pd.read_csv("../output/Venturelli2018/steadycom/pairwise_no_abundance/cross_feeding.tsv",sep="\t")
+
+    steadiercom_dict = {
+        "SteadierCom - Fixed growth":steadiercom_growth,
+        "SteadierCom - Fixed growth & abundance":steadiercom_growth_abundance,
+    }
+
+    steadycom_dict = {
+        "SteadyCom - Nothing fixed":steadycom,
+        "SteadyCom - Fixed abundance":steadycom_fixed_abundance
+    }
+
+    smetana_dict = {
+        "SMETANA": smetana
+    }
+
+    simulation_dict = _process_simulation_results(steadiercom_dict,steadycom_dict,smetana_dict)
+
+    return simulation_dict
+
 
 def find_correlations(simulation_dict,signal_exp):
 

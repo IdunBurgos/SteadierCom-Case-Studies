@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def find_correlation(simulated_res,signal_exp,receiver_or_donor="receiver",metric="frequency",agg_method="sum",met_column="met_group",verbose=True):
     if verbose:
-        logging.info(f"find_correlation uses dropna() to for missing entries in simulations that exist in experimental results.")
+        logging.info(f"find_correlation uses fillna(0) for missing entries in simulations that exist in experimental results.")
        
 
     exp_sim_combined = general_funcs.merge_sim_exp(
@@ -26,7 +26,7 @@ def find_correlation(simulated_res,signal_exp,receiver_or_donor="receiver",metri
                 receiver_or_donor=receiver_or_donor,
                 met_column=met_column,
                 verbose=verbose
-            ).dropna()
+            ).fillna(0)
 
     
     r, p = sp.stats.kendalltau(x=exp_sim_combined.experimental,y=exp_sim_combined.simulated)
@@ -107,8 +107,6 @@ def find_correlation_simulation_method_detailed(simulation_dict,signal_exp,membe
                 correlations_dict[(receiver_or_donor,simulation_method,name,agg_method,metric,class_)] = correlation
 
     correlations_df = pd.DataFrame(correlations_dict).T
-    correlations_df["p-value corrected"] = correlations_df["p-value"]*len(classes)
-    correlations_df["number comparisons"] = len(classes)
 
     correlations_df.index.names = ["role","simulation_method","condition","agg_method","metric",member_or_met]
     correlations_df = correlations_df.sort_index()
@@ -141,7 +139,7 @@ def make_scatterplot(simulated_res, signal_exp,receiver_or_donor="receiver",metr
     )
 
     # Find entries with and without simulated values
-    exp_sim_combined_no_nan = exp_sim_combined.dropna()
+    exp_sim_combined_no_nan = exp_sim_combined.fillna(0)
     exp_sim_combined_is_nan = exp_sim_combined.copy()
     exp_sim_combined_is_nan.simulated = ~exp_sim_combined.simulated.isna()
 
@@ -181,7 +179,7 @@ def make_scatterplot(simulated_res, signal_exp,receiver_or_donor="receiver",metr
 
     ax.set_ylabel(f"{ylabel}")
     ax.set_xlabel(f"{xlabel}")
-    ax.set_title(f"{title}\n #simulated={exp_sim_combined_no_nan.shape[0]}, #not simulated={exp_sim_combined.simulated.isna().sum()}")
+    ax.set_title(f"{title}\n #simulated={(~exp_sim_combined_is_nan.simulated).sum()}, #not simulated={exp_sim_combined_is_nan.simulated.sum()}")
 
     correlation = find_correlation(simulated_res,
                                    signal_exp,

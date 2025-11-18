@@ -214,7 +214,7 @@ def find_correlation_simulation_method_detailed(simulation_dict,signal_exp,simul
     return correlations_df
 
 
-def make_scatterplot(simulation_dict,signal_exp,coop_or_comp="coop",simulation_method="steadiercom",name="SteadierCom - Fixed growth",metric="frequency",ax=None,xlabel="",ylabel="",title="",include_legend=True):
+def make_scatterplot(simulated_res,signal_exp,coop_or_comp="coop",metric="frequency",ax=None,xlabel="",ylabel="",title="",include_legend=True):
 
     if not ax:
         fig,ax = plt.subplots(1,1)
@@ -222,7 +222,6 @@ def make_scatterplot(simulation_dict,signal_exp,coop_or_comp="coop",simulation_m
     else:
         fig = ax.get_figure()
     
-    simulated_res = simulation_dict[simulation_method][name]
     exp_sim_combined_isna = _merge_exp_sim(simulated_res,
                                                      signal_exp,
                                                      coop_or_comp=coop_or_comp,
@@ -290,11 +289,10 @@ def make_scatterplots_simulation_method(simulation_dict,signal_exp,simulation_me
                 ax = axs[i,j]
             
             include_legend= (i==0) & (j==len(names)-1)
-            _,_,ax_twin,not_simulated = make_scatterplot(simulation_dict,
+            simulated_res = simulation_dict[simulation_method][name]
+            _,_,ax_twin,not_simulated = make_scatterplot(simulated_res,
                                     signal_exp,
                                     coop_or_comp=coop_or_comp,
-                                    simulation_method=simulation_method,
-                                    name=name,
                                     metric=metric,
                                     ax=ax,
                                     xlabel="gLV",
