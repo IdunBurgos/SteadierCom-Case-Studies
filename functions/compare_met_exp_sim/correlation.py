@@ -139,8 +139,8 @@ def make_scatterplot(simulated_res, signal_exp,receiver_or_donor="receiver",metr
     )
 
     # Find entries with and without simulated values
-    exp_sim_combined_no_nan = exp_sim_combined.fillna(0)
-    exp_sim_combined_is_nan = exp_sim_combined.copy()
+    exp_sim_combined_fillna = exp_sim_combined.fillna(0) # For scatterplot (to represent non-simulated values in the plot)
+    exp_sim_combined_is_nan = exp_sim_combined.copy() # For density plot and to quantify number of missing values - to show how many metabolites were not simulated and potential bias
     exp_sim_combined_is_nan.simulated = ~exp_sim_combined.simulated.isna()
 
     # Create twin axis for density plot
@@ -165,7 +165,8 @@ def make_scatterplot(simulated_res, signal_exp,receiver_or_donor="receiver",metr
                 legend=True
                 )
     # Plot scatter of experimental vs simulated
-    sns.scatterplot(data=exp_sim_combined_no_nan,
+
+    sns.scatterplot(data=exp_sim_combined_fillna,
                     x="experimental",
                     y="simulated",
                     alpha=0.3,
