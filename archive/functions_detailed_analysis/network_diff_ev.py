@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from concurrent.futures import ProcessPoolExecutor
-import networks
+import functions.old_functions.networks as networks
 
 def process_results(pop,energies):
     energies = np.array(energies)
