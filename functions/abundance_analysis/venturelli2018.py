@@ -40,18 +40,39 @@ def load_simulation_results():
     abundances_df.reset_index(drop=True)
     abundances_df.member = abundances_df.member.map(_change_name)
 
-    steadiercom_abundance_df = abundances_df.groupby(['community', 'member'], as_index=False).agg({"relative_abundance": (lambda x: sum(x)/3000)})
+    samples = abundances_df["sample"].max()
+    steadiercom_abundance_df = abundances_df.groupby(['community', 'member'], as_index=False).agg({"relative_abundance": (lambda x: sum(x)/samples)})
     steadiercom_abundance_df = steadiercom_abundance_df.pivot_table(index='member', columns='community', values='relative_abundance', fill_value=0)
     steadiercom_abundance_df = steadiercom_abundance_df.T.sort_index(axis=1)
-    steadiercom_abundance_df
+
+    # Filter out communities where there is only one present member
+    count_members_sample = abundances_df[["sample","community"]].value_counts()
+    count_above_1 = count_members_sample[count_members_sample>1].index
+    abundances_df_filtered = abundances_df[abundances_df[["sample", "community"]].apply(tuple, axis=1).isin(count_above_1)].copy()
+    # Count number of samples per community
+    samples_in_community = (abundances_df_filtered[["community", "sample"]]
+                            .drop_duplicates()
+                            .groupby("community")
+                            .size())
+    # Calculate average relative abundances using precomputed sample counts per community
+    steadiercom_abundance_filtered_df = (abundances_df_filtered
+                                         .groupby(['community', 'member'], as_index=False)['relative_abundance']
+                                         .sum())
+    
+    # Normalize by number of samples per community
+    steadiercom_abundance_filtered_df["relative_abundance"] = (
+        steadiercom_abundance_filtered_df["relative_abundance"] /
+        steadiercom_abundance_filtered_df["community"].map(samples_in_community)
+    )
+    steadiercom_abundance_filtered_df = steadiercom_abundance_filtered_df.pivot_table(index='member', columns='community', values='relative_abundance', fill_value=0)
+    steadiercom_abundance_filtered_df = steadiercom_abundance_filtered_df.T.sort_index(axis=1)
 
     steadycom_abundance_df = pd.read_csv("../output/Venturelli2018/steadycom/no_abundance/relative_abundance.tsv",sep="\t",index_col=0)
-
     steadycom_abundance_df.index = steadycom_abundance_df.index.map(lambda x:x.split("_")[1][0].upper()+x.split("_")[2][0].upper())
     steadycom_abundance_df = steadycom_abundance_df.T
     steadycom_abundance_df.sort_index(inplace=True)
     steadycom_abundance_df.sort_index(inplace=True,axis=1)
-    return steadiercom_abundance_df, steadycom_abundance_df
+    return steadiercom_abundance_df, steadiercom_abundance_filtered_df, steadycom_abundance_df
 
 
 def load_experimental_results_pairwise():
@@ -74,7 +95,6 @@ def load_simulation_results_pairwise():
     abundances_df = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_pairwise_growth/_abundance.tsv",sep="\t")
     abundances_df.member = abundances_df.member.map(_change_name)
     steadiercom_abundance = abundances_df.groupby(['community', 'member']).sum()["relative_abundance"]/(abundances_df["sample"].max()+1)
-    steadiercom_abundance
     
     ## STEADIERCOM - with filtering
     # abundances_df = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_pairwise_growth/_abundance.tsv",sep="\t")
@@ -102,7 +122,6 @@ def load_simulation_results_pairwise():
     steadycom_abundance.name = "sim"
 
     return steadiercom_abundance,steadycom_abundance
-
 
 
 
