@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 
-def find_correlation(simulated_res,signal_exp,receiver_or_donor="receiver",metric="frequency",agg_method="sum",met_column="met_group",verbose=True):
+def find_correlation(simulated_res,signal_exp,simulation_method="steadiercom",receiver_or_donor="receiver",metric="frequency",agg_method="sum",met_column="met_group",verbose=True):
     if verbose:
         logging.info(f"find_correlation uses fillna(0) for missing entries in simulations that exist in experimental results.")
        
@@ -21,6 +21,7 @@ def find_correlation(simulated_res,signal_exp,receiver_or_donor="receiver",metri
     exp_sim_combined = general_funcs.merge_sim_exp(
                 simulated_res,
                 signal_exp,
+                simulation_method=simulation_method,
                 metric=metric,
                 agg_method=agg_method,
                 receiver_or_donor=receiver_or_donor,
@@ -28,7 +29,7 @@ def find_correlation(simulated_res,signal_exp,receiver_or_donor="receiver",metri
                 verbose=verbose
             ).fillna(0)
 
-    
+
     r, p = sp.stats.kendalltau(x=exp_sim_combined.experimental,y=exp_sim_combined.simulated)
 
 
@@ -39,7 +40,7 @@ def find_correlation(simulated_res,signal_exp,receiver_or_donor="receiver",metri
 
 def find_correlation_simulation_method(simulation_dict,signal_exp,simulation_method="steadiercom",metric="frequency",agg_method="sum",verbose=True):
     """
-    Function to calculate spearman correlation between experimental and simulated results.
+    Function to calculate correlation between experimental and simulated results.
     """
  
     # Process simulated result
@@ -55,6 +56,7 @@ def find_correlation_simulation_method(simulation_dict,signal_exp,simulation_met
 
             correlation = find_correlation(simulated_res,
                                           signal_exp,
+                                          simulation_method=simulation_method,
                                           receiver_or_donor=receiver_or_donor,
                                           metric=metric,
                                           agg_method=agg_method,
@@ -70,7 +72,7 @@ def find_correlation_simulation_method(simulation_dict,signal_exp,simulation_met
 
 def find_correlation_simulation_method_detailed(simulation_dict,signal_exp,member_or_met="member",simulation_method="steadiercom",metric="frequency",agg_method="sum",met_column="met_group",verbose=True):
     """
-    Function to calculate spearman correlation between experimental and simulated results.
+    Function to calculate correlation between experimental and simulated results.
     """
  
     # Process simulated result
@@ -99,6 +101,7 @@ def find_correlation_simulation_method_detailed(simulation_dict,signal_exp,membe
 
                 correlation = find_correlation(simulated_res_copy,
                                                 signal_exp_copy,
+                                                simulation_method=simulation_method,
                                                 receiver_or_donor=receiver_or_donor,
                                                 metric=metric,
                                                 agg_method=agg_method,
@@ -114,7 +117,7 @@ def find_correlation_simulation_method_detailed(simulation_dict,signal_exp,membe
     return correlations_df
 
 
-def make_scatterplot(simulated_res, signal_exp,receiver_or_donor="receiver",metric="frequency",agg_method="sum", met_column="met_group",ax=None,xlabel="",ylabel="",title="",legend=True,verbose=True):
+def make_scatterplot(simulated_res, signal_exp,simulation_method="steadiercom",receiver_or_donor="receiver",metric="frequency",agg_method="sum", met_column="met_group",ax=None,xlabel="",ylabel="",title="",legend=True,verbose=True):
     color = {"receiver":"black","donor":"black"}  
     color_palettes = {"receiver":"RdGy_r","donor":"RdGy_r"}
     
@@ -184,11 +187,13 @@ def make_scatterplot(simulated_res, signal_exp,receiver_or_donor="receiver",metr
 
     correlation = find_correlation(simulated_res,
                                    signal_exp,
+                                   simulation_method=simulation_method,
                                    receiver_or_donor=receiver_or_donor,
                                    metric=metric,
                                    agg_method=agg_method,
+                                   met_column=met_column,
                                    verbose=verbose)
-    plt.text(.1, .65, "Correlation (Kendall's Tau) \n r={:.2f}, p-value={:.3f}".format(correlation["r"],correlation["p-value"]), transform=ax.transAxes)
+    plt.text(.1, .65, "Correlation (spearman) \n rho={:.2f}, p-value={:.3f}".format(correlation["r"],correlation["p-value"]), transform=ax.transAxes)
 
     return fig, ax, ax_twin
 
@@ -211,6 +216,7 @@ def make_scatterplots_simulation_method(simulation_dict, signal_exp, simulation_
             simulated_res = simulation_dict[receiver_or_donor][simulation_method][name]
             _,_,ax_twin = make_scatterplot(simulated_res, 
                              signal_exp, 
+                             simulation_method=simulation_method,
                              receiver_or_donor=receiver_or_donor, 
                              metric=metric, 
                              agg_method=agg_method, 
@@ -230,7 +236,7 @@ def make_scatterplots_simulation_method(simulation_dict, signal_exp, simulation_
 
             twin_axes.append(ax_twin)
 
-    col_titles = [f"{name}, {agg_method} of {metric}" for name in names]
+    col_titles = [f"{name}" for name in names]
 
     for col_idx, col_title in enumerate(col_titles):
         pos = axs[0][col_idx].get_position()  # top row’s subplot in this column
@@ -295,6 +301,7 @@ def plot_scatterplots_from_corr(correlations_df, simulation_dict,signal_exp,memb
 
         _, _, ax_twin = make_scatterplot(simulated_res_member_or_met,
                                     signal_exp_member_or_met,
+                                    simulation_method=simulation_method,
                                     receiver_or_donor=role,
                                     metric=metric,
                                     agg_method=agg_method,

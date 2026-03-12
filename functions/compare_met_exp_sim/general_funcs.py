@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 
-def merge_sim_exp(simulated_results,signal_exp,metric="frequency",receiver_or_donor="receiver",agg_method="sum",met_column = "compound",verbose=True): #combine_exp_sim_met
+def merge_sim_exp(simulated_results,signal_exp,simulation_method="steadiercom",metric="frequency",receiver_or_donor="receiver",agg_method="sum",met_column = "compound",verbose=True): #combine_exp_sim_met
     """
     Function to combine simulation results (steadycom,steadiercom) with experimental result.
     
@@ -44,10 +44,19 @@ def merge_sim_exp(simulated_results,signal_exp,metric="frequency",receiver_or_do
     simulated_res_reduced = simulated_results.copy()
     # get mean receiving/donating quantity (or frequency) - combine from different donors/communities
 
-    simulated_res_grouped = simulated_res_reduced[[receiver_or_donor,met_column,metric]]\
-        .groupby([receiver_or_donor,met_column])\
-        .agg(agg_method)\
-        .reset_index()
+
+    if simulation_method=="smetana":
+        
+        simulated_res_grouped = simulated_res_reduced[[receiver_or_donor,met_column,metric]]\
+            .groupby([receiver_or_donor,met_column])\
+            .first()\
+            .reset_index()
+
+    else:
+        simulated_res_grouped = simulated_res_reduced[[receiver_or_donor,met_column,metric]]\
+            .groupby([receiver_or_donor,met_column])\
+            .agg(agg_method)\
+            .reset_index()
     
     # Process results
     simulated_res_grouped = simulated_res_grouped.set_index([receiver_or_donor,met_column])[metric]

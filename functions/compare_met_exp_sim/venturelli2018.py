@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
+import os
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -230,16 +231,41 @@ def _prepare_all_simulations(sim_dicts, metid2group,verbose=True):
     return simulation_dict
 
 
-def load_simulation_results(metid2group,verbose=True):
+def load_simulation_results(metid2group,all_communities=False,verbose=True):
 
     if verbose:
-        logging.info(f"load_simulation_results loads simulation results from \n\t../output/Venturelli2018/results_steadiercom, \n\t../output/Venturelli2018/steadycom and \n\t../output/Venturelli2018/smetana"\
-                     "\n Only loads results for community 'NONE' (full community)")
+        logging.info(f"load_simulation_results loads simulation results from \n\t../output/Venturelli2018/results_steadiercom, \n\t../output/Venturelli2018/steadycom and \n\t../output/Venturelli2018/smetana")
 
     # SteadierCom results
-    steadiercom_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_abundance/NONE.tsv",sep="\t")
-    steadiercom_growth = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_growth/NONE.tsv",sep="\t")
-    steadiercom_growth_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_growth_abundance/NONE.tsv",sep="\t")
+
+    if not all_communities:
+        if verbose:
+            logging.info(f"Only loads SteadierCom results for full community ('NONE')")
+        steadiercom_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_abundance/NONE.tsv",sep="\t")
+        steadiercom_growth = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_growth/NONE.tsv",sep="\t")
+        steadiercom_growth_abundance = pd.read_csv("../output/Venturelli2018/results_steadiercom/results_growth_abundance/NONE.tsv",sep="\t")
+    else:
+        steadiercom_abundance_list = []
+        for file in os.listdir("../output/Venturelli2018/results_steadiercom/results_abundance/"):
+            if file.endswith(".tsv") and "growth" not in file:
+                df = pd.read_csv(f"../output/Venturelli2018/results_steadiercom/results_abundance/{file}",sep="\t")
+                steadiercom_abundance_list.append(df)
+        steadiercom_abundance = pd.concat(steadiercom_abundance_list)
+
+        steadiercom_growth_list = []
+        for file in os.listdir("../output/Venturelli2018/results_steadiercom/results_growth/"):
+            if file.endswith(".tsv") and "abundance" not in file:
+                df = pd.read_csv(f"../output/Venturelli2018/results_steadiercom/results_growth/{file}",sep="\t")
+                steadiercom_growth_list.append(df)
+        steadiercom_growth = pd.concat(steadiercom_growth_list)
+
+        steadiercom_growth_abundance_list = []
+        for file in os.listdir("../output/Venturelli2018/results_steadiercom/results_growth_abundance/"):
+            if file.endswith(".tsv"):
+                df = pd.read_csv(f"../output/Venturelli2018/results_steadiercom/results_growth_abundance/{file}",sep="\t")
+                steadiercom_growth_abundance_list.append(df)
+        steadiercom_growth_abundance = pd.concat(steadiercom_growth_abundance_list) 
+
 
     steadiercom_abundance["frequency*mass_rate"] = steadiercom_abundance.frequency * steadiercom_abundance.mass_rate
     steadiercom_growth["frequency*mass_rate"] = steadiercom_growth.frequency * steadiercom_growth.mass_rate
@@ -247,14 +273,16 @@ def load_simulation_results(metid2group,verbose=True):
 
     # SMETANA results
     smetana = pd.read_csv("../output/Venturelli2018/smetana/no_coupling_detailed.tsv",sep="\t")
-    smetana = smetana[smetana.community=="NONE"]
 
+    if not all_communities:
+        smetana = smetana[smetana.community=="NONE"]
 
     # SteadyCom results
     steadycom_fixed_abundance = pd.read_csv("../output/Venturelli2018/steadycom/fixed_abundance/cross_feeding.tsv",sep="\t")
     steadycom_fixed_abundance = steadycom_fixed_abundance[steadycom_fixed_abundance.community=="NONE"]
     steadycom = pd.read_csv("../output/Venturelli2018/steadycom/no_abundance/cross_feeding.tsv",sep="\t")
-    steadycom = steadycom[steadycom.community=="NONE"]
+    if not all_communities:
+        steadycom = steadycom[steadycom.community=="NONE"]
 
     # Adjust SteadyCom results for easier merging
     steadycom.donor = steadycom.donor.map(lambda x: x.replace("M_","") if isinstance(x,str) else x)

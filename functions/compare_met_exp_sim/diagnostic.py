@@ -36,7 +36,7 @@ def _eval_sim(sim_ser,sim_thresh=0.5):
     """
     Function to classify simulated interaction as True or False.
     """
-    
+
     sim_ser = sim_ser.copy()
     sim_ser = (sim_ser>sim_thresh).map(int)
     
@@ -84,140 +84,12 @@ def identify_support(signal_exp, exp_thresh_list=[1]):
     return pd.DataFrame.from_dict(support_dict, orient="index")
 
 
-def run_all_evaluations(simulation_dict, signal_exp, role_config=None,verbose=True):
-    """
-    Function to merge simulated and experimental results for all simulation results in simulation_dict_method, 
-    and classify both experimental and simulated interactions as True or False. simulation_dict_method is a dictionary 
-    with keys as the mode for the simulation (with fixed abundance, fixed growth...), and values as pd.DataFrame 
-    with simulation results.
-    """
-
-    def _eval_sim_exp_dict(simulation_dict_method,signal_exp,exp_thresh=1,sim_thresh=0.5,sim_metric="frequency",receiver_or_donor="receiver",agg_method="sum",met_column="compound",verbose=True):
-    
-        """
-        Function to merge simulated and experimental results for all simulation results in simulation_dict_method, 
-        and classify both experimental and simulated interactions as True or False. simulation_dict_method is a dictionary 
-        with keys as the mode for the simulation (with fixed abundance, fixed growth...), and values as pd.DataFrame 
-        with simulation results.
-        """
-
-        exp_sim_combined_method_bool_dict = {}
-        
-        # For each result
-        i=0
-        for name,simulation_res in simulation_dict_method.items():
-            # Find average receiving/donating quantity
-            exp_sim_combined = merge_sim_exp(simulation_res,
-                                            signal_exp,
-                                            metric=sim_metric,
-                                            receiver_or_donor=receiver_or_donor,
-                                            agg_method=agg_method,
-                                            met_column=met_column,
-                                            verbose=(i==0 and verbose),
-                                            )
-            # Make boolean output
-            ## Determine positive (True) or negative (False) results
-            exp_sim_combined_method_bool_dict[name]=_eval_sim_exp(exp_sim_combined,
-                                                            sim_thresh=sim_thresh,
-                                                            exp_thresh=exp_thresh,
-                                                            receiver_or_donor=receiver_or_donor)
-            i+=1
-
-        return exp_sim_combined_method_bool_dict
-    
-
-
-    if not role_config:
-        role_config = {
-            "receiver": {"exp_thresh":1,"freq_thresh":0.5,"rate_thresh":0.1},
-            "donor":    {"exp_thresh":1,"freq_thresh":0.5,"rate_thresh":0.1}
-        }
-
-    exp_sim_bool_dict = {}
-    
-    i=0
-    for role, cfg in role_config.items():
-        exp_sim_bool_dict[role] = {}
-
-        eval = lambda sim_dict_method, metric, thresh: _eval_sim_exp_dict(
-            simulation_dict_method=sim_dict_method,
-            signal_exp=signal_exp,
-            sim_metric=metric,
-            exp_thresh=cfg["exp_thresh"],
-            sim_thresh=thresh,
-            agg_method="sum",
-            receiver_or_donor=role,
-            met_column="met_group",
-            verbose=(i==0 and verbose)
-        )
-
-        exp_sim_bool_dict[role]["steadiercom_frequency"] = eval(simulation_dict[role]["steadiercom"], "frequency", cfg["freq_thresh"])
-        exp_sim_bool_dict[role]["steadiercom_rate"]      = eval(simulation_dict[role]["steadiercom"], "rate",      cfg["rate_thresh"])
-        exp_sim_bool_dict[role]["steadycom_rate"]        = eval(simulation_dict[role]["steadycom"],   "rate?",      cfg["rate_thresh"])
-        exp_sim_bool_dict[role]["smetana"]               = eval(simulation_dict[role]["smetana"],     "mus",       cfg["freq_thresh"])
-        i+=1
-
-    return exp_sim_bool_dict
-
-
-def _create_classification_report(exp_sim_combined_bool,name):
-    
-    """
-    Input:
-    exp_sim_combined_bool (pd.DataFrame): One column for experimental results, and one for simulation.
-    
-    """
-    # Score experiment vs simulation overlap
-    report = classification_report(exp_sim_combined_bool.experimental,exp_sim_combined_bool.simulated,output_dict=True)
-    report_df = pd.DataFrame(report)
-
-    # Extract True class (positive class)
-    report_df_copy1 = report_df['1'].copy()
-    report_df_copy1.index = ["precision","sensitivity","f1-score","support positive"]
-
-    # Extract False class (negative class)
-    report_df_copy2 = report_df['0'].copy()
-    report_df_copy2 = report_df_copy2.drop(["precision","f1-score"])
-    report_df_copy2.index = ["specificity","support negative"]
-
-    # Combine results
-    report_df_copy = pd.concat([report_df_copy1,report_df_copy2])
-    report_df_copy["accuracy"] = report["accuracy"]
-    report_df_copy.name = name
-
-    return report_df_copy.sort_index()
-
-
-def create_classification_reports(exp_sim_combined_bool_dict):
-    """
-    Input:
-    exp_sim_combined_bool_dict (dict): Dictionary with keys as names, and values as pd.DataFrame with one column for experimental results, and one for simulation.
-    
-    Output:
-    scores_df (pd.DataFrame): Dataframe with classification report scores for each name in exp_sim_combined_bool_dict.
-    
-    """
-    
-    reports_dict = {}
-    
-    for receiver_or_donor, exp_sim_combined_bool_dict_role in exp_sim_combined_bool_dict.items():
-            for method, exp_sim_combined_bool_dict_role_method in exp_sim_combined_bool_dict_role.items():
-                for name,exp_sim_combined_bool in exp_sim_combined_bool_dict_role_method.items():
-
-                    report_df_copy = _create_classification_report(exp_sim_combined_bool,
-                                                                name,
-                                                                )
-                    reports_dict[(receiver_or_donor, method, name)] = report_df_copy
-
-    reports_df = pd.concat(reports_dict)
-
-    return reports_df
-
 def _pr_permutation_test(simulation_dict,signal_exp,exp_thresh=1,receiver_or_donor="receiver",name="SteadierCom - fixed abundance",simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
 
     def _permutation_test(y_true,y_scores,N):
 
         observed_auc = average_precision_score(y_true,y_scores)
+
         auc_values = []
 
         for _ in range(N):
@@ -225,9 +97,9 @@ def _pr_permutation_test(simulation_dict,signal_exp,exp_thresh=1,receiver_or_don
             auc_i = average_precision_score(y_true_i, y_scores)
             auc_values.append(auc_i)
 
-        p_value = np.mean(auc_values >= observed_auc)
+        p_value = np.mean([v >= observed_auc for v in auc_values])
 
-        return p_value
+        return p_value,observed_auc
 
     sim_df = simulation_dict[receiver_or_donor][simulation_method][name]
     exp_sim_combined = merge_sim_exp(sim_df,
@@ -245,33 +117,30 @@ def _pr_permutation_test(simulation_dict,signal_exp,exp_thresh=1,receiver_or_don
     y_true=exp_sim_combined["experimental"].values
     y_scores=exp_sim_combined["simulated"].values
 
-    p_value = _permutation_test(y_true,y_scores,N=N)
+    p_value,observed_auc = _permutation_test(y_true,y_scores,N=N)
 
-    return {"p_value":p_value}
+    return {"p_value":p_value,"observed_auc":observed_auc}
 
-
-def _pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1,simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
+def _pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1,receiver_or_donor="receiver",simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",N=1000,verbose=True):
     
     # Process simulated result
     pvalues_dict = defaultdict(dict)
     
-    for receiver_or_donor in ["receiver", "donor"]:
+    for i,name in enumerate(simulation_dict[receiver_or_donor][simulation_method].keys()):
+        verbose_spec = (i==0 and verbose)
+        pvalue = _pr_permutation_test(simulation_dict,
+                                        signal_exp,
+                                        exp_thresh=exp_thresh,
+                                        name=name,
+                                        simulation_method=simulation_method,
+                                        receiver_or_donor=receiver_or_donor,
+                                        metric=metric,
+                                        agg_method=agg_method,
+                                        met_column = met_column,
+                                        N=N,
+                                        verbose=verbose_spec)
 
-        for i,name in enumerate(simulation_dict[receiver_or_donor][simulation_method].keys()):
-            verbose_spec = (i==0 and verbose)
-            pvalue = _pr_permutation_test(simulation_dict,
-                                          signal_exp,
-                                          exp_thresh=exp_thresh,
-                                          name=name,
-                                          simulation_method=simulation_method,
-                                          receiver_or_donor=receiver_or_donor,
-                                          metric=metric,
-                                          agg_method=agg_method,
-                                          met_column = met_column,
-                                          N=N,
-                                          verbose=verbose_spec)
-
-            pvalues_dict[(receiver_or_donor,simulation_method,name,agg_method,metric,exp_thresh)] = pvalue
+        pvalues_dict[(receiver_or_donor,simulation_method,name,agg_method,metric,exp_thresh)] = pvalue
 
     pvalues_df = pd.DataFrame(pvalues_dict).T 
     pvalues_df.index.names = ["role","simulation_method","condition","agg_method","metric","exp_thresh"]
@@ -279,28 +148,33 @@ def _pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1,sim
     return pvalues_df
 
 
-def find_pvalues_of_PR(simulation_dict,signal_exp):
+def find_pvalues_of_PR(simulation_dict,signal_exp,exp_thresh_list=[1],receiver_or_donor_list=["receiver","donor"],met_column="met_group"):
 
     N=10000
     results_pr_auc = []
     sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("steadiercom","frequency"),("smetana","mus")]
 
     verbose=True
-    for exp_thresh in [1]:
+    for exp_thresh in exp_thresh_list:
 
         agg_method ="sum"
 
         for simulation_method,metric in sim_method_metric:
-            results_pr_auc.append(_pr_auc_pvalue_simulation_method(simulation_dict,
-                                                                            signal_exp,
-                                                                            exp_thresh=exp_thresh,
-                                                                            simulation_method=simulation_method,
-                                                                            metric=metric,
-                                                                            agg_method=agg_method,
-                                                                            N=N,
-                                                                            verbose=verbose)
-            )
-            verbose=False
+
+            for receiver_or_donor in receiver_or_donor_list:
+
+                results_pr_auc.append(_pr_auc_pvalue_simulation_method(simulation_dict,
+                                                                                signal_exp,
+                                                                                exp_thresh=exp_thresh,
+                                                                                receiver_or_donor=receiver_or_donor,
+                                                                                simulation_method=simulation_method,
+                                                                                metric=metric,
+                                                                                agg_method=agg_method,
+                                                                                met_column=met_column,
+                                                                                N=N,
+                                                                                verbose=verbose)
+                )
+                verbose=False
 
     pr_auc_pvalue_df = pd.concat(results_pr_auc)
 
@@ -323,7 +197,9 @@ def plot_diagnostic_curve(simulated_res,signal_exp,PR_or_ROC="PR", exp_thresh=1,
                                     met_column=met_column,
                                     verbose=verbose).fillna(0)
     
-    exp_sim_combined.experimental=_eval_exp(exp_sim_combined.experimental,receiver_or_donor=receiver_or_donor,exp_thresh=exp_thresh)
+    exp_sim_combined.experimental=_eval_exp(exp_sim_combined.experimental,
+                                            receiver_or_donor=receiver_or_donor,
+                                            exp_thresh=exp_thresh)
 
     y_true=exp_sim_combined["experimental"].values
     y_scores=exp_sim_combined["simulated"]
@@ -410,7 +286,6 @@ def plot_diagnostic_curve(simulated_res,signal_exp,PR_or_ROC="PR", exp_thresh=1,
     ax.legend()
 
     return fig,ax
-
 
 def plot_diagnostic_curves_method(simulation_dict,signal_exp,PR_or_ROC="PR",exp_thresh=1,simulation_method="steadiercom",metric="frequency",met_column="met_group",agg_method="sum",verbose=True):
     
@@ -557,6 +432,137 @@ def plot_diagnostic_curves_pvalues(pr_auc_pvalue_df,simulation_dict,signal_exp,r
     cbar.set_label('Threshold (log scale)')
 
     return fig,axs
+
+
+def run_all_evaluations(simulation_dict, signal_exp, role_config=None,verbose=True):
+    """
+    Function to merge simulated and experimental results for all simulation results in simulation_dict_method, 
+    and classify both experimental and simulated interactions as True or False. simulation_dict_method is a dictionary 
+    with keys as the mode for the simulation (with fixed abundance, fixed growth...), and values as pd.DataFrame 
+    with simulation results.
+    """
+
+    def _eval_sim_exp_dict(simulation_dict_method,signal_exp,exp_thresh=1,sim_thresh=0.5,sim_metric="frequency",receiver_or_donor="receiver",agg_method="sum",met_column="compound",verbose=True):
+    
+        """
+        Function to merge simulated and experimental results for all simulation results in simulation_dict_method, 
+        and classify both experimental and simulated interactions as True or False. simulation_dict_method is a dictionary 
+        with keys as the mode for the simulation (with fixed abundance, fixed growth...), and values as pd.DataFrame 
+        with simulation results.
+        """
+
+        exp_sim_combined_method_bool_dict = {}
+        
+        # For each result
+        i=0
+        for name,simulation_res in simulation_dict_method.items():
+            # Find average receiving/donating quantity
+            exp_sim_combined = merge_sim_exp(simulation_res,
+                                            signal_exp,
+                                            metric=sim_metric,
+                                            receiver_or_donor=receiver_or_donor,
+                                            agg_method=agg_method,
+                                            met_column=met_column,
+                                            verbose=(i==0 and verbose),
+                                            )
+            # Make boolean output
+            ## Determine positive (True) or negative (False) results
+            exp_sim_combined_method_bool_dict[name]=_eval_sim_exp(exp_sim_combined,
+                                                            sim_thresh=sim_thresh,
+                                                            exp_thresh=exp_thresh,
+                                                            receiver_or_donor=receiver_or_donor)
+            i+=1
+
+        return exp_sim_combined_method_bool_dict
+    
+
+
+    if not role_config:
+        role_config = {
+            "receiver": {"exp_thresh":1,"freq_thresh":0.5,"rate_thresh":0.1},
+            "donor":    {"exp_thresh":1,"freq_thresh":0.5,"rate_thresh":0.1}
+        }
+
+    exp_sim_bool_dict = {}
+    
+    i=0
+    for role, cfg in role_config.items():
+        exp_sim_bool_dict[role] = {}
+
+        eval = lambda sim_dict_method, metric, thresh: _eval_sim_exp_dict(
+            simulation_dict_method=sim_dict_method,
+            signal_exp=signal_exp,
+            sim_metric=metric,
+            exp_thresh=cfg["exp_thresh"],
+            sim_thresh=thresh,
+            agg_method="sum",
+            receiver_or_donor=role,
+            met_column="met_group",
+            verbose=(i==0 and verbose)
+        )
+
+        exp_sim_bool_dict[role]["steadiercom_frequency"] = eval(simulation_dict[role]["steadiercom"], "frequency", cfg["freq_thresh"])
+        exp_sim_bool_dict[role]["steadiercom_rate"]      = eval(simulation_dict[role]["steadiercom"], "rate",      cfg["rate_thresh"])
+        exp_sim_bool_dict[role]["steadycom_rate"]        = eval(simulation_dict[role]["steadycom"],   "rate?",      cfg["rate_thresh"])
+        exp_sim_bool_dict[role]["smetana"]               = eval(simulation_dict[role]["smetana"],     "mus",       cfg["freq_thresh"])
+        i+=1
+
+    return exp_sim_bool_dict
+
+
+def _create_classification_report(exp_sim_combined_bool,name):
+    
+    """
+    Input:
+    exp_sim_combined_bool (pd.DataFrame): One column for experimental results, and one for simulation.
+    
+    """
+    # Score experiment vs simulation overlap
+    report = classification_report(exp_sim_combined_bool.experimental,exp_sim_combined_bool.simulated,output_dict=True)
+    report_df = pd.DataFrame(report)
+
+    # Extract True class (positive class)
+    report_df_copy1 = report_df['1'].copy()
+    report_df_copy1.index = ["precision","sensitivity","f1-score","support positive"]
+
+    # Extract False class (negative class)
+    report_df_copy2 = report_df['0'].copy()
+    report_df_copy2 = report_df_copy2.drop(["precision","f1-score"])
+    report_df_copy2.index = ["specificity","support negative"]
+
+    # Combine results
+    report_df_copy = pd.concat([report_df_copy1,report_df_copy2])
+    report_df_copy["accuracy"] = report["accuracy"]
+    report_df_copy.name = name
+
+    return report_df_copy.sort_index()
+
+
+def create_classification_reports(exp_sim_combined_bool_dict):
+    """
+    Input:
+    exp_sim_combined_bool_dict (dict): Dictionary with keys as names, and values as pd.DataFrame with one column for experimental results, and one for simulation.
+    
+    Output:
+    scores_df (pd.DataFrame): Dataframe with classification report scores for each name in exp_sim_combined_bool_dict.
+    
+    """
+    
+    reports_dict = {}
+    
+    for receiver_or_donor, exp_sim_combined_bool_dict_role in exp_sim_combined_bool_dict.items():
+            for method, exp_sim_combined_bool_dict_role_method in exp_sim_combined_bool_dict_role.items():
+                for name,exp_sim_combined_bool in exp_sim_combined_bool_dict_role_method.items():
+
+                    report_df_copy = _create_classification_report(exp_sim_combined_bool,
+                                                                name,
+                                                                )
+                    reports_dict[(receiver_or_donor, method, name)] = report_df_copy
+
+    reports_df = pd.concat(reports_dict)
+
+    return reports_df
+
 
 
 
