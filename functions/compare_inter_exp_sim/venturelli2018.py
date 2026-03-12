@@ -5,7 +5,9 @@ import libsbml
 import sys
 sys.path.append("../functions/")
 import compare_inter_exp_sim.correlation as correlation
-
+import logging
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
+logger = logging.getLogger(__name__)
 
 def load_experimental_results():
     """
@@ -14,9 +16,7 @@ def load_experimental_results():
     
     glv_model_file = libsbml.readSBMLFromFile("../data/Venturelli2018/msb178157-sup-0006-codeev1/twelveSpeciesT4.xml")
     glv_model = glv_model_file.getModel()
-
     glv_model.getNumSpecies()
-
     glv_parameters = {}
 
     for param in glv_model.parameters:
@@ -31,9 +31,10 @@ def load_experimental_results():
     return signal_exp
 
 
+def _process_simulation_results(steadiercom_dict,steadycom_dict,smetana_dict, verbose=True):
 
-def _process_simulation_results(steadiercom_dict,steadycom_dict,smetana_dict):
-
+    if verbose:
+        logging.info(f"_process_simulation_results cleans up namespace for the simulation results. Removes 'environment' as receiver to only account for competition and interactions between members.")
     simulation_dict = {}
 
     for simulation_method, sim_dict in [("steadiercom",steadiercom_dict),("steadycom",steadycom_dict),("smetana",smetana_dict)]:
@@ -65,10 +66,14 @@ def _process_simulation_results(steadiercom_dict,steadycom_dict,smetana_dict):
     return simulation_dict
 
     
-def load_simulation_results():
+def load_simulation_results(verbose=True):
     """
-    Loads experimental data from all simulation methods and 
+    Loads experimental data from all simulation methods 
     """
+
+    if verbose:
+        logging.info(f"load_simulation_results loads simulation results from \n\t../output/Venturelli2018/results_steadiercom, \n\t../output/Venturelli2018/steadycom and \n\t../output/Venturelli2018/smetana"\
+                     "\n Only loads results for community 'NONE' (full community)")
 
     steadiercom_abundance= pd.read_csv("../output/Venturelli2018/results_steadiercom/results_abundance/NONE.tsv",sep="\t")
 
@@ -147,7 +152,7 @@ def find_correlations(simulation_dict,signal_exp):
     results_corr = []
     results_corr_member = []
 
-    sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("smetana","scs")]
+    sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("steadiercom","frequency"),("smetana","scs")]
 
     for simulation_method,metric in sim_method_metric:
         print(simulation_method)

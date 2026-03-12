@@ -21,16 +21,16 @@ def _find_correlation(exp_sim_combined_isna,verbose=True):
 
 
     r, p = sp.stats.kendalltau(x=exp_sim_combined.experimental,y=exp_sim_combined.simulated)
-
+    
     correlation = {"r":r,"p-value":p}
     correlation["#simulated"]=simulated_count
     correlation["#not simulated"]=not_simulated_count
     return correlation
 
-def find_correlation_simulation_method(simulation_dict,signal_exp,simulation_method="steadiercom",metric="frequency"):
+def find_correlation_simulation_method(simulation_dict,signal_exp,simulation_method="steadiercom",metric="frequency",coop_or_comp_list=["coop","comp","coop-comp"]):
     
     correlations_dict = {}
-    for coop_or_comp in ["coop","comp","coop-comp"]:
+    for coop_or_comp in coop_or_comp_list:
 
         for name, simulation_res in simulation_dict[simulation_method].items():
 
@@ -55,12 +55,12 @@ def find_correlation_simulation_method(simulation_dict,signal_exp,simulation_met
 
     return correlations_df
         
-def find_correlation_simulation_method_detailed(simulation_dict,signal_exp,simulation_method="steadiercom",metric="frequency"):
+def find_correlation_simulation_method_detailed(simulation_dict,signal_exp,simulation_method="steadiercom",metric="frequency",coop_or_comp_list=["coop","comp","coop-comp"]):
     
     correlations_dict = {}
 
     main_members = signal_exp.index.get_level_values(1).unique()
-    for coop_or_comp in ["coop","comp","coop-comp"]:
+    for coop_or_comp in coop_or_comp_list:
 
         for name, simulation_res in simulation_dict[simulation_method].items():
             for main_member in main_members:
@@ -139,12 +139,12 @@ def make_scatterplot(simulated_res,signal_exp,coop_or_comp="coop",metric="freque
     ax.set_xlabel(f"{xlabel}")
 
     correlation = _find_correlation(exp_sim_combined)
-    plt.text(.1, .85, "Kendall's Tau r={:.2f}, p-value={:.4f}".format(correlation["r"],correlation["p-value"]), transform=ax.transAxes)
+    plt.text(.1, .85, "Kendall's tau={:.2f}, p-value={:.4f}".format(correlation["r"],correlation["p-value"]), transform=ax.transAxes)
     not_simulated = exp_sim_combined_isna[~exp_sim_combined_isna["Was simulated"]].index.values
     return fig,ax,ax_twin,not_simulated
 
 
-def make_scatterplots_simulation_method(simulation_dict,signal_exp,simulation_method="steadiercom",metric="frequency"):
+def make_scatterplots_simulation_method(simulation_dict,signal_exp,simulation_method="steadiercom",metric="frequency",xlabel="gLV coefficient"):
 
     names = simulation_dict[simulation_method].keys()
 
@@ -170,7 +170,7 @@ def make_scatterplots_simulation_method(simulation_dict,signal_exp,simulation_me
                                     coop_or_comp=coop_or_comp,
                                     metric=metric,
                                     ax=ax,
-                                    xlabel="gLV",
+                                    xlabel=xlabel,
                                     ylabel=f"scaled {metric})",
                                     include_legend=include_legend,
                                     )

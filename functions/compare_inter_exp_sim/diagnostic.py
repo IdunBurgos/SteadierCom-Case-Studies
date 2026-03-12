@@ -70,9 +70,9 @@ def _pr_permutation_test(simulation_res,signal_exp,exp_thresh=1e-3,coop_or_comp=
             auc_i = average_precision_score(y_true_i, y_scores)
             auc_values.append(auc_i)
 
-        p_value = np.mean(auc_values >= observed_auc)
+        p_value = np.mean([auc >= observed_auc for auc in auc_values])
 
-        return p_value
+        return p_value,observed_auc
 
     sim_df = simulation_res.copy()
     exp_sim_combined = merge_exp_sim(sim_df,
@@ -88,12 +88,12 @@ def _pr_permutation_test(simulation_res,signal_exp,exp_thresh=1e-3,coop_or_comp=
     y_true=exp_sim_combined["experimental"].values
     y_scores=exp_sim_combined["simulated"].values
 
-    p_value = _permutation_test(y_true,y_scores,N=N)
+    p_value,observed_auc = _permutation_test(y_true,y_scores,N=N)
 
-    return {"p_value":p_value}
+    return {"p_value":p_value,"observed_auc":observed_auc}
 
 
-def _pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1e-3,simulation_method="steadiercom",metric="frequency",N=1000,verbose=True):
+def _pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1e-3,simulation_method="steadiercom",metric="frequency",coop_or_comp="comp",N=1000,verbose=True):
     """
     Calls a permutation test to find p-values of PR-AUC for a given simulation method across all conditions in simulation_dict.
     """
@@ -101,21 +101,21 @@ def _pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1e-3,
     # Process simulated result
     pvalues_dict = defaultdict(dict)
     
-    for coop_or_comp in ["comp", "coop"]:
 
-        for i,name in enumerate(simulation_dict[simulation_method].keys()):
-            verbose_spec = (i==0 and verbose)
 
-            simulation_res = simulation_dict[simulation_method][name]
-            pvalue = _pr_permutation_test(simulation_res,
-                                          signal_exp,
-                                          exp_thresh=exp_thresh,
-                                          coop_or_comp=coop_or_comp,
-                                          metric=metric,
-                                          N=N,
-                                          verbose=verbose_spec)
+    for i,name in enumerate(simulation_dict[simulation_method].keys()):
+        verbose_spec = (i==0 and verbose)
 
-            pvalues_dict[(coop_or_comp,simulation_method,name,metric,exp_thresh)] = pvalue
+        simulation_res = simulation_dict[simulation_method][name]
+        pvalue = _pr_permutation_test(simulation_res,
+                                        signal_exp,
+                                        exp_thresh=exp_thresh,
+                                        coop_or_comp=coop_or_comp,
+                                        metric=metric,
+                                        N=N,
+                                        verbose=verbose_spec)
+
+        pvalues_dict[(coop_or_comp,simulation_method,name,metric,exp_thresh)] = pvalue
 
     pvalues_df = pd.DataFrame(pvalues_dict).T 
     pvalues_df.index.names = ["role","simulation_method","condition","metric","exp_thresh"]
@@ -123,7 +123,7 @@ def _pr_auc_pvalue_simulation_method(simulation_dict,signal_exp,exp_thresh=1e-3,
     return pvalues_df
 
 
-def find_pvalues_of_PR(simulation_dict,signal_exp):
+def find_pvalues_of_PR(simulation_dict,signal_exp,exp_thresh_list=[1e-3],coop_or_comp_list=["comp","coop"]):
     """
     Function to find p-values of PR-AUC for all simulation methods and conditions in simulation_dict. This function is tailored to the specific case study setup 
     and could be adapted depending on the simulation methods and metrics of interest.
@@ -132,22 +132,24 @@ def find_pvalues_of_PR(simulation_dict,signal_exp):
 
     N=10000
     results_pr_auc = []
-    sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate")]
+    sim_method_metric = [("steadycom","rate?"),("steadiercom","frequency*mass_rate"),("steadiercom","frequency")]
 
     verbose=True
-    for exp_thresh in [1e-3]:
+    for exp_thresh in exp_thresh_list:
 
 
         for simulation_method,metric in sim_method_metric:
-            results_pr_auc.append(_pr_auc_pvalue_simulation_method(simulation_dict,
-                                                                            signal_exp,
-                                                                            exp_thresh=exp_thresh,
-                                                                            simulation_method=simulation_method,
-                                                                            metric=metric,
-                                                                            N=N,
-                                                                            verbose=verbose)
-            )
-            verbose=False
+            for coop_or_comp in coop_or_comp_list:
+                results_pr_auc.append(_pr_auc_pvalue_simulation_method(simulation_dict,
+                                                                                signal_exp,
+                                                                                exp_thresh=exp_thresh,
+                                                                                simulation_method=simulation_method,
+                                                                                metric=metric,
+                                                                                N=N,
+                                                                                coop_or_comp=coop_or_comp,
+                                                                                verbose=verbose)
+                )
+                verbose=False
 
     pr_auc_pvalue_df = pd.concat(results_pr_auc)
 
@@ -268,7 +270,7 @@ def plot_diagnostic_curves_method(simulation_dict,signal_exp,PR_or_ROC="PR",exp_
         
     i=0
 
-    for coop_or_comp in ["comp","coop"]:
+    for coop_or_comp in ["coop","comp"]:
         j=0
 
         for name in names:
@@ -293,8 +295,8 @@ def plot_diagnostic_curves_method(simulation_dict,signal_exp,PR_or_ROC="PR",exp_
         y_top = pos.y1 + 0.02  
         fig.text(x_center, y_top, col_title, ha='center', va='bottom', fontsize=16)
 
-    fig.text(0.05, 0.75, "comp",fontsize=14)
-    fig.text(0.05, 0.25, "coop",fontsize=14)
+    fig.text(0.05, 0.75, "coop",fontsize=14)
+    fig.text(0.05, 0.25, "comp",fontsize=14)
 
     cmap = plt.cm.viridis
     vmin = 1e-6
