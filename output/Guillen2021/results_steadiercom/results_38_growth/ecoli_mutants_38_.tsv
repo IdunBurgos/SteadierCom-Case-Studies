@@ -1,0 +1,9 @@
+donor	receiver	compound	mass_rate	rate	frequency	community	medium
+environment	mutant_nadA	M_glc__D_e	0.5048596708347225	2.802356581233327	1.0	38 E. coli mutants	M9
+mutant_nadA	environment	M_co2_e	0.3293541305304096	7.483705348399995	1.0	38 E. coli mutants	M9
+environment	mutant_nadA	M_o2_e	0.22426832393926271	7.008647947399987	1.0	38 E. coli mutants	M9
+environment	mutant_nadA	M_nh4_e	0.04302699350818928	2.3853131119999826	1.0	38 E. coli mutants	M9
+mutant_nadA	environment	M_ac_e	0.007648914177145798	0.12954622199999996	1.0	38 E. coli mutants	M9
+environment	mutant_nadA	M_so4_e	0.005430931368033597	0.05653533599999996	1.0	38 E. coli mutants	M9
+mutant_nadA	environment	M_meoh_e	1.41624314e-05	0.000442	1.0	38 E. coli mutants	M9
+environment	mutant_nadA	M_mobd_e	2.474234672e-07	1.547e-06	1.0	38 E. coli mutants	M9

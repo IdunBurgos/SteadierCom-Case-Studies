@@ -1,0 +1,5 @@
+sample	member	relative_abundance	community	medium
+0	mutant_purA	0.04666754216396918	38 E. coli mutants	M9
+0	mutant_leuB	0.9533324578360308	38 E. coli mutants	M9
+1	mutant_trpA	0.9972365417989499	38 E. coli mutants	M9
+1	mutant_nadA	0.002763458201050062	38 E. coli mutants	M9
