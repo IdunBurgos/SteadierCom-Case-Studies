@@ -21,6 +21,10 @@ def make_co_growth_count_matrix(abundance_filtered,community,verbose=True):
     
     # Filter out data not related to community
 
+    assert community in abundance_filtered.community.unique(), f"Community {community} not found in abundance_filtered dataframe. Available communities: {abundance_filtered.community.unique()}"
+    for col in ["relative_abundance","sample","member"]:
+        assert col in abundance_filtered.columns, f"Column '{col}' not found in abundance_filtered dataframe. Columns present: {list(abundance_filtered.columns)}"
+
     abundance_filtered_subdf = abundance_filtered.query(f"community=='{community}'")
         
     # Create data series with 'sample','member' as index and 'relative_abundance' as values
@@ -132,7 +136,7 @@ def plot_co_growth_count_venturelli(abundance_filtered,vmax=40):
     
     
 def plot_co_growth_count_guillen(abundance_filtered):
-    co_growth_count,member_abund_df = make_co_growth_count_matrix(abundance_filtered,"ecoli_auxotrophs")
+    co_growth_count,member_abund_df = make_co_growth_count_matrix(abundance_filtered,"Ecoli_mutants")
     order_of_members = order_co_growth_count(co_growth_count)
     
     # START PLOTTING
