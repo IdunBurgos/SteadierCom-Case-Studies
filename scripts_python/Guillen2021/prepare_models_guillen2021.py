@@ -36,11 +36,11 @@ def adjust_btn_biomass(model_ecoli):
     """
     Changing stoichiometry of biotin in biomass (Because value was below solver tolerance)
     - Biotin in biomass originally: 2e-06 -> 2e-06(mmol)*244,31(g/mol) = 4.8862e-7 (g)
-    - Increase to: 2e-03 -> 2e-03(mmol)*244,31(g/mol) = 4.8862e-4 (g)
+    - Increase to: 2e-04 -> 2e-04(mmol)*244,31(g/mol) = 4.8862e-3 (g)
     """
     
     but_prev= model_ecoli.reactions.R_BIOMASS_Ec_iML1515_core_75p37M.stoichiometry["M_btn_c"]
-    but_new = -2e-03
+    but_new = -2e-04
     
     logging.info(f"Adjusting biomass stoichiometry for butanoate from {but_prev} to {but_new}")
     model_ecoli.reactions.R_BIOMASS_Ec_iML1515_core_75p37M.stoichiometry["M_btn_c"] = but_new
@@ -84,6 +84,9 @@ def create_mutant_models(model_ecoli, id2name_ser,relative_abundance):
 
     # additional details for special cases
     name2id_38["panZ"]=name2id_38["panD"] # panZ is a regulatory protein for panD
+
+    assert len(name2id_38)==38, f"Expected 38 genes in name2id mapping, but got {len(name2id_38)}. Check if all genes in relative abundance data are present in the model."
+
     model_ecoli.reactions.R_SULabcpp.gpr.proteins.pop(1) # Remove molybdate genes
     
     

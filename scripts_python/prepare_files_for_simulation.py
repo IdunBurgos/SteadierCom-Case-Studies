@@ -5,7 +5,7 @@ import numpy as np
 import sys
 sys.path.append("../functions/")
 
-import general
+import simulation.general as general
 
 import logging
 logging.basicConfig(

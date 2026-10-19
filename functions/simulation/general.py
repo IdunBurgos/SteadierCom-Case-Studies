@@ -12,7 +12,7 @@ def load_models_venturelli2018():
     """
     Load the models from the Venturelli et al (2018) study.
     """
-    logging.info("Loading models from Venturelli et al (2018)...")
+    logging.info("Loading models for Venturelli et al (2018)...")
     
     models = {}
     for filename in listdir("../models/Venturelli2018/species_used_noO2/"):
@@ -28,7 +28,7 @@ def load_models_guillen2021(all_38_strains=True):
     """
     Load models from the Guillen et al (2021) study.
     """
-    logging.info("Loading models from Guillen et al (2021)...")
+    logging.info("Loading models for Guillen et al (2021)...")
 
     if all_38_strains:
         sub_dir="strains"
@@ -61,6 +61,9 @@ def test_growth_model(model, biomass_reaction,env=False,only_return_log=False,mi
 
     log_growth = ""
     model_copy = model.copy()
+    assert isinstance(model_copy, reframed.CBModel), f"Expected model to be a CBModel, but got {type(model_copy)}"
+    assert biomass_reaction in model_copy.reactions, f"Expected biomass reaction '{biomass_reaction}' to be in model reactions"
+
     objective={rxn:0 for rxn in model_copy.reactions.keys()}
     objective[biomass_reaction] = 1
 

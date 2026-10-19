@@ -237,7 +237,7 @@ def create_metname_groups():
 
         
         "Glycero-3-phosphocholine pool": {
-            "glycero-3-phosphocholine": 1
+            "glycero-3-phosphocholine_positive_12p50": 1
         },
         "Glucose pool": {
             "d-gluconic_acid_negative_13p65": 1,

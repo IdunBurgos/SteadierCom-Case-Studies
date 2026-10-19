@@ -6,8 +6,8 @@ import reframed
 
 import sys
 sys.path.append("../functions/")
-import general
-from minimal_medium import minimal_medium
+import simulation.general as general
+from simulation.minimal_medium import minimal_medium
 
 import logging
 logging.basicConfig(

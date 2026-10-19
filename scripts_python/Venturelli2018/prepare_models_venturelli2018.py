@@ -1,23 +1,22 @@
 import reframed
 import pandas as pd
-
 from os import listdir
 import copy
-import logging
 
 import sys
-
-sys.path.append("../functions/")
-from minimal_medium import minimal_medium
-
-from EGC import EGC_identifier
-from general import test_growth_models_venturelli2018
 
 import logging
 logging.basicConfig(
     level=logging.INFO,  # change to DEBUG for more detail
     format="%(levelname)-8s | %(message)s",
 )
+
+sys.path.append("../functions/")
+from simulation.minimal_medium import minimal_medium
+
+from simulation.EGC import EGC_identifier
+from simulation.general import test_growth_models_venturelli2018
+
 
 
 def change_models_remove_oxygen(models):

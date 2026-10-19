@@ -14,6 +14,14 @@ logging.basicConfig(
 
 
 def load_data_models():
+    """
+    Function for loading data and models for the mapping process.
+
+    Output:
+    models: Dictionary of model objects
+    metname2metanetx: Dictionary mapping metabolite names to MetanetX identifiers
+    """
+
     logging.info("Loading data and models for mapping process...")
 
     with open('../data/Venturelli2018/generated/metname2metanetx.json') as json_file:
@@ -28,6 +36,15 @@ def load_data_models():
     return models, metname2metanetx
 
 def create_metanetx2other(metname2metanetx):
+    """
+    Function for creating a mapping from MetanetX identifiers to other database identifiers.
+
+    Input:
+    metname2metanetx: Dictionary mapping metabolite names to MetanetX identifiers
+    Output:
+    metanetx2other: Dictionary mapping MetanetX identifiers to other database identifiers in format (metanetx_id: {database_name: identifier})
+    """
+
     logging.info("Finding matches of metanetx identifiers in other databases...")
     databases = ['bigg.metabolite','biocyc','chebi','hmdb','kegg.compound','metanetx.chemical','pubchem.compound', 'seed.compound']
 
@@ -66,6 +83,18 @@ def create_metanetx2other(metname2metanetx):
     return metanetx2other
 
 def map_metanetx_to_model(metanetx2other,metname2metanetx, models):
+    """
+    Function for mapping MetanetX identifiers to model metabolites.
+
+    Input:
+    metanetx2other: Dictionary mapping MetanetX identifiers to other database identifiers
+    metname2metanetx: Dictionary mapping metabolite names to MetanetX identifiers
+    models: Dictionary of model objects
+
+    Output:
+    final_mapping: Dictionary mapping model metabolite IDs to MetanetX identifiers
+    """
+
     logging.info("Searching for identifiers in model metabolites...")
     final_mapping = {}
     for metanetx_id,database_ids in metanetx2other.items():
