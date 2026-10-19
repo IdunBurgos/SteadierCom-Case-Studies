@@ -5,8 +5,9 @@ Notebooks show results of analysis with SteadierCom of two case studies:
 
 ### How to navigate this repository
 
+Main information is in the 'notebooks' directory  (Notebooks 5.x.x).
 
-## Repository Structure
+#### Repository Structure
 
 ```text
 SteadierCom-Case-Studies/
@@ -29,7 +30,6 @@ SteadierCom-Case-Studies/
 ### An example of the results
 **Illustration of SteadierCom simulation of mass exchange in a gut microbiome community**
 ![Analysis results](figures/circos/combined_NONE.png)
-Description: (A) From the top: First subplot shows relative abundance for each member, second shows total mass produced by each member, third shows the colors for each member. 
-
+_Description_: (A) Bar plots and lineplot production/consumption and relative abundance for each member. From the top: First subplot shows relative abundance for each member, second shows total mass produced by each member, third shows the colors for each member, and fourth (bottom) shows total mass consumed by each member. Colors in the consumption/production bar plots represent the compound class. (B) Circos plot showing mass exchange between members. Colors around the circle match with the species. The arrows in between represent mass exchange, and are colored based on the compound class. 
 
 **Publication status**: This repository contains code developed for ongoing research at NTNU. The associated manuscript is in preparation. Example figures are illustrative and do not necessarily represent final research results.
