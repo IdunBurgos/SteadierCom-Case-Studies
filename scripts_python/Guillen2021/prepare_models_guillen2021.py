@@ -5,11 +5,11 @@ import reframed
 import json
 
 import logging
+
 logging.basicConfig(
     level=logging.INFO, 
     format="%(levelname)-8s | %(message)s",
-)
-
+    )
 
 def load_iM1515_model():
     """
@@ -44,6 +44,26 @@ def adjust_btn_biomass(model_ecoli):
     
     logging.info(f"Adjusting biomass stoichiometry for butanoate from {but_prev} to {but_new}")
     model_ecoli.reactions.R_BIOMASS_Ec_iML1515_core_75p37M.stoichiometry["M_btn_c"] = but_new
+
+    return model_ecoli
+
+def add_transport_reactions(model_ecoli):
+    """
+    Adding necessary reactions to the model.
+    """
+    logging.info("Adding reactions to the model...")
+    model_ecoli.add_reaction_from_str("R_PNTOtex2: M_pnto__R_c --> M_pnto__R_e")
+    model_ecoli.add_reaction_from_str("R_BTNtex2: M_btn_c --> M_btn_e")
+
+    return model_ecoli
+
+def remove_molybdate_genes(model_ecoli):
+    """
+    Removing molybdate genes from the model.
+    """
+    logging.info("Removing molybdate genes from the model...")
+    model_ecoli.reactions.R_SULabcpp.gpr.proteins.pop(1) # Remove molybdate genes
+
     return model_ecoli
 
 def map_geneid2name(model_ecoli):
@@ -87,13 +107,6 @@ def create_mutant_models(model_ecoli, id2name_ser,relative_abundance):
 
     assert len(name2id_38)==38, f"Expected 38 genes in name2id mapping, but got {len(name2id_38)}. Check if all genes in relative abundance data are present in the model."
 
-    model_ecoli.reactions.R_SULabcpp.gpr.proteins.pop(1) # Remove molybdate genes
-    
-    
-    model_ecoli.add_reaction_from_str("R_PNTOtex2: M_pnto__R_c --> M_pnto__R_e")
-    model_ecoli.add_reaction_from_str("R_BTNtex2: M_btn_c --> M_btn_e")
-    model_ecoli.update()  
-
     # make models
     ecoli_models = {}
 
@@ -109,6 +122,17 @@ def main():
     logging.info("STARTING SCRIPT FOR MODEL PREPARATION")
     model_ecoli = load_iM1515_model()
     model_ecoli = adjust_btn_biomass(model_ecoli)
+    model_ecoli = add_transport_reactions(model_ecoli)
+    model_ecoli = remove_molybdate_genes(model_ecoli)
+    model_ecoli.update()
+
+    logging.info("MODEL PREPARATION COMPLETE."\
+                 "\n Saving model as ../models/Guillen2021/iM1515_updated.xml")
+
+    reframed.save_cbmodel(model_ecoli,"../models/Guillen2021/iM1515_updated.xml")
+
+    logging.info("Building mutant models...")
+
     id2name_ser = map_geneid2name(model_ecoli)
     relative_abundance = load_relative_abundance_data()
     ecoli_models,name2id_38 = create_mutant_models(model_ecoli, id2name_ser, relative_abundance)
